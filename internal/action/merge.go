@@ -23,11 +23,11 @@ func (s *Action) Merge(c *cli.Context) error {
 	from := c.Args().Tail()
 
 	if to == "" {
-		return exit.Error(exit.Usage, nil, "usage: %s merge <to> <from> [<from>]", s.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s merge <to> <from> [<from>]", s.Name)
 	}
 
 	if len(from) < 1 {
-		return exit.Error(exit.Usage, nil, "usage: %s merge <to> <from> [<from>]", s.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s merge <to> <from> [<from>]", s.Name)
 	}
 
 	ed := editor.Path(c)
@@ -42,17 +42,17 @@ func (s *Action) Merge(c *cli.Context) error {
 		}
 		sec, err := s.Store.Get(ctxutil.WithShowParsing(ctx, false), k)
 		if err != nil {
-			return exit.Error(exit.Decrypt, err, "failed to decrypt: %s: %s", k, err)
+			return exit.Error(exit.Decrypt, err, "Failed to decrypt: %s: %s", k, err)
 		}
 
 		_, err = content.WriteString("\n# Secret: " + k + "\n")
 		if err != nil {
-			return exit.Error(exit.Unknown, err, "failed to write: %s", err)
+			return exit.Error(exit.Unknown, err, "Failed to write: %s", err)
 		}
 
 		_, err = content.Write(sec.Bytes())
 		if err != nil {
-			return exit.Error(exit.Unknown, err, "failed to write: %s", err)
+			return exit.Error(exit.Unknown, err, "Failed to write: %s", err)
 		}
 	}
 
@@ -62,7 +62,7 @@ func (s *Action) Merge(c *cli.Context) error {
 		// invoke the editor to let the user edit the content
 		newContent, err = editor.Invoke(ctx, ed, content.Bytes())
 		if err != nil {
-			return exit.Error(exit.Unknown, err, "failed to invoke editor: %s", err)
+			return exit.Error(exit.Unknown, err, "Failed to invoke editor: %s", err)
 		}
 
 		// If content is equal, nothing changed, exiting
@@ -80,7 +80,7 @@ func (s *Action) Merge(c *cli.Context) error {
 
 	// write result (back) to store
 	if err := s.Store.Set(ctxutil.WithCommitMessage(ctx, fmt.Sprintf("Merged %+v", c.Args().Slice())), to, nSec); err != nil {
-		return exit.Error(exit.Encrypt, err, "failed to encrypt secret %s: %s", to, err)
+		return exit.Error(exit.Encrypt, err, "Failed to encrypt secret %s: %s", to, err)
 	}
 
 	if !c.Bool("delete") {
@@ -102,7 +102,7 @@ func (s *Action) Merge(c *cli.Context) error {
 		}
 		debug.Log("deleting merged entry %s", old)
 		if err := s.Store.Delete(ctx, old); err != nil {
-			return exit.Error(exit.Unknown, err, "failed to delete %s: %s", old, err)
+			return exit.Error(exit.Unknown, err, "Failed to delete %s: %s", old, err)
 		}
 	}
 

@@ -139,7 +139,7 @@ func (s *Action) clone(ctx context.Context, repo, mount, path string) error {
 	sb := storageBackendOrDefault(ctx, repo)
 	out.Noticef(ctx, "Cloning %s repository %q to %q...", sb, repo, path)
 	if _, err := backend.Clone(ctx, sb, repo, path); err != nil {
-		return exit.Error(exit.Git, err, "failed to clone repo %q to %q: %s", repo, path, err)
+		return exit.Error(exit.Git, err, "Failed to clone repo %q to %q: %s", repo, path, err)
 	}
 
 	// add mount.

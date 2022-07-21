@@ -34,14 +34,14 @@ func (s *Action) IsInitialized(c *cli.Context) error {
 
 	debug.Log("Store needs to be initialized.\n")
 	if !ctxutil.IsInteractive(ctx) {
-		return exit.Error(exit.NotInitialized, nil, "password-store is not initialized. Try '%s init'", s.Name)
+		return exit.Error(exit.NotInitialized, nil, "Password store is not initialized. Try `%s init`", s.Name)
 	}
 
 	out.Printf(ctx, "🌟 Welcome to gopass!")
 	out.Noticef(ctx, "No existing configuration found.")
 	out.Printf(ctx, "☝ Please run 'gopass setup'")
 
-	return exit.Error(exit.NotInitialized, err, "not initialized")
+	return exit.Error(exit.NotInitialized, err, "Not initialized")
 }
 
 // Init a new password store with a first gpg id.
@@ -157,7 +157,7 @@ func (s *Action) init(ctx context.Context, alias, path string, keys ...string) e
 	// write config.
 	debug.Log("Writing configuration to %q", s.cfg.ConfigPath)
 	if err := s.cfg.Save(); err != nil {
-		return exit.Error(exit.Config, err, "failed to write config: %s", err)
+		return exit.Error(exit.Config, err, "Failed to write config: %s", err)
 	}
 
 	out.Printf(ctx, "🏁 Password store %s initialized for:", path)

@@ -51,7 +51,7 @@ func (s *Action) find(ctx context.Context, c *cli.Context, needle string, cb sho
 	// get all existing entries.
 	haystack, err := s.Store.List(ctx, tree.INF)
 	if err != nil {
-		return exit.Error(exit.List, err, "failed to list store: %s", err)
+		return exit.Error(exit.List, err, "Failed to list store: %s", err)
 	}
 
 	// filter our the ones from the haystack matching the needle.
@@ -79,7 +79,7 @@ func (s *Action) find(ctx context.Context, c *cli.Context, needle string, cb sho
 
 	// if there are still no results we abort.
 	if len(choices) < 1 {
-		return exit.Error(exit.NotFound, nil, "no results found")
+		return exit.Error(exit.NotFound, nil, "No results found")
 	}
 
 	// do not invoke wizard if not printing to terminal or if
@@ -137,7 +137,7 @@ func (s *Action) findSelection(ctx context.Context, c *cli.Context, choices []st
 
 		return s.edit(ctx, c, choices[sel])
 	default:
-		return exit.Error(exit.Aborted, nil, "user aborted")
+		return exit.Error(exit.Aborted, nil, "User aborted")
 	}
 }
 

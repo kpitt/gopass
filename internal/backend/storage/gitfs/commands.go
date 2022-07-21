@@ -33,11 +33,11 @@ func (l loader) Commands(i func(*cli.Context) error, s func(string) (string, err
 
 				path, err := s(store)
 				if err != nil {
-					return exit.Error(exit.Unknown, err, "failed to get sub store %s: %s", store, err)
+					return exit.Error(exit.Unknown, err, "Failed to get sub store %s: %s", store, err)
 				}
 
 				args := c.Args().Slice()
-				out.Noticef(ctx, "Running 'git %s' in %s...", strings.Join(args, " "), path)
+				out.Noticef(ctx, "Running `git %s` in %s...", strings.Join(args, " "), path)
 				cmd := exec.CommandContext(ctx, "git", args...)
 				cmd.Dir = path
 				cmd.Stdout = os.Stdout

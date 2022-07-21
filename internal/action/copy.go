@@ -31,13 +31,13 @@ func (s *Action) copy(ctx context.Context, from, to string, force bool) error {
 	}
 
 	if !force {
-		if s.Store.Exists(ctx, to) && !termio.AskForConfirmation(ctx, fmt.Sprintf("%s already exists. Overwrite it?", to)) {
-			return exit.Error(exit.Aborted, nil, "not overwriting your current secret")
+		if s.Store.Exists(ctx, to) && !termio.AskForConfirmation(ctx, fmt.Sprintf("%s already exists. Overwrite?", to)) {
+			return exit.Error(exit.Aborted, nil, "Not overwriting current secret")
 		}
 	}
 
 	if err := s.Store.Copy(ctx, from, to); err != nil {
-		return exit.Error(exit.IO, err, "failed to copy from %q to %q", from, to)
+		return exit.Error(exit.IO, err, "Failed to copy from %q to %q", from, to)
 	}
 
 	return nil

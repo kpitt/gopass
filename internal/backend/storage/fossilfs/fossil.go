@@ -67,7 +67,7 @@ func Clone(ctx context.Context, repo, path string) (*Fossil, error) {
 		return f, fmt.Errorf("Failed to configure fossil: %w", err)
 	}
 
-	out.Printf(ctx, "fossil configured at %s", f.fs.Path())
+	out.Printf(ctx, "Fossil configured at %s", f.fs.Path())
 
 	return f, nil
 }
@@ -89,7 +89,7 @@ func Init(ctx context.Context, path, _, _ string) (*Fossil, error) {
 			return nil, fmt.Errorf("Failed to open fossil in %s: %w", repo, err)
 		}
 
-		out.Printf(ctx, "fossil initialized at %s", f.fs.Path())
+		out.Printf(ctx, "Fossil initialized at %s", f.fs.Path())
 	}
 
 	// TODO rename to IsRCSInitialized
@@ -102,7 +102,7 @@ func Init(ctx context.Context, path, _, _ string) (*Fossil, error) {
 		return f, fmt.Errorf("Failed to configure fossil: %w", err)
 	}
 
-	out.Printf(ctx, "fossil configured at %s", f.fs.Path())
+	out.Printf(ctx, "Fossil configured at %s", f.fs.Path())
 
 	// add current content of the store.
 	if err := f.Add(ctx, f.fs.Path()); err != nil {

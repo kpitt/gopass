@@ -18,11 +18,11 @@ func (s *Action) Git(c *cli.Context) error {
 
 	sub, err := s.Store.GetSubStore(store)
 	if err != nil || sub == nil {
-		return exit.Error(exit.Git, err, "failed to get sub store %s: %s", store, err)
+		return exit.Error(exit.Git, err, "Failed to get sub store %s: %s", store, err)
 	}
 
 	args := c.Args().Slice()
-	out.Noticef(ctx, "Running 'git %s' in %s...", strings.Join(args, " "), sub.Path())
+	out.Noticef(ctx, "Running `git %s` in %s...", strings.Join(args, " "), sub.Path())
 	cmd := exec.CommandContext(ctx, "git", args...)
 	cmd.Dir = sub.Path()
 	cmd.Stdout = os.Stdout

@@ -37,7 +37,7 @@ func (s *Action) Env(c *cli.Context) error {
 
 		l, err := s.Store.Tree(ctx)
 		if err != nil {
-			return exit.Error(exit.List, err, "failed to list store: %s", err)
+			return exit.Error(exit.List, err, "Failed to list store: %s", err)
 		}
 
 		subtree, err := l.FindFolder(name)

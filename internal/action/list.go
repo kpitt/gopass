@@ -42,7 +42,7 @@ func (s *Action) List(c *cli.Context) error {
 
 	l, err := s.Store.Tree(ctx)
 	if err != nil {
-		return exit.Error(exit.List, err, "failed to list store: %s", err)
+		return exit.Error(exit.List, err, "Failed to list store: %s", err)
 	}
 
 	// set limit to infinite by default unless it's set with the flag
@@ -96,7 +96,7 @@ func (s *Action) listFiltered(ctx context.Context, l *tree.Root, limit int, flat
 	fmt.Fprintln(so, l.Format(limit))
 	if buf != nil {
 		if err := s.pager(ctx, buf); err != nil {
-			return exit.Error(exit.Unknown, err, "failed to invoke pager: %s", err)
+			return exit.Error(exit.Unknown, err, "Failed to invoke pager: %s", err)
 		}
 	}
 

@@ -348,7 +348,7 @@ func (s *Action) showHandleError(ctx context.Context, c *cli.Context, name strin
 			_ = notify.Notify(ctx, "gopass - error", fmt.Sprintf("failed to retrieve secret %q: %s", name, err))
 		}
 
-		return exit.Error(exit.Unknown, err, "failed to retrieve secret %q: %s", name, err)
+		return exit.Error(exit.Unknown, err, "Failed to retrieve secret %q: %s", name, err)
 	}
 
 	if newName := s.hasAliasDomain(ctx, name); newName != "" {
@@ -375,7 +375,7 @@ func (s *Action) showHandleError(ctx context.Context, c *cli.Context, name strin
 func (s *Action) showPrintQR(name, pw string) error {
 	qr, err := qrcon.QRCode(pw)
 	if err != nil {
-		return exit.Error(exit.Unknown, err, "failed to encode %q as QR: %s", name, err)
+		return exit.Error(exit.Unknown, err, "Failed to encode %q as QR: %s", name, err)
 	}
 	fmt.Fprintln(stdout, qr)
 

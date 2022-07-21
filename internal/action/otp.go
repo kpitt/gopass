@@ -122,7 +122,7 @@ func (s *Action) otp(ctx context.Context, name, qrf string, clip, pw, recurse bo
 
 		if clip {
 			if err := clipboard.CopyTo(ctx, fmt.Sprintf("token for %s", name), []byte(token), s.cfg.ClipTimeout); err != nil {
-				return exit.Error(exit.IO, err, "failed to copy to clipboard: %s", err)
+				return exit.Error(exit.IO, err, "Failed to copy to clipboard: %s", err)
 			}
 
 			return nil
@@ -169,7 +169,7 @@ func (s *Action) otp(ctx context.Context, name, qrf string, clip, pw, recurse bo
 
 func (s *Action) otpHandleError(ctx context.Context, name, qrf string, clip, pw, recurse bool, err error) error {
 	if !errors.Is(err, store.ErrNotFound) || !recurse || !ctxutil.IsTerminal(ctx) {
-		return exit.Error(exit.Unknown, err, "failed to retrieve secret %q: %s", name, err)
+		return exit.Error(exit.Unknown, err, "Failed to retrieve secret %q: %s", name, err)
 	}
 
 	out.Printf(ctx, "Entry %q not found. Starting search...", name)

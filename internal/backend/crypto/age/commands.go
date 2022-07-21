@@ -29,12 +29,12 @@ func (l loader) Commands() []*cli.Command {
 						ctx := ctxutil.WithGlobalFlags(c)
 						a, err := New()
 						if err != nil {
-							return exit.Error(exit.Unknown, err, "failed to create age backend")
+							return exit.Error(exit.Unknown, err, "Failed to create age backend")
 						}
 
 						ids, err := a.IdentityRecipients(ctx)
 						if err != nil {
-							return exit.Error(exit.Unknown, err, "failed to get age identities")
+							return exit.Error(exit.Unknown, err, "Failed to get age identities")
 						}
 
 						if len(ids) < 1 {
@@ -57,11 +57,11 @@ func (l loader) Commands() []*cli.Command {
 								ctx := ctxutil.WithGlobalFlags(c)
 								a, err := New()
 								if err != nil {
-									return exit.Error(exit.Unknown, err, "failed to create age backend")
+									return exit.Error(exit.Unknown, err, "Failed to create age backend")
 								}
 
 								if err := a.GenerateIdentity(ctx, "", "", ""); err != nil {
-									return exit.Error(exit.Unknown, err, "failed to generate age identity")
+									return exit.Error(exit.Unknown, err, "Failed to generate age identity")
 								}
 
 								return nil
@@ -76,7 +76,7 @@ func (l loader) Commands() []*cli.Command {
 								ctx := ctxutil.WithGlobalFlags(c)
 								a, err := New()
 								if err != nil {
-									return exit.Error(exit.Unknown, err, "failed to create age backend")
+									return exit.Error(exit.Unknown, err, "Failed to create age backend")
 								}
 								victim := c.Args().First()
 

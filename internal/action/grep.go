@@ -24,7 +24,7 @@ func (s *Action) Grep(c *cli.Context) error {
 
 	haystack, err := s.Store.List(ctx, tree.INF)
 	if err != nil {
-		return exit.Error(exit.List, err, "failed to list store: %s", err)
+		return exit.Error(exit.List, err, "Failed to list store: %s", err)
 	}
 
 	matchFn := func(haystack string) bool {
@@ -34,7 +34,7 @@ func (s *Action) Grep(c *cli.Context) error {
 	if c.Bool("regexp") {
 		re, err := regexp.Compile(needle)
 		if err != nil {
-			return exit.Error(exit.Usage, err, "failed to compile regexp %q: %s", needle, err)
+			return exit.Error(exit.Usage, err, "Failed to compile regexp %q: %s", needle, err)
 		}
 		matchFn = re.MatchString
 	}

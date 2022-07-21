@@ -33,7 +33,7 @@ func (s *Action) Cat(c *cli.Context) error {
 	// handle pipe to stdin.
 	info, err := binstdin.Stat()
 	if err != nil {
-		return exit.Error(exit.IO, err, "failed to stat stdin: %s", err)
+		return exit.Error(exit.IO, err, "Failed to stat stdin: %s", err)
 	}
 
 	// if content is piped to stdin, read and save it.
@@ -54,7 +54,7 @@ func (s *Action) Cat(c *cli.Context) error {
 
 	buf, err := s.binaryGet(ctx, name)
 	if err != nil {
-		return exit.Error(exit.Decrypt, err, "failed to read secret: %s", err)
+		return exit.Error(exit.Decrypt, err, "Failed to read secret: %s", err)
 	}
 
 	fmt.Fprint(stdout, string(buf))
@@ -256,7 +256,7 @@ func (s *Action) Sum(c *cli.Context) error {
 
 	buf, err := s.binaryGet(ctx, name)
 	if err != nil {
-		return exit.Error(exit.Decrypt, err, "failed to read secret: %s", err)
+		return exit.Error(exit.Decrypt, err, "Failed to read secret: %s", err)
 	}
 
 	h := sha256.New()

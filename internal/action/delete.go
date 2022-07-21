@@ -87,7 +87,7 @@ func (s *Action) deleteRecursive(ctx context.Context, name string, force bool) e
 
 	debug.Log("pruning %q", name)
 	if err := s.Store.Prune(ctx, name); err != nil {
-		return exit.Error(exit.Unknown, err, "failed to prune %q: %s", name, err)
+		return exit.Error(exit.Unknown, err, "Failed to prune %q: %s", name, err)
 	}
 	debug.Log("pruned %q", name)
 

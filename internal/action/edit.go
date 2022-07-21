@@ -43,7 +43,7 @@ func (s *Action) edit(ctx context.Context, c *cli.Context, name string) error {
 	// invoke the editor to let the user edit the content.
 	newContent, err := editor.Invoke(ctx, ed, content)
 	if err != nil {
-		return exit.Error(exit.Unknown, err, "failed to invoke editor: %s", err)
+		return exit.Error(exit.Unknown, err, "Failed to invoke editor: %s", err)
 	}
 
 	return s.editUpdate(ctx, name, content, newContent, changed, ed)
@@ -64,7 +64,7 @@ func (s *Action) editUpdate(ctx context.Context, name string, content, nContent 
 
 	// write result (back) to store.
 	if err := s.Store.Set(ctxutil.WithCommitMessage(ctx, fmt.Sprintf("Edited with %s", ed)), name, nSec); err != nil {
-		return exit.Error(exit.Encrypt, err, "failed to encrypt secret %s: %s", name, err)
+		return exit.Error(exit.Encrypt, err, "Failed to encrypt secret %s: %s", name, err)
 	}
 
 	return nil
@@ -84,7 +84,7 @@ func (s *Action) editGetContent(ctx context.Context, name string, create bool) (
 		// we make sure we are not parsing the content of the file when editing.
 		sec, err := s.Store.Get(ctxutil.WithShowParsing(ctx, false), name)
 		if err != nil {
-			return name, nil, false, exit.Error(exit.Decrypt, err, "failed to decrypt %s: %s", name, err)
+			return name, nil, false, exit.Error(exit.Decrypt, err, "Failed to decrypt %s: %s", name, err)
 		}
 
 		return name, sec.Bytes(), false, nil

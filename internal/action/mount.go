@@ -29,7 +29,7 @@ func (s *Action) MountRemove(c *cli.Context) error {
 	}
 
 	if err := s.cfg.Save(); err != nil {
-		return exit.Error(exit.Config, err, "failed to write config: %s", err)
+		return exit.Error(exit.Config, err, "Failed to write config: %s", err)
 	}
 
 	out.Printf(ctx, "Password Store %s umounted", c.Args().Get(0))
@@ -77,7 +77,7 @@ func (s *Action) MountAdd(c *cli.Context) error {
 	alias := c.Args().Get(0)
 	localPath := c.Args().Get(1)
 	if alias == "" {
-		return exit.Error(exit.Usage, nil, "usage: %s mounts add <alias> [local path]", s.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s mounts add <alias> [local path]", s.Name)
 	}
 
 	if localPath == "" {
@@ -102,11 +102,11 @@ func (s *Action) MountAdd(c *cli.Context) error {
 			return nerr
 		}
 
-		return exit.Error(exit.Mount, err, "failed to add mount %q to %q: %s", alias, localPath, err)
+		return exit.Error(exit.Mount, err, "Failed to add mount %q to %q: %s", alias, localPath, err)
 	}
 
 	if err := s.cfg.Save(); err != nil {
-		return exit.Error(exit.Config, err, "failed to save config: %s", err)
+		return exit.Error(exit.Config, err, "Failed to save config: %s", err)
 	}
 
 	out.Printf(ctx, "Mounted %s as %s", alias, localPath)

@@ -96,7 +96,7 @@ func (g *GPG) RecipientIDs(ctx context.Context, buf []byte) ([]string, error) {
 	}
 
 	if g.throwKids {
-		out.Warningf(ctx, "gpg option throw-keyids is set. Some features might not work.")
+		out.Warningf(ctx, "GnuPG option `throw-keyids` is set. Some features might not work.")
 	}
 
 	return recp, nil

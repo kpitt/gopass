@@ -526,14 +526,14 @@ func (r *repo) updatePrepare() error {
 
 	// git co master
 	if err := r.gitCoMaster(); err != nil {
-		return fmt.Errorf("git checkout master failed: %w", err)
+		return fmt.Errorf("`git checkout master` failed: %w", err)
 	}
 	if !r.isGitClean() {
 		return fmt.Errorf("git is dirty")
 	}
 	// git pull origin master
 	if err := r.gitPom(); err != nil {
-		return fmt.Errorf("git pull origin master failed: %w", err)
+		return fmt.Errorf("`git pull origin master` failed: %w", err)
 	}
 	// git co -b gopass-VER
 	if err := r.gitBranch(); err == nil {
@@ -542,7 +542,7 @@ func (r *repo) updatePrepare() error {
 
 	// git branch -d gopass-VER
 	if err := r.gitBranchDel(); err != nil {
-		return fmt.Errorf("git branch -d failed: %w", err)
+		return fmt.Errorf("`git branch -d` failed: %w", err)
 	}
 	return r.gitBranch()
 }
@@ -552,7 +552,7 @@ func (r *repo) updateFinalize(path string) error {
 
 	// git commit -m 'gopass: update to VER'
 	if err := r.gitCommit(path); err != nil {
-		return fmt.Errorf("git commit %s failed: %w", path, err)
+		return fmt.Errorf("`git commit %s` failed: %w", path, err)
 	}
 	// git push myfork gopass-VER
 	return r.gitPush(r.rem)

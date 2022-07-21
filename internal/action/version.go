@@ -56,7 +56,7 @@ func (s *Action) Version(c *cli.Context) error {
 	case <-time.After(2 * time.Second):
 		out.Errorf(ctx, "Version check timed out")
 	case <-ctx.Done():
-		return exit.Error(exit.Aborted, nil, "user aborted")
+		return exit.Error(exit.Aborted, nil, "User aborted")
 	}
 
 	return nil

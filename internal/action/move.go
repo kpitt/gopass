@@ -21,8 +21,8 @@ func (s *Action) Move(c *cli.Context) error {
 	to := c.Args().Get(1)
 
 	if !c.Bool("force") {
-		if s.Store.Exists(ctx, to) && !termio.AskForConfirmation(ctx, fmt.Sprintf("%s already exists. Overwrite it?", to)) {
-			return exit.Error(exit.Aborted, nil, "not overwriting your current secret")
+		if s.Store.Exists(ctx, to) && !termio.AskForConfirmation(ctx, fmt.Sprintf("%s already exists. Overwrite?", to)) {
+			return exit.Error(exit.Aborted, nil, "Not overwriting current secret")
 		}
 	}
 

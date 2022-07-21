@@ -38,7 +38,7 @@ func (s *Action) RecipientsPrint(c *cli.Context) error {
 
 	t, err := s.Store.RecipientsTree(ctx, true)
 	if err != nil {
-		return exit.Error(exit.List, err, "failed to list recipients: %s", err)
+		return exit.Error(exit.List, err, "Failed to list recipients: %s", err)
 	}
 
 	fmt.Fprintln(stdout, t.Format(tree.INF))
@@ -125,12 +125,12 @@ func (s *Action) RecipientsAdd(c *cli.Context) error {
 		}
 
 		if err := s.Store.AddRecipient(ctx, store, recp); err != nil {
-			return exit.Error(exit.Recipients, err, "failed to add recipient %q: %s", r, err)
+			return exit.Error(exit.Recipients, err, "Failed to add recipient %q: %s", r, err)
 		}
 		added++
 	}
 	if added < 1 {
-		return exit.Error(exit.Unknown, nil, "no key added")
+		return exit.Error(exit.Unknown, nil, "No key added")
 	}
 
 	out.Printf(ctx, "\nAdded %d recipients", added)
@@ -199,17 +199,17 @@ func (s *Action) RecipientsRemove(c *cli.Context) error {
 		}
 
 		if err := s.Store.RemoveRecipient(ctx, store, recp); err != nil {
-			return exit.Error(exit.Recipients, err, "failed to remove recipient %q: %s", recp, err)
+			return exit.Error(exit.Recipients, err, "Failed to remove recipient %q: %s", recp, err)
 		}
 		fmt.Fprintf(stdout, removalWarning, r)
 		removed++
 	}
 	if removed < 1 {
-		return exit.Error(exit.Unknown, nil, "no key removed")
+		return exit.Error(exit.Unknown, nil, "No key removed")
 	}
 
 	out.Printf(ctx, "\nRemoved %d recipients", removed)
-	out.Printf(ctx, "You need to run 'gopass sync' to push these changes")
+	out.Printf(ctx, "Run `gopass sync` to push changes.")
 
 	return nil
 }
@@ -234,7 +234,7 @@ func (s *Action) recipientsSelectForRemoval(ctx context.Context, store string) (
 	case "show":
 		return []string{ids[sel]}, nil
 	default:
-		return nil, exit.Error(exit.Aborted, nil, "user aborted")
+		return nil, exit.Error(exit.Aborted, nil, "User aborted")
 	}
 }
 
@@ -258,6 +258,6 @@ func (s *Action) recipientsSelectForAdd(ctx context.Context, store string) ([]st
 	case "show":
 		return []string{kl[sel]}, nil
 	default:
-		return nil, exit.Error(exit.Aborted, nil, "user aborted")
+		return nil, exit.Error(exit.Aborted, nil, "User aborted")
 	}
 }

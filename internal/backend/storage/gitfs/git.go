@@ -49,7 +49,7 @@ type Git struct {
 // New creates a new git cli based git backend.
 func New(path string) (*Git, error) {
 	if !fsutil.IsDir(filepath.Join(path, ".git")) {
-		return nil, fmt.Errorf("git repo does not exist")
+		return nil, fmt.Errorf("Git repo does not exist")
 	}
 
 	return &Git{
@@ -72,7 +72,7 @@ func Clone(ctx context.Context, repo, path, userName, userEmail string) (*Git, e
 	if err := g.InitConfig(ctx, userName, userEmail); err != nil {
 		return g, fmt.Errorf("Failed to configure git: %w", err)
 	}
-	out.Printf(ctx, "git configured at %s", g.fs.Path())
+	out.Printf(ctx, "Git configured at %s", g.fs.Path())
 
 	return g, nil
 }
@@ -88,7 +88,7 @@ func Init(ctx context.Context, path, userName, userEmail string) (*Git, error) {
 		if err := g.Cmd(ctx, "Init", "init"); err != nil {
 			return nil, fmt.Errorf("Failed to initialize git: %w", err)
 		}
-		out.Printf(ctx, "git initialized at %s", g.fs.Path())
+		out.Printf(ctx, "Git initialized at %s", g.fs.Path())
 	}
 
 	if !ctxutil.IsGitInit(ctx) {
@@ -99,7 +99,7 @@ func Init(ctx context.Context, path, userName, userEmail string) (*Git, error) {
 	if err := g.InitConfig(ctx, userName, userEmail); err != nil {
 		return g, fmt.Errorf("Failed to configure git: %w", err)
 	}
-	out.Printf(ctx, "git configured at %s", g.fs.Path())
+	out.Printf(ctx, "Git configured at %s", g.fs.Path())
 
 	// add current content of the store.
 	if err := g.Add(ctx, g.fs.Path()); err != nil {

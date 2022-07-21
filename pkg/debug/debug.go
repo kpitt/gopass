@@ -60,7 +60,7 @@ func initDebugLogger() {
 		// seek to the end of the file (offset, whence [2 = end])
 		_, err := f.Seek(0, 2)
 		if err != nil {
-			fmt.Fprintf(Stderr, "unable to seek to end of %v: %v\n", debugfile, err)
+			fmt.Fprintf(Stderr, "Unable to seek to end of %v: %v\n", debugfile, err)
 			os.Exit(3)
 		}
 	}
@@ -70,7 +70,7 @@ func initDebugLogger() {
 	}
 
 	if err != nil {
-		fmt.Fprintf(Stderr, "unable to open debug log file %v: %v\n", debugfile, err)
+		fmt.Fprintf(Stderr, "Unable to open debug log file %v: %v\n", debugfile, err)
 		os.Exit(2)
 	}
 
@@ -100,7 +100,7 @@ func parseFilter(envname string, pad func(string) string) map[string]bool {
 		// test pattern
 		_, err := path.Match(t, "")
 		if err != nil {
-			fmt.Fprintf(Stderr, "error: invalid pattern %q: %v\n", t, err)
+			fmt.Fprintf(Stderr, "Error: invalid pattern %q: %v\n", t, err)
 			os.Exit(5)
 		}
 

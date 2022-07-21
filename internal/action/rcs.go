@@ -32,7 +32,7 @@ func (s *Action) RCSInit(c *cli.Context) error {
 	}
 
 	if err := s.rcsInit(ctx, store, un, ue); err != nil {
-		return exit.Error(exit.Git, err, "failed to initialize %s: %s", backend.StorageBackendName(backend.GetStorageBackend(ctx)), err)
+		return exit.Error(exit.Git, err, "Failed to initialize %s: %s", backend.StorageBackendName(backend.GetStorageBackend(ctx)), err)
 	}
 
 	return nil

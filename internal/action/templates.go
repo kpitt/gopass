@@ -42,7 +42,7 @@ func (s *Action) TemplatesPrint(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 	t, err := s.Store.TemplateTree(ctx)
 	if err != nil {
-		return exit.Error(exit.List, err, "failed to list templates: %s", err)
+		return exit.Error(exit.List, err, "Failed to list templates: %s", err)
 	}
 	fmt.Fprintln(stdout, t.Format(tree.INF))
 
@@ -56,7 +56,7 @@ func (s *Action) TemplatePrint(c *cli.Context) error {
 
 	content, err := s.Store.GetTemplate(ctx, name)
 	if err != nil {
-		return exit.Error(exit.IO, err, "failed to retrieve template: %s", err)
+		return exit.Error(exit.IO, err, "Failed to retrieve template: %s", err)
 	}
 
 	fmt.Fprintln(stdout, string(content))
@@ -75,7 +75,7 @@ func (s *Action) TemplateEdit(c *cli.Context) error {
 		var err error
 		content, err = s.Store.GetTemplate(ctx, name)
 		if err != nil {
-			return exit.Error(exit.IO, err, "failed to retrieve template: %s", err)
+			return exit.Error(exit.IO, err, "Failed to retrieve template: %s", err)
 		}
 	} else {
 		content = []byte(templateExample)
@@ -84,7 +84,7 @@ func (s *Action) TemplateEdit(c *cli.Context) error {
 	ed := editor.Path(c)
 	nContent, err := editor.Invoke(ctx, ed, content)
 	if err != nil {
-		return exit.Error(exit.Unknown, err, "failed to invoke editor %s: %s", ed, err)
+		return exit.Error(exit.Unknown, err, "Failed to invoke editor %s: %s", ed, err)
 	}
 
 	// If content is equal, nothing changed, exiting.
@@ -100,11 +100,11 @@ func (s *Action) TemplateRemove(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 	name := c.Args().First()
 	if name == "" {
-		return exit.Error(exit.Usage, nil, "usage: %s templates remove [name]", s.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s templates remove [name]", s.Name)
 	}
 
 	if !s.Store.HasTemplate(ctx, name) {
-		return exit.Error(exit.NotFound, nil, "template %q not found", name)
+		return exit.Error(exit.NotFound, nil, "Template %q not found", name)
 	}
 
 	return s.Store.RemoveTemplate(ctx, name)
@@ -148,7 +148,7 @@ func (s *Action) renderTemplate(ctx context.Context, name string, content []byte
 	// load template if it exists.
 	nc, err := tpl.Execute(ctx, string(tmpl), name, content, s.Store)
 	if err != nil {
-		fmt.Fprintf(stdout, "failed to execute template %q: %s\n", tName, err)
+		fmt.Fprintf(stdout, "Failed to execute template %q: %s\n", tName, err)
 
 		return content, false
 	}

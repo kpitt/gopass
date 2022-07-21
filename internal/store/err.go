@@ -14,13 +14,13 @@ var (
 	// ErrIO is any kind of I/O error.
 	ErrIO = fmt.Errorf("I/O error")
 	// ErrGitInit is returned if git is already initialized.
-	ErrGitInit = fmt.Errorf("git is already initialized")
+	ErrGitInit = fmt.Errorf("Git is already initialized")
 	// ErrGitNotInit is returned if git is not initialized.
-	ErrGitNotInit = fmt.Errorf("git is not initialized")
+	ErrGitNotInit = fmt.Errorf("Git is not initialized")
 	// ErrGitNoRemote is returned if git has no origin remote.
-	ErrGitNoRemote = fmt.Errorf("git has no remote origin")
+	ErrGitNoRemote = fmt.Errorf("Git has no remote origin")
 	// ErrGitNothingToCommit is returned if there are no staged changes.
-	ErrGitNothingToCommit = fmt.Errorf("git has nothing to commit")
+	ErrGitNothingToCommit = fmt.Errorf("Git has nothing to commit")
 	// ErrEmptySecret is returned if a secret exists but has no content.
 	ErrEmptySecret = fmt.Errorf("Empty secret")
 	// ErrNoBody is returned if a secret exists but has no content beyond a password.
