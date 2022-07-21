@@ -72,13 +72,6 @@ Either initialize a new git repository or clone an existing one.
 ```
 $ gopass setup
 
-   __     _    _ _      _ _   ___   ___
- /'_ '\ /'_'\ ( '_'\  /'_' )/',__)/',__)
-( (_) |( (_) )| (_) )( (_| |\__, \\__, \
-'\__  |'\___/'| ,__/''\__,_)(____/(____/
-( )_) |       | |
- \___/'       (_)
-
 🌟 Welcome to gopass!
 🌟 Initializing a new password store ...
 🌟 Configuring your password store ...
@@ -97,13 +90,6 @@ Hint: `gopass setup` will use `gpg` encryption and `git` storage by default.
 
 ```
 $ gopass clone git@gitlab.example.org:john/passwords.git
-
-   __     _    _ _      _ _   ___   ___
- /'_ '\ /'_'\ ( '_'\  /'_' )/',__)/',__)
-( (_) |( (_) )| (_) )( (_| |\__, \\__, \
-'\__  |'\___/'| ,__/''\__,_)(____/(____/
-( )_) |       | |
- \___/'       (_)
 
 🌟 Welcome to gopass!
 🌟 Cloning an existing password store from "git@gitlab.example.org:john/passwords.git" ...

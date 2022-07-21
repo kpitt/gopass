@@ -30,20 +30,9 @@ import (
 	"golang.org/x/oauth2"
 )
 
-const logo = `
-   __     _    _ _      _ _   ___   ___
- /'_ '\ /'_'\ ( '_'\  /'_' )/',__)/',__)
-( (_) |( (_) )| (_) )( (_| |\__, \\__, \
-'\__  |'\___/'| ,__/''\__,_)(____/(____/
-( )_) |       | |
- \___/'       (_)
-`
-
 func main() {
 	ctx := context.Background()
 
-	fmt.Print(logo)
-	fmt.Println()
 	fmt.Println("🌟 Performing post-release cleanup.")
 
 	curVer, err := versionFile()

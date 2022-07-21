@@ -53,19 +53,7 @@ func getVersion() semver.Version {
 `
 )
 
-const logo = `
-   __     _    _ _      _ _   ___   ___
- /'_ '\ /'_'\ ( '_'\  /'_' )/',__)/',__)
-( (_) |( (_) )| (_) )( (_| |\__, \\__, \
-'\__  |'\___/'| ,__/''\__,_)(____/(____/
-( )_) |       | |
- \___/'       (_)
-
- `
-
 func main() {
-	fmt.Println(logo)
-	fmt.Println()
 	fmt.Println("🌟 Preparing a new gopass release.")
 	fmt.Println("☝  Checking pre-conditions ...")
 	// - check that workdir is clean

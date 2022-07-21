@@ -16,15 +16,6 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-const logo = `
-   __     _    _ _      _ _   ___   ___
- /'_ '\ /'_'\ ( '_'\  /'_' )/',__)/',__)
-( (_) |( (_) )| (_) )( (_| |\__, \\__, \
-'\__  |'\___/'| ,__/''\__,_)(____/(____/
-( )_) |       | |
- \___/'       (_)
-`
-
 // IsInitialized returns an error if the store is not properly
 // prepared.
 func (s *Action) IsInitialized(c *cli.Context) error {
@@ -47,7 +38,6 @@ func (s *Action) IsInitialized(c *cli.Context) error {
 		return exit.Error(exit.NotInitialized, nil, "password-store is not initialized. Try '%s init'", s.Name)
 	}
 
-	out.Printf(ctx, logo)
 	out.Printf(ctx, "🌟 Welcome to gopass!")
 	out.Noticef(ctx, "No existing configuration found.")
 	out.Printf(ctx, "☝ Please run 'gopass setup'")

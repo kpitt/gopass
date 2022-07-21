@@ -49,22 +49,11 @@ var (
 	source      = "dist/gopass_windows_amd64_v1/gopass.exe"
 )
 
-const logo = `
-   __     _    _ _      _ _   ___   ___
- /'_ '\ /'_'\ ( '_'\  /'_' )/',__)/',__)
-( (_) |( (_) )| (_) )( (_| |\__, \\__, \
-'\__  |'\___/'| ,__/''\__,_)(____/(____/
-( )_) |       | |
- \___/'       (_)
-`
-
 func main() {
 	// render template to temp dir
 	// run: wixl /tmp/file.xml -o gopass-ARCH.msi --arch x86|x64
 	ctx := context.Background()
 
-	fmt.Print(logo)
-	fmt.Println()
 	fmt.Println("🌟 Creating gopass Windows MSI package.")
 
 	curVer, err := versionFile()

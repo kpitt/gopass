@@ -47,7 +47,6 @@ func (s *Action) Clone(c *cli.Context) error {
 		mount = c.Args().Get(1)
 	}
 
-	out.Printf(ctx, logo)
 	out.Printf(ctx, "🌟 Welcome to gopass!")
 	out.Printf(ctx, "🌟 Cloning an existing password store from %q ...", repo)
 
