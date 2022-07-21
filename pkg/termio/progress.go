@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/dustin/go-humanize"
-	"github.com/fatih/color"
 	"golang.org/x/term"
 )
 
@@ -128,10 +127,14 @@ func (p *ProgressBar) doPrint() {
 
 	termWidth, _, _ := term.GetSize(int(syscall.Stdin)) //nolint:unconvert
 	if termWidth < 0 {
-		// if we can determine the size (e.g. windows, fake term, mock)
+		// if we can't determine the size (e.g. windows, fake term, mock)
 		// assume a sane default of 80
 		termWidth = 80
 	}
+    if termWidth > 100 {
+        // set a reasonable limit if the terminal window is really wide
+        termWidth = 100
+    }
 
 	barWidth := uint(termWidth)
 	digits := int(math.Log10(float64(max))) + 1
@@ -159,21 +162,9 @@ func (p *ProgressBar) doPrint() {
 		return
 	}
 
-	// Rgggggggggggmcyy
-	// Gooooooooooopass
-	tg := color.RedString("G")
-	to := strings.Repeat(color.GreenString("o"), gteZero(fill-5))
-	tp := strings.Repeat(color.YellowString("p"), boundedMin(1, fill-4))
-	ta := strings.Repeat(color.MagentaString("a"), boundedMin(1, fill-3))
-	ts := strings.Repeat(color.CyanString("s"), boundedMin(2, fill-1))
-	spc := strings.Repeat(" ", gteZero(size-fill))
-	fmt.Fprintf(Stderr, "[%s%s%s%s%s%s] %s ",
-		tg,
-		to,
-		tp,
-		ta,
-		ts,
-		spc,
+	fmt.Fprintf(Stderr, "[%s%s] %s ",
+        strings.Repeat("#", fill),
+        strings.Repeat(".", gteZero(size-fill)),
 		pctStr,
 	)
 }
