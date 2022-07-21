@@ -207,5 +207,5 @@ func (p *ProgressBar) percent() (int64, int64, float64) {
 }
 
 func clearLine() {
-	fmt.Fprintf(Stderr, "\033[2K\r]")
+	fmt.Fprintf(Stderr, "\033[2K\r")
 }
