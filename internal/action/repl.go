@@ -6,10 +6,10 @@ import (
 	"strings"
 
 	"github.com/chzyer/readline"
+	shellquote "github.com/kballard/go-shellquote"
 	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/internal/tree"
 	"github.com/kpitt/gopass/pkg/debug"
-	shellquote "github.com/kballard/go-shellquote"
 	"github.com/urfave/cli/v2"
 )
 

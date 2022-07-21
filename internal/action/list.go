@@ -10,11 +10,11 @@ import (
 	"strings"
 
 	"github.com/fatih/color"
+	shellquote "github.com/kballard/go-shellquote"
 	"github.com/kpitt/gopass/internal/action/exit"
 	"github.com/kpitt/gopass/internal/store/leaf"
 	"github.com/kpitt/gopass/internal/tree"
 	"github.com/kpitt/gopass/pkg/ctxutil"
-	shellquote "github.com/kballard/go-shellquote"
 	"github.com/urfave/cli/v2"
 	"golang.org/x/term"
 )

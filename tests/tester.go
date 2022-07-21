@@ -12,9 +12,9 @@ import (
 	"strings"
 	"testing"
 
+	shellquote "github.com/kballard/go-shellquote"
 	"github.com/kpitt/gopass/tests/can"
 	"github.com/kpitt/gopass/tests/gptest"
-	shellquote "github.com/kballard/go-shellquote"
 	"github.com/stretchr/testify/require"
 )
 

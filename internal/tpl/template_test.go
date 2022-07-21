@@ -6,14 +6,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/kpitt/gopass/internal/pwschemes/argon2i"
-	"github.com/kpitt/gopass/internal/pwschemes/argon2id"
-	"github.com/kpitt/gopass/pkg/gopass"
-	"github.com/kpitt/gopass/pkg/gopass/secrets/secparse"
 	"github.com/jsimonetti/pwscheme/md5crypt"
 	"github.com/jsimonetti/pwscheme/ssha"
 	"github.com/jsimonetti/pwscheme/ssha256"
 	"github.com/jsimonetti/pwscheme/ssha512"
+	"github.com/kpitt/gopass/internal/pwschemes/argon2i"
+	"github.com/kpitt/gopass/internal/pwschemes/argon2id"
+	"github.com/kpitt/gopass/pkg/gopass"
+	"github.com/kpitt/gopass/pkg/gopass/secrets/secparse"
 	"github.com/stretchr/testify/assert"
 )
 

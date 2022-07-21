@@ -13,12 +13,12 @@ import (
 	"strings"
 
 	"github.com/fatih/color"
+	shellquote "github.com/kballard/go-shellquote"
 	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/kpitt/gopass/pkg/debug"
 	"github.com/kpitt/gopass/pkg/fsutil"
 	"github.com/kpitt/gopass/pkg/tempfile"
-	shellquote "github.com/kballard/go-shellquote"
 )
 
 var (

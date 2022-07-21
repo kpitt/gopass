@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"os"
 
+	lru "github.com/hashicorp/golang-lru"
 	"github.com/kpitt/gopass/internal/backend/crypto/gpg"
 	"github.com/kpitt/gopass/internal/backend/crypto/gpg/gpgconf"
 	"github.com/kpitt/gopass/pkg/debug"
-	lru "github.com/hashicorp/golang-lru"
 )
 
 var (

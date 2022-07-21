@@ -8,14 +8,14 @@ import (
 	"strconv"
 	"text/template"
 
-	"github.com/kpitt/gopass/internal/pwschemes/argon2i"
-	"github.com/kpitt/gopass/internal/pwschemes/argon2id"
-	"github.com/kpitt/gopass/internal/pwschemes/bcrypt"
-	"github.com/kpitt/gopass/pkg/debug"
 	"github.com/jsimonetti/pwscheme/md5crypt"
 	"github.com/jsimonetti/pwscheme/ssha"
 	"github.com/jsimonetti/pwscheme/ssha256"
 	"github.com/jsimonetti/pwscheme/ssha512"
+	"github.com/kpitt/gopass/internal/pwschemes/argon2i"
+	"github.com/kpitt/gopass/internal/pwschemes/argon2id"
+	"github.com/kpitt/gopass/internal/pwschemes/bcrypt"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 // These constants defined the template function names used.

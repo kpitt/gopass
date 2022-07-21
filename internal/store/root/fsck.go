@@ -4,9 +4,9 @@ import (
 	"context"
 	"strings"
 
+	multierror "github.com/hashicorp/go-multierror"
 	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/pkg/debug"
-	multierror "github.com/hashicorp/go-multierror"
 )
 
 // Fsck checks all stores/entries matching the given prefix.
