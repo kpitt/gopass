@@ -5,6 +5,12 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/kpitt/gopass/blob/master/LICENSE)
 [![Github All Releases](https://img.shields.io/github/downloads/kpitt/gopass/total.svg)](https://github.com/kpitt/gopass/releases)
 
+This is an experimental fork of the [gopass](https://github.com/gopasspw/gopass) password manager. Sometimes an application does what you need, but it just doesn't _feel_ right. Feel is a very personal thing, and for me personally, `gopass` has always felt a bit kitschy and unprofessional. This fork is an experiment to see if I can create a cleaner, more professional.
+
+Another thing that has never felt quite right to me is how cumbersome GPG encryption is to use. I've become quite interested in [passage](https://github.com/FiloSottile/passage), which is a fork of the original ZX2C4 [pass](https://www.passwordstore.org/) password manager that uses [age](https://age-encryption.org) encryption instead of GPG. `gopass` already has some support for age encryption, but I think it would also be interesting to try to implement full interoperability with `passage`.
+
+And at the end of the day, this is just an opportunity for me to learn more about the Go language.
+
 ## Introduction
 
 gopass is a password manager for the command line written in Go.
