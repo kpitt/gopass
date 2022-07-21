@@ -55,7 +55,7 @@ func (s *Store) Link(ctx context.Context, from, to string) error {
 
 	cwd, err := os.Getwd()
 	if err != nil {
-		return fmt.Errorf("can not get current working directory: %w", err)
+		return fmt.Errorf("Cannot get current working directory: %w", err)
 	}
 
 	defer func() {
@@ -64,11 +64,11 @@ func (s *Store) Link(ctx context.Context, from, to string) error {
 
 	toDir := filepath.Dir(toPath)
 	if err := os.MkdirAll(toDir, 0o700); err != nil {
-		return fmt.Errorf("failed to create destination dir %q: %w", toDir, err)
+		return fmt.Errorf("Failed to create destination dir %q: %w", toDir, err)
 	}
 
 	if err := os.Chdir(toDir); err != nil {
-		return fmt.Errorf("can no change to link dir %q: %w", toDir, err)
+		return fmt.Errorf("Cannot change to link dir %q: %w", toDir, err)
 	}
 
 	linkDst := addRel(fromRel, toRel)

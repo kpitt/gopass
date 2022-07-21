@@ -233,7 +233,7 @@ func mkActFunc(tpl Template, s *root.Store, cb ActionCallback) func(context.Cont
 				}
 				hostname = extractHostname(sv)
 				if hostname == "" {
-					return fmt.Errorf("can not parse URL %s", sv)
+					return fmt.Errorf("Cannot parse URL %s", sv)
 				}
 				if wantForName[k] {
 					nameParts = append(nameParts, hostname)
@@ -302,7 +302,7 @@ func mkActFunc(tpl Template, s *root.Store, cb ActionCallback) func(context.Cont
 		}
 
 		if err := s.Set(ctxutil.WithCommitMessage(ctx, "Created new entry"), name, sec); err != nil {
-			return fmt.Errorf("failed to set %q: %w", name, err)
+			return fmt.Errorf("Failed to set %q: %w", name, err)
 		}
 		out.OKf(ctx, "Credentials saved to %q", name)
 
@@ -321,7 +321,7 @@ func generatePassword(ctx context.Context, hostname, charset string) (string, er
 		return pwgen.GeneratePasswordCharset(length, charset), nil
 	}
 	if _, found := pwrules.LookupRule(hostname); found {
-		out.Noticef(ctx, "Using password rules for %s ...", hostname)
+		out.Noticef(ctx, "Using password rules for %s...", hostname)
 		length, err := termio.AskForInt(ctx, fmtfn(4, "b", "How long?"), defaultLength)
 		if err != nil {
 			return "", err

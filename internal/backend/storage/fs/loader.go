@@ -51,7 +51,7 @@ func (l loader) Handles(ctx context.Context, path string) error {
 		return nil
 	}
 
-	return fmt.Errorf("dir not found")
+	return fmt.Errorf("Directory not found")
 }
 
 // Priority returns the priority of this backend. Should always be higher than

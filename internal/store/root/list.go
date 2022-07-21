@@ -74,12 +74,12 @@ func (r *Store) Tree(ctx context.Context) (*tree.Root, error) {
 		}
 
 		if err := root.AddMount(alias, substore.Path()); err != nil {
-			return nil, fmt.Errorf("failed to add mount: %w", err)
+			return nil, fmt.Errorf("Failed to add mount: %w", err)
 		}
 
 		sf, err := substore.List(ctx, "")
 		if err != nil {
-			return nil, fmt.Errorf("failed to add file: %w", err)
+			return nil, fmt.Errorf("Failed to add file: %w", err)
 		}
 
 		addFileFunc(sf...)

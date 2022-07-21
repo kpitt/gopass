@@ -34,7 +34,7 @@ func (a *Age) Identities(ctx context.Context) ([]age.Identity, error) {
 	if err != nil {
 		debug.Log("failed to decrypt existing identities from %s: %s", a.identity, err)
 		if !os.IsNotExist(err) {
-			return nil, fmt.Errorf("failed to decrypt %s: %w", a.identity, err)
+			return nil, fmt.Errorf("Failed to decrypt %s: %w", a.identity, err)
 		}
 
 		return nil, nil

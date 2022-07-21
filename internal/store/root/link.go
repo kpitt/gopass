@@ -11,7 +11,7 @@ func (r *Store) Link(ctx context.Context, from, to string) error {
 	subTo, tName := r.getStore(to)
 
 	if !subFrom.Equals(subTo) {
-		return fmt.Errorf("sylinks across stores are not supported")
+		return fmt.Errorf("Symlinks across stores are not supported")
 	}
 
 	return subFrom.Link(ctx, fName, tName)

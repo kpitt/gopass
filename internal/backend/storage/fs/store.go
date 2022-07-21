@@ -76,14 +76,14 @@ func (s *Store) Move(ctx context.Context, from, to string, del bool) error {
 
 	if !fsutil.IsDir(toDir) {
 		if err := os.MkdirAll(toDir, 0o700); err != nil {
-			return fmt.Errorf("failed to create directory %q: %w", toDir, err)
+			return fmt.Errorf("Failed to create directory %q: %w", toDir, err)
 		}
 	}
 	debug.Log("Copying %q (%q) to %q (%q)", from, fromFn, to, toFn)
 
 	if del {
 		if err := os.Rename(fromFn, toFn); err != nil {
-			return fmt.Errorf("failed to copy %q to %q: %w", from, to, err)
+			return fmt.Errorf("Failed to copy %q to %q: %w", from, to, err)
 		}
 
 		return s.removeEmptyParentDirectories(fromFn)

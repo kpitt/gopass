@@ -25,7 +25,7 @@ func promptPass(ctx context.Context, prompt string) (string, error) {
 
 	oldState, err := term.GetState(fd)
 	if err != nil {
-		return "", fmt.Errorf("could not get state of terminal: %w", err)
+		return "", fmt.Errorf("Could not get state of terminal: %w", err)
 	}
 
 	defer func() {

@@ -39,7 +39,7 @@ func (c *Cache) ListKeys(ctx context.Context, user string) ([]string, error) {
 	}
 
 	if len(keys) < 1 {
-		return nil, fmt.Errorf("key not found")
+		return nil, fmt.Errorf("Key not found")
 	}
 
 	_ = c.disk.Set(user, keys)

@@ -14,7 +14,7 @@ import (
 func clearClipboardHistory(ctx context.Context) error {
 	conn, err := dbus.SessionBus()
 	if err != nil {
-		return fmt.Errorf("failed to connect to session bus: %w", err)
+		return fmt.Errorf("Failed to connect to session bus: %w", err)
 	}
 
 	obj := conn.Object("org.kde.klipper", "/klipper")

@@ -68,13 +68,13 @@ func New(ctx context.Context, cfg Config) (*GPG, error) {
 
 	cache, err := lru.New2Q(1024)
 	if err != nil {
-		return nil, fmt.Errorf("failed to initialize the LRU cache: %w", err)
+		return nil, fmt.Errorf("Failed to initialize the LRU cache: %w", err)
 	}
 	g.listCache = cache
 
 	bin, err := gpgconf.Binary(ctx, cfg.Binary)
 	if err != nil {
-		return nil, fmt.Errorf("failed to detect binary: %w", err)
+		return nil, fmt.Errorf("Failed to detect binary: %w", err)
 	}
 
 	g.binary = bin

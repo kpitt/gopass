@@ -33,7 +33,7 @@ func IsUpdateable(ctx context.Context) error {
 
 	// check if file is in GOPATH
 	if gp := os.Getenv("GOPATH"); strings.HasPrefix(fn, gp) {
-		return fmt.Errorf("use go get -u to update binary in GOPATH")
+		return fmt.Errorf("Use `go get -u` to update binary in GOPATH")
 	}
 
 	// check file
@@ -43,11 +43,11 @@ func IsUpdateable(ctx context.Context) error {
 	}
 
 	if !fi.Mode().IsRegular() {
-		return fmt.Errorf("not a regular file")
+		return fmt.Errorf("Not a regular file")
 	}
 
 	if err := canWrite(fn); err != nil {
-		return fmt.Errorf("can not write %q: %w", fn, err)
+		return fmt.Errorf("Cannot write %q: %w", fn, err)
 	}
 
 	// no need to check the directory since we'll be writing to the destination file directly

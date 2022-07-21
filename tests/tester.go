@@ -26,7 +26,7 @@ exportkeys: false
 )
 
 // ErrNoCommand is returned when the command is missing.
-var ErrNoCommand = fmt.Errorf("no command")
+var ErrNoCommand = fmt.Errorf("No command")
 
 type tester struct {
 	t *testing.T
@@ -125,7 +125,7 @@ func (ts tester) teardown() {
 
 func (ts tester) runCmd(args []string, in []byte) (string, error) {
 	if len(args) < 1 {
-		return "", fmt.Errorf("invalid args %v: %w", args, ErrNoCommand)
+		return "", fmt.Errorf("Invalid args %v: %w", args, ErrNoCommand)
 	}
 
 	cmd := exec.CommandContext(context.Background(), args[0], args[1:]...)
@@ -149,7 +149,7 @@ func (ts tester) run(arg string) (string, error) {
 
 	args, err := shellquote.Split(arg)
 	if err != nil {
-		return "", fmt.Errorf("failed to split args %v: %w", arg, err)
+		return "", fmt.Errorf("Failed to split args %v: %w", arg, err)
 	}
 
 	cmd := exec.CommandContext(context.Background(), ts.Binary, args...)
@@ -174,7 +174,7 @@ func (ts tester) runWithInput(arg, input string) ([]byte, error) {
 func (ts tester) runWithInputReader(arg string, input io.Reader) ([]byte, error) {
 	args, err := shellquote.Split(arg)
 	if err != nil {
-		return nil, fmt.Errorf("failed to split args %v: %w", arg, err)
+		return nil, fmt.Errorf("Failed to split args %v: %w", arg, err)
 	}
 
 	cmd := exec.Command(ts.Binary, args...)

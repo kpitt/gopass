@@ -122,7 +122,7 @@ func (q *Queue) Idle(maxWait time.Duration) error {
 	case <-done:
 		return nil
 	case <-time.After(maxWait):
-		return fmt.Errorf("timed out waiting for empty queue")
+		return fmt.Errorf("Timed out waiting for empty queue")
 	}
 }
 

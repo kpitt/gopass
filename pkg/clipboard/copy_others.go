@@ -12,7 +12,7 @@ import (
 
 func copyToClipboard(ctx context.Context, content []byte) error {
 	if err := clipboard.WriteAll(string(content)); err != nil {
-		return fmt.Errorf("failed to write to clipboard: %w", err)
+		return fmt.Errorf("Failed to write to clipboard: %w", err)
 	}
 
 	return nil

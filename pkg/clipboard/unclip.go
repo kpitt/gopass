@@ -18,7 +18,7 @@ func Clear(ctx context.Context, name string, checksum string, force bool) error 
 		if err := callCommand(ctx, clipboardClearCMD, name, []byte(checksum)); err != nil {
 			_ = notify.Notify(ctx, "gopass - clipboard", "failed to call clipboard clear command")
 
-			return fmt.Errorf("failed to call clipboard clear command: %w", err)
+			return fmt.Errorf("Failed to call clipboard clear command: %w", err)
 		}
 
 		debug.Log("clipboard cleared (%s)", checksum)
@@ -32,7 +32,7 @@ func Clear(ctx context.Context, name string, checksum string, force bool) error 
 
 	cur, err := clipboard.ReadAll()
 	if err != nil {
-		return fmt.Errorf("failed to read clipboard: %w", err)
+		return fmt.Errorf("Failed to read clipboard: %w", err)
 	}
 
 	match, err := argon2id.Validate(cur, checksum)
@@ -49,17 +49,17 @@ func Clear(ctx context.Context, name string, checksum string, force bool) error 
 	if err := clipboard.WriteAll(""); err != nil {
 		_ = notify.Notify(ctx, "gopass - clipboard", "Failed to clear clipboard")
 
-		return fmt.Errorf("failed to write clipboard: %w", err)
+		return fmt.Errorf("Failed to write clipboard: %w", err)
 	}
 
 	if err := clearClipboardHistory(ctx); err != nil {
 		_ = notify.Notify(ctx, "gopass - clipboard", "Failed to clear clipboard history")
 
-		return fmt.Errorf("failed to clear clipboard history: %w", err)
+		return fmt.Errorf("Failed to clear clipboard history: %w", err)
 	}
 
 	if err := notify.Notify(ctx, "gopass - clipboard", "Clipboard has been cleared"); err != nil {
-		return fmt.Errorf("failed to send unclip notification: %w", err)
+		return fmt.Errorf("Failed to send unclip notification: %w", err)
 	}
 
 	debug.Log("clipboard cleared (%s)", checksum)

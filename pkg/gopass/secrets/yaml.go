@@ -21,10 +21,10 @@ import (
 var _ gopass.Secret = &YAML{}
 
 // ErrNoYAML is returned when no YAML section is found.
-var ErrNoYAML = fmt.Errorf("no YAML marker")
+var ErrNoYAML = fmt.Errorf("No YAML marker")
 
 // ErrNotSupported is returned when a method is not supported.
-var ErrNotSupported = fmt.Errorf("not supported")
+var ErrNotSupported = fmt.Errorf("Not supported")
 
 // YAML is a gopass secret that contains a parsed YAML data structure.
 // This is a legacy data type that is discouraged for new users as YAML
@@ -113,7 +113,7 @@ func ParseYAML(in []byte) (*YAML, error) {
 
 	line, err := r.ReadString('\n')
 	if err != nil {
-		return nil, fmt.Errorf("failed to read line: %w", err)
+		return nil, fmt.Errorf("Failed to read line: %w", err)
 	}
 
 	line = strings.TrimSpace(line)
@@ -123,14 +123,14 @@ func ParseYAML(in []byte) (*YAML, error) {
 
 		body, err := parseBody(r)
 		if err != nil {
-			return nil, fmt.Errorf("failed to parseBody: %w", err)
+			return nil, fmt.Errorf("Failed to parseBody: %w", err)
 		}
 
 		y.body = body
 	}
 
 	if err := yaml.NewDecoder(r).Decode(y.data); err != nil && !errors.Is(err, io.EOF) {
-		return nil, fmt.Errorf("failed to decode YAML secret: %w", err)
+		return nil, fmt.Errorf("Failed to decode YAML secret: %w", err)
 	}
 
 	return y, nil
@@ -161,7 +161,7 @@ func parseBody(r *bufio.Reader) (string, error) {
 				break
 			}
 
-			return "", fmt.Errorf("failed to peek: %w", err)
+			return "", fmt.Errorf("Failed to peek: %w", err)
 		}
 
 		if string(nextLine) == "---" {
@@ -176,7 +176,7 @@ func parseBody(r *bufio.Reader) (string, error) {
 				break
 			}
 
-			return "", fmt.Errorf("failed to read line: %w", err)
+			return "", fmt.Errorf("Failed to read line: %w", err)
 		}
 
 		_, _ = sb.WriteString(line)

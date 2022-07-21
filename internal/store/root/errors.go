@@ -25,5 +25,5 @@ func (n NotInitializedError) Alias() string { return n.alias }
 func (n NotInitializedError) Path() string { return n.path }
 
 func (n NotInitializedError) Error() string {
-	return fmt.Sprintf("password store %s is not initialized. Try gopass init --store %s --path %s", n.alias, n.alias, n.path)
+	return fmt.Sprintf("Password store %s is not initialized. Try gopass init --store %s --path %s", n.alias, n.alias, n.path)
 }

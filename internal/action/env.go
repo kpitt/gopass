@@ -58,7 +58,7 @@ func (s *Action) Env(c *cli.Context) error {
 		debug.Log("exporting to environment key: %s", key)
 		sec, err := s.Store.Get(ctx, key)
 		if err != nil {
-			return fmt.Errorf("failed to get entry for env prefix %q: %w", name, err)
+			return fmt.Errorf("Failed to get entry for env prefix %q: %w", name, err)
 		}
 		envKey := path.Base(key)
 		if !keepCase {

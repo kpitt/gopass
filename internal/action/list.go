@@ -136,7 +136,7 @@ func (s *Action) pager(ctx context.Context, buf io.Reader) error {
 
 	args, err := shellquote.Split(pager)
 	if err != nil {
-		return fmt.Errorf("failed to split pager command: %w", err)
+		return fmt.Errorf("Failed to split pager command: %w", err)
 	}
 
 	cmd := exec.CommandContext(ctx, args[0], args[1:]...)

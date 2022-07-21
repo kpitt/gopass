@@ -87,7 +87,7 @@ func contains(haystack []string, needle string) bool {
 
 func (s *Action) setConfigValue(ctx context.Context, key, value string) error {
 	if err := s.cfg.SetConfigValue(key, value); err != nil {
-		return fmt.Errorf("failed to set config value %q: %w", key, err)
+		return fmt.Errorf("Failed to set config value %q: %w", key, err)
 	}
 
 	s.printConfigValues(ctx, key)

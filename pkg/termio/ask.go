@@ -19,9 +19,9 @@ var (
 	// Stdin is exported for tests.
 	Stdin io.Reader = os.Stdin
 	// ErrAborted is returned if the user aborts an action.
-	ErrAborted = fmt.Errorf("user aborted")
+	ErrAborted = fmt.Errorf("User aborted")
 	// ErrInvalidInput is returned if the user enters invalid input.
-	ErrInvalidInput = fmt.Errorf("no valid user input")
+	ErrInvalidInput = fmt.Errorf("No valid user input")
 )
 
 const (
@@ -46,7 +46,7 @@ func AskForString(ctx context.Context, text, def string) (string, error) {
 
 	input, err := NewReader(ctx, Stdin).ReadLine()
 	if err != nil {
-		return "", fmt.Errorf("failed to read user input: %w", err)
+		return "", fmt.Errorf("Failed to read user input: %w", err)
 	}
 
 	input = strings.TrimSpace(input)
@@ -72,7 +72,7 @@ func AskForBool(ctx context.Context, text string, def bool) (bool, error) {
 
 	str, err := AskForString(ctx, text, choices)
 	if err != nil {
-		return false, fmt.Errorf("failed to read user input: %w", err)
+		return false, fmt.Errorf("Failed to read user input: %w", err)
 	}
 
 	switch str {
@@ -91,12 +91,12 @@ func AskForBool(ctx context.Context, text string, def bool) (bool, error) {
 	case "q":
 		return false, ErrAborted
 	default:
-		return false, fmt.Errorf("unknown answer '%s': %w", str, ErrInvalidInput)
+		return false, fmt.Errorf("Unknown answer '%s': %w", str, ErrInvalidInput)
 	}
 }
 
 // AskForInt asks for an valid interger once. If the input
-// can not be converted to an int it returns an error.
+// cannot be converted to an int it returns an error.
 func AskForInt(ctx context.Context, text string, def int) (int, error) {
 	if ctxutil.IsAlwaysYes(ctx) {
 		return def, nil
@@ -113,7 +113,7 @@ func AskForInt(ctx context.Context, text string, def int) (int, error) {
 
 	intVal, err := strconv.Atoi(str)
 	if err != nil {
-		return 0, fmt.Errorf("failed to convert to number: %w", err)
+		return 0, fmt.Errorf("Failed to convert to number: %w", err)
 	}
 
 	return intVal, nil
@@ -192,7 +192,7 @@ func AskForPassword(ctx context.Context, name string, repeat bool) (string, erro
 			return pass, nil
 		}
 
-		out.Errorf(ctx, "Error: the entered password do not match")
+		out.Errorf(ctx, "Error: the entered passwords do not match.")
 	}
 
 	return "", ErrInvalidInput

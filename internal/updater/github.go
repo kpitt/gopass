@@ -58,7 +58,7 @@ func downloadAsset(ctx context.Context, assets []Asset, suffix string) (string, 
 	}
 
 	if url == "" {
-		return "", nil, fmt.Errorf("asset with suffix %q not found", suffix)
+		return "", nil, fmt.Errorf("Asset with suffix %q not found", suffix)
 	}
 
 	buf, err := tryDownload(ctx, url)
@@ -98,21 +98,21 @@ func FetchLatestRelease(ctx context.Context) (Release, error) {
 	}()
 
 	if resp.StatusCode != http.StatusOK {
-		return Release{}, fmt.Errorf("request faild with %v (%v)", resp.StatusCode, resp.Status)
+		return Release{}, fmt.Errorf("Request failed with %v (%v)", resp.StatusCode, resp.Status)
 	}
 
 	var rs Release
 	if err := json.NewDecoder(resp.Body).Decode(&rs); err != nil {
-		return rs, fmt.Errorf("failed to decode response: %w", err)
+		return rs, fmt.Errorf("Failed to decode response: %w", err)
 	}
 
 	if !strings.HasPrefix(rs.TagName, "v") {
-		return rs, fmt.Errorf("tag name %q is invalid, must start with 'v'", rs.TagName)
+		return rs, fmt.Errorf("Tag name %q is invalid, must start with 'v'", rs.TagName)
 	}
 
 	v, err := semver.Parse(rs.TagName[1:])
 	if err != nil {
-		return rs, fmt.Errorf("failed to parse version %q: %w", rs.TagName[1:], err)
+		return rs, fmt.Errorf("Failed to parse version %q: %w", rs.TagName[1:], err)
 	}
 
 	rs.Version = v

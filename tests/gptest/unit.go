@@ -82,7 +82,7 @@ func (u Unit) initConfig() error {
 		0o600,
 	)
 	if err != nil {
-		return fmt.Errorf("failed to write config: %w", err)
+		return fmt.Errorf("Failed to write config: %w", err)
 	}
 
 	return nil
@@ -105,14 +105,14 @@ func (u Unit) recipients() []byte {
 func (u Unit) InitStore(name string) error {
 	dir := u.StoreDir(name)
 	if err := os.MkdirAll(dir, 0o700); err != nil {
-		return fmt.Errorf("failed to create store dir %s: %w", dir, err)
+		return fmt.Errorf("Failed to create store dir %s: %w", dir, err)
 	}
 
 	fn := filepath.Join(dir, ".plain-id") // plain.IDFile
 	_ = os.Remove(fn)
 
 	if err := os.WriteFile(fn, u.recipients(), 0o600); err != nil {
-		return fmt.Errorf("failed to write IDFile %s: %w", fn, err)
+		return fmt.Errorf("Failed to write IDFile %s: %w", fn, err)
 	}
 
 	for _, p := range AllPathsToSlash(u.Entries) {
@@ -120,11 +120,11 @@ func (u Unit) InitStore(name string) error {
 		_ = os.Remove(fn)
 
 		if err := os.MkdirAll(filepath.Dir(fn), 0o700); err != nil {
-			return fmt.Errorf("failed to create dir %s: %w", filepath.Dir(fn), err)
+			return fmt.Errorf("Failed to create dir %s: %w", filepath.Dir(fn), err)
 		}
 
 		if err := os.WriteFile(fn, []byte("secret\nsecond\nthird"), 0o600); err != nil {
-			return fmt.Errorf("failed to write file %s: %w", fn, err)
+			return fmt.Errorf("Failed to write file %s: %w", fn, err)
 		}
 	}
 

@@ -26,13 +26,13 @@ func (s *Action) IsInitialized(c *cli.Context) error {
 	}
 
 	if inited {
-		debug.Log("Store is fully initialized and ready to go\n\nAll systems go. 🚀\n")
+		debug.Log("Store is fully initialized and ready to go\n")
 		s.printReminder(ctx)
 
 		return nil
 	}
 
-	debug.Log("Store needs to be initialized.\n\nAbort. Abort. Abort. 🚫\n")
+	debug.Log("Store needs to be initialized.\n")
 	if !ctxutil.IsInteractive(ctx) {
 		return exit.Error(exit.NotInitialized, nil, "password-store is not initialized. Try '%s init'", s.Name)
 	}
@@ -51,7 +51,7 @@ func (s *Action) Init(c *cli.Context) error {
 	alias := c.String("store")
 
 	ctx = initParseContext(ctx, c)
-	out.Printf(ctx, "🍭 Initializing a new password store ...")
+	out.Printf(ctx, "🍭 Initializing a new password store...")
 
 	if name := termio.DetectName(c.Context, c); name != "" {
 		ctx = ctxutil.WithUsername(ctx, name)
@@ -111,7 +111,7 @@ func (s *Action) init(ctx context.Context, alias, path string, keys ...string) e
 
 	debug.Log("Initializing Store %q in %q for %+v", alias, path, keys)
 
-	out.Printf(ctx, "🔑 Searching for usable private Keys ...")
+	out.Printf(ctx, "🔑 Searching for usable private keys...")
 	debug.Log("Checking private keys for: %+v", keys)
 	crypto := s.getCryptoFor(ctx, alias)
 
@@ -122,23 +122,23 @@ func (s *Action) init(ctx context.Context, alias, path string, keys ...string) e
 	}
 
 	if len(keys) < 1 {
-		out.Notice(ctx, "Hint: Use 'gopass init <subkey> to use subkeys!'")
+		out.Notice(ctx, "Hint: Use `gopass init <subkey>` to use subkeys!'")
 		nk, err := cui.AskForPrivateKey(ctx, crypto, "🎮 Please select a private key for encrypting secrets:")
 		if err != nil {
-			return fmt.Errorf("failed to read user input: %w", err)
+			return fmt.Errorf("Failed to read user input: %w", err)
 		}
 		keys = []string{nk}
 	}
 
 	debug.Log("Initializing sub store - Alias: %q - Path: %q - Keys: %+v", alias, path, keys)
 	if err := s.Store.Init(ctx, alias, path, keys...); err != nil {
-		return fmt.Errorf("failed to init store %q at %q: %w", alias, path, err)
+		return fmt.Errorf("Failed to init store %q at %q: %w", alias, path, err)
 	}
 
 	if alias != "" && path != "" {
 		debug.Log("Mounting sub store %q -> %q", alias, path)
 		if err := s.Store.AddMount(ctx, alias, path); err != nil {
-			return fmt.Errorf("failed to add mount %q: %w", alias, err)
+			return fmt.Errorf("Failed to add mount %q: %w", alias, err)
 		}
 	}
 

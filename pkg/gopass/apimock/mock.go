@@ -9,7 +9,7 @@ import (
 )
 
 // ErrNotImplemented is returned when a method is not implemented.
-var ErrNotImplemented = fmt.Errorf("not yet implemented")
+var ErrNotImplemented = fmt.Errorf("Not yet implemented")
 
 // Secret is a mock secret for writing.
 type Secret struct {

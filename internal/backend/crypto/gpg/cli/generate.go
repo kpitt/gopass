@@ -34,7 +34,7 @@ Expire-Date: 0
 
 	debug.Log("%s %+v", cmd.Path, cmd.Args)
 	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to run command: '%s %+v': %q - %w", cmd.Path, cmd.Args, out.String(), err)
+		return fmt.Errorf("Failed to run command: '%s %+v': %q - %w", cmd.Path, cmd.Args, out.String(), err)
 	}
 
 	g.privKeys = nil

@@ -86,7 +86,7 @@ func gpgVerify(data, sig []byte) (bool, error) {
 	if err != nil {
 		debug.Log("failed to read public key: %q", err)
 
-		return false, fmt.Errorf("failed to read public key: %w", err)
+		return false, fmt.Errorf("Failed to read public key: %w", err)
 	}
 
 	debug.Log("Keyring: %q", &krLogger{keyring})
@@ -97,7 +97,7 @@ func gpgVerify(data, sig []byte) (bool, error) {
 		debug.Log("data: %q", string(data))
 		debug.Log("sig: %q", string(sig))
 
-		return false, fmt.Errorf("failed to validated detached GPG signature: %w", err)
+		return false, fmt.Errorf("Failed to validated detached GPG signature: %w", err)
 	}
 
 	return true, nil
@@ -119,11 +119,11 @@ func findHashForFile(buf []byte, filename string) ([]byte, error) {
 
 		h, err := hex.DecodeString(p[0])
 		if err != nil {
-			return nil, fmt.Errorf("failed to decode hash: %w", err)
+			return nil, fmt.Errorf("Failed to decode hash: %w", err)
 		}
 
 		return h, nil
 	}
 
-	return nil, fmt.Errorf("hash for file %q not found", filename)
+	return nil, fmt.Errorf("Hash for file %q not found", filename)
 }

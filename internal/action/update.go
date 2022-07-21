@@ -18,16 +18,16 @@ func (s *Action) Update(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 
 	if s.version.String() == "0.0.0+HEAD" {
-		out.Errorf(ctx, "Can not check version against HEAD")
+		out.Errorf(ctx, "Cannot check version against HEAD")
 
 		return nil
 	}
 
 	if runtime.GOOS == "windows" {
-		return fmt.Errorf("gopass update is not supported on windows (#1722)")
+		return fmt.Errorf("gopass update is not supported on Windows")
 	}
 
-	out.Printf(ctx, "⚒ Checking for available updates ...")
+	out.Printf(ctx, "⚒ Checking for available updates...")
 	if err := updater.Update(ctx, s.version); err != nil {
 		return exit.Error(exit.Unknown, err, "Failed to update gopass: %s", err)
 	}

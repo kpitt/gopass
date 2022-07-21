@@ -98,7 +98,7 @@ func IsEmptyDir(path string) (bool, error) {
 
 		return nil
 	}); err != nil {
-		return false, fmt.Errorf("failed to walk %s: %w", path, err)
+		return false, fmt.Errorf("Failed to walk %s: %w", path, err)
 	}
 
 	return empty, nil
@@ -110,7 +110,7 @@ func Shred(path string, runs int) error {
 
 	fh, err := os.OpenFile(path, os.O_WRONLY, 0o600)
 	if err != nil {
-		return fmt.Errorf("failed to open file %q: %w", path, err)
+		return fmt.Errorf("Failed to open file %q: %w", path, err)
 	}
 
 	// ignore the error. this is only taking effect if we error out.
@@ -120,7 +120,7 @@ func Shred(path string, runs int) error {
 
 	fi, err := fh.Stat()
 	if err != nil {
-		return fmt.Errorf("failed to stat file %q: %w", path, err)
+		return fmt.Errorf("Failed to stat file %q: %w", path, err)
 	}
 
 	flen := fi.Size()
@@ -142,7 +142,7 @@ func Shred(path string, runs int) error {
 		}
 
 		if _, err := fh.Seek(0, 0); err != nil {
-			return fmt.Errorf("failed to seek to 0,0: %w", err)
+			return fmt.Errorf("Failed to seek to 0,0: %w", err)
 		}
 
 		var written int64
@@ -158,7 +158,7 @@ func Shred(path string, runs int) error {
 			n, err := fh.Write(buf[0:min(flen-written, int64(len(buf)))])
 			if err != nil {
 				if !errors.Is(err, io.EOF) {
-					return fmt.Errorf("failed to write to file: %w", err)
+					return fmt.Errorf("Failed to write to file: %w", err)
 				}
 				// end of file, should not happen
 				break
@@ -169,16 +169,16 @@ func Shred(path string, runs int) error {
 		// if we fail to sync the written blocks to disk it'd be pointless
 		// do any further loops
 		if err := fh.Sync(); err != nil {
-			return fmt.Errorf("failed to sync to disk: %w", err)
+			return fmt.Errorf("Failed to sync to disk: %w", err)
 		}
 	}
 
 	if err := fh.Close(); err != nil {
-		return fmt.Errorf("failed to close file after writing: %w", err)
+		return fmt.Errorf("Failed to close file after writing: %w", err)
 	}
 
 	if err := os.Remove(path); err != nil {
-		return fmt.Errorf("failed to remove %s: %w", path, err)
+		return fmt.Errorf("Failed to remove %s: %w", path, err)
 	}
 
 	return nil
@@ -221,7 +221,7 @@ func min(a, b int64) int64 {
 func CopyFile(from, to string) error {
 	rdr, err := os.Open(from)
 	if err != nil {
-		return fmt.Errorf("failed to open file %q for reading: %w", from, err)
+		return fmt.Errorf("Failed to open file %q for reading: %w", from, err)
 	}
 	defer func() {
 		_ = rdr.Close()
@@ -229,12 +229,12 @@ func CopyFile(from, to string) error {
 
 	rdrStat, err := rdr.Stat()
 	if err != nil {
-		return fmt.Errorf("failed to stat open file %q: %w", from, err)
+		return fmt.Errorf("Failed to stat open file %q: %w", from, err)
 	}
 
 	wrt, err := os.OpenFile(to, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, rdrStat.Mode())
 	if err != nil {
-		return fmt.Errorf("failed to open file %q for writing: %w", to, err)
+		return fmt.Errorf("Failed to open file %q for writing: %w", to, err)
 	}
 	defer func() {
 		_ = wrt.Close()
@@ -242,14 +242,14 @@ func CopyFile(from, to string) error {
 
 	n, err := io.Copy(wrt, rdr)
 	if err != nil {
-		return fmt.Errorf("failed to copy content of %q to %q: %w", from, to, err)
+		return fmt.Errorf("Failed to copy content of %q to %q: %w", from, to, err)
 	}
 
 	debug.Log("copied %d bytes from %q to %q", n, from, to)
 
 	// sync permission, applies in case the destination did exist but had different perms
 	if err := os.Chmod(to, rdrStat.Mode()); err != nil {
-		return fmt.Errorf("failed to sync permissions to %q: %w", to, err)
+		return fmt.Errorf("Failed to sync permissions to %q: %w", to, err)
 	}
 
 	return nil
@@ -260,7 +260,7 @@ func CopyFile(from, to string) error {
 func CopyFileForce(from, to string) error {
 	if IsFile(to) {
 		if err := os.Remove(to); err != nil {
-			return fmt.Errorf("failed to remove %q: %w", to, err)
+			return fmt.Errorf("Failed to remove %q: %w", to, err)
 		}
 	}
 

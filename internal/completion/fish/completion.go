@@ -10,7 +10,7 @@ import (
 )
 
 // ErrUnknownType is returned when an unknown type is encountered.
-var ErrUnknownType = fmt.Errorf("unknown type")
+var ErrUnknownType = fmt.Errorf("Unknown type")
 
 func longName(name string) string {
 	// "If s does not contain sep and sep is not empty, Split returns a slice of length 1 whose only element is s."
@@ -66,7 +66,7 @@ func formatFlagFunc(typ string) func(cli.Flag) (string, error) {
 		case *cli.UintFlag:
 			return formatFlag(ft.Name, ft.Usage, typ), nil
 		default:
-			return "", fmt.Errorf("error '%T': %w", f, ErrUnknownType)
+			return "", fmt.Errorf("Error '%T': %w", f, ErrUnknownType)
 		}
 	}
 }
@@ -81,12 +81,12 @@ func GetCompletion(a *cli.App) (string, error) {
 
 	tpl, err := template.New("fish").Funcs(tplFuncs).Parse(fishTemplate)
 	if err != nil {
-		return "", fmt.Errorf("failed to parse template: %w", err)
+		return "", fmt.Errorf("Failed to parse template: %w", err)
 	}
 
 	buf := &bytes.Buffer{}
 	if err := tpl.Execute(buf, a); err != nil {
-		return "", fmt.Errorf("failed to execute template: %w", err)
+		return "", fmt.Errorf("Failed to execute template: %w", err)
 	}
 
 	return buf.String(), nil

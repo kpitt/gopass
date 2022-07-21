@@ -135,7 +135,7 @@ READ:
 		// check for context cancelation
 		select {
 		case <-c.Context.Done():
-			return fmt.Errorf("user aborted")
+			return fmt.Errorf("User aborted")
 		default:
 		}
 		rl.Config.AutoComplete = s.prefixCompleter(c)

@@ -17,7 +17,7 @@ type Store struct {
 func New() (*Store, error) {
 	od, err := cache.NewOnDisk("reminder", 90*24*time.Hour)
 	if err != nil {
-		return nil, fmt.Errorf("failed to init reminder cache: %w", err)
+		return nil, fmt.Errorf("Failed to init reminder cache: %w", err)
 	}
 
 	return &Store{

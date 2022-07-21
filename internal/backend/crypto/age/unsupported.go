@@ -17,15 +17,15 @@ func (a *Age) Fingerprint(ctx context.Context, id string) string {
 
 // ListRecipients is not supported for the age backend.
 func (a *Age) ListRecipients(context.Context) ([]string, error) {
-	return nil, fmt.Errorf("not implemented")
+	return nil, fmt.Errorf("Not implemented")
 }
 
 // ReadNamesFromKey is not supported for the age backend.
 func (a *Age) ReadNamesFromKey(ctx context.Context, buf []byte) ([]string, error) {
-	return nil, fmt.Errorf("not implemented")
+	return nil, fmt.Errorf("Not implemented")
 }
 
 // RecipientIDs is not supported for the age backend.
 func (a *Age) RecipientIDs(ctx context.Context, buf []byte) ([]string, error) {
-	return nil, fmt.Errorf("reading recipient IDs is not supported by the age backend by design")
+	return nil, fmt.Errorf("Reading recipient IDs is not supported by the age backend by design")
 }

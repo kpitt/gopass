@@ -17,7 +17,7 @@ const (
 
 var (
 	// ErrNotFound is returned when a node is not found.
-	ErrNotFound = fmt.Errorf("not found")
+	ErrNotFound = fmt.Errorf("Not found")
 	colMount    = color.New(color.FgCyan, color.Bold).SprintfFunc()
 	colDir      = color.New(color.FgBlue, color.Bold).SprintfFunc()
 	colTpl      = color.New(color.FgGreen, color.Bold).SprintfFunc()

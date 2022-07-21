@@ -9,7 +9,7 @@ import (
 )
 
 // ErrNotSupported is returned by backends for unsupported calls.
-var ErrNotSupported = fmt.Errorf("not supported")
+var ErrNotSupported = fmt.Errorf("Not supported")
 
 // StorageBackend is a type of storage backend.
 type StorageBackend int
@@ -106,7 +106,7 @@ func NewStorage(ctx context.Context, id StorageBackend, path string) (Storage, e
 		return be.New(ctx, path)
 	}
 
-	return nil, fmt.Errorf("unknown backend %q: %w", path, ErrNotFound)
+	return nil, fmt.Errorf("Unknown backend %q: %w", path, ErrNotFound)
 }
 
 // InitStorage initilizes a new storage location.
@@ -117,5 +117,5 @@ func InitStorage(ctx context.Context, id StorageBackend, path string) (Storage, 
 		return be.Init(ctx, path)
 	}
 
-	return nil, fmt.Errorf("unknown backend %q: %w", path, ErrNotFound)
+	return nil, fmt.Errorf("Unknown backend %q: %w", path, ErrNotFound)
 }

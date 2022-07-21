@@ -13,15 +13,15 @@ import (
 // Link creates a symlink.
 func (s *Store) Link(ctx context.Context, from, to string) error {
 	if !s.Exists(ctx, from) {
-		return fmt.Errorf("source %q does not exists", from)
+		return fmt.Errorf("Source %q does not exists", from)
 	}
 
 	if s.Exists(ctx, to) {
-		return fmt.Errorf("destination %q already exists", to)
+		return fmt.Errorf("Destination %q already exists", to)
 	}
 
 	if err := s.storage.Link(ctx, s.Passfile(from), s.Passfile(to)); err != nil {
-		return fmt.Errorf("failed to create symlink from %q to %q: %w", from, to, err)
+		return fmt.Errorf("Failed to create symlink from %q to %q: %w", from, to, err)
 	}
 
 	debug.Log("created symlink from %q to %q", from, to)
@@ -31,7 +31,7 @@ func (s *Store) Link(ctx context.Context, from, to string) error {
 			return nil
 		}
 
-		return fmt.Errorf("failed to add %q to git: %w", to, err)
+		return fmt.Errorf("Failed to add %q to git: %w", to, err)
 	}
 
 	// try to enqueue this task, if the queue is not available

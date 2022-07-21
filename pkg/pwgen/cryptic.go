@@ -12,7 +12,7 @@ import (
 )
 
 // ErrCrypticInvalid is returned when a password is invalid.
-var ErrCrypticInvalid = fmt.Errorf("password does not satisfy all validators")
+var ErrCrypticInvalid = fmt.Errorf("Password does not satisfy all validators")
 
 // Cryptic is a generator for hard-to-remember passwords as required by (too)
 // many sites. Prefer memorable or xkcd-style passwords, if possible.
@@ -83,7 +83,7 @@ func NewCrypticForDomain(length int, domain string) *Cryptic {
 				return nil
 			}
 
-			return fmt.Errorf("password %s does not contain any of %s: %w", pw, chars, ErrCrypticInvalid)
+			return fmt.Errorf("Password %s does not contain any of %s: %w", pw, chars, ErrCrypticInvalid)
 		})
 	}
 
@@ -93,7 +93,7 @@ func NewCrypticForDomain(length int, domain string) *Cryptic {
 				return nil
 			}
 
-			return fmt.Errorf("password %s contains more than %d consecutive characters: %w", pw, r.Maxconsec, ErrCrypticInvalid)
+			return fmt.Errorf("Password %s contains more than %d consecutive characters: %w", pw, r.Maxconsec, ErrCrypticInvalid)
 		})
 	}
 
@@ -151,7 +151,7 @@ func NewCrypticWithAllClasses(length int, symbols bool) *Cryptic {
 			return nil
 		}
 
-		return fmt.Errorf("password does not contain all classes: %w", ErrCrypticInvalid)
+		return fmt.Errorf("Password does not contain all classes: %w", ErrCrypticInvalid)
 	})
 
 	return c

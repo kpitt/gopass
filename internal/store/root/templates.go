@@ -44,7 +44,7 @@ func (r *Store) TemplateTree(ctx context.Context) (*tree.Root, error) {
 		}
 
 		if err := root.AddMount(alias, substore.Path()); err != nil {
-			return nil, fmt.Errorf("failed to add mount: %w", err)
+			return nil, fmt.Errorf("Failed to add mount: %w", err)
 		}
 
 		for _, t := range substore.ListTemplates(ctx, alias) {

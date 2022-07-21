@@ -91,7 +91,7 @@ func (s *Action) editGetContent(ctx context.Context, name string, create bool) (
 	}
 
 	if !create {
-		out.Warningf(ctx, "Entry %s not found. Creating new secret ...", name)
+		out.Warningf(ctx, "Entry %s not found. Creating new secret...", name)
 	}
 
 	// load template if it exists.

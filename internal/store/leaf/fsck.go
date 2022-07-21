@@ -24,13 +24,13 @@ func (s *Store) Fsck(ctx context.Context, path string) error {
 	// first let the storage backend check itself
 	out.Printf(ctx, "Checking storage backend")
 	if err := s.storage.Fsck(ctx); err != nil {
-		return fmt.Errorf("storage backend found: %w", err)
+		return fmt.Errorf("Storage backend found: %w", err)
 	}
 
 	// then try to compact storage / rcs
 	out.Printf(ctx, "Compacting storage if possible")
 	if err := s.storage.Compact(ctx); err != nil {
-		return fmt.Errorf("storage backend compaction failed: %w", err)
+		return fmt.Errorf("Storage backend compaction failed: %w", err)
 	}
 
 	pcb := ctxutil.GetProgressCallback(ctx)
@@ -45,7 +45,7 @@ func (s *Store) Fsck(ctx context.Context, path string) error {
 
 	names, err := s.List(ctx, path)
 	if err != nil {
-		return fmt.Errorf("failed to list entries for %s: %w", path, err)
+		return fmt.Errorf("Failed to list entries for %s: %w", path, err)
 	}
 
 	sort.Strings(names)
@@ -58,7 +58,7 @@ func (s *Store) Fsck(ctx context.Context, path string) error {
 		debug.Log("[%s] Checking %s", path, name)
 
 		if err := s.fsckCheckEntry(ctx, name); err != nil {
-			return fmt.Errorf("failed to check %q: %w", name, err)
+			return fmt.Errorf("Failed to check %q: %w", name, err)
 		}
 	}
 
@@ -91,7 +91,7 @@ func (s *Store) fsckCheckEntry(ctx context.Context, name string) error {
 	ctx = ctxutil.WithShowParsing(ctx, true)
 	sec, err := s.Get(ctx, name)
 	if err != nil {
-		return fmt.Errorf("failed to decode secret %s: %w", name, err)
+		return fmt.Errorf("Failed to decode secret %s: %w", name, err)
 	}
 
 	// check if this is still an old MIME secret.
@@ -106,7 +106,7 @@ func (s *Store) fsckCheckEntry(ctx context.Context, name string) error {
 
 	out.Printf(ctx, "Re-encrypting %s to fix recipients and storage format.", name)
 	if err := s.Set(ctxutil.WithCommitMessage(ctx, "fsck --decrypt to fix recipients and format"), name, sec); err != nil {
-		return fmt.Errorf("failed to write secret: %w", err)
+		return fmt.Errorf("Failed to write secret: %w", err)
 	}
 
 	return nil
@@ -117,19 +117,19 @@ func (s *Store) fsckCheckRecipients(ctx context.Context, name string) error {
 	// if doesn't match
 	ciphertext, err := s.storage.Get(ctx, s.Passfile(name))
 	if err != nil {
-		return fmt.Errorf("failed to get raw secret: %w", err)
+		return fmt.Errorf("Failed to get raw secret: %w", err)
 	}
 
 	itemRecps, err := s.crypto.RecipientIDs(ctx, ciphertext)
 	if err != nil {
-		return fmt.Errorf("failed to read recipient IDs from raw secret: %w", err)
+		return fmt.Errorf("Failed to read recipient IDs from raw secret: %w", err)
 	}
 
 	itemRecps = fingerprints(ctx, s.crypto, itemRecps)
 
 	perItemStoreRecps, err := s.GetRecipients(ctx, name)
 	if err != nil {
-		return fmt.Errorf("failed to get recipients from store: %w", err)
+		return fmt.Errorf("Failed to get recipients from store: %w", err)
 	}
 
 	perItemStoreRecps = fingerprints(ctx, s.crypto, perItemStoreRecps)

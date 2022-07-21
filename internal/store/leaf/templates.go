@@ -116,7 +116,7 @@ func (s *Store) SetTemplate(ctx context.Context, name string, content []byte) er
 	p := s.templatefile(name)
 
 	if err := s.storage.Set(ctx, p, content); err != nil {
-		return fmt.Errorf("failed to write template: %w", err)
+		return fmt.Errorf("Failed to write template: %w", err)
 	}
 
 	if err := s.storage.Add(ctx, p); err != nil {
@@ -124,7 +124,7 @@ func (s *Store) SetTemplate(ctx context.Context, name string, content []byte) er
 			return nil
 		}
 
-		return fmt.Errorf("failed to add %q to git: %w", p, err)
+		return fmt.Errorf("Failed to add %q to git: %w", p, err)
 	}
 
 	if !ctxutil.IsGitCommit(ctx) {
@@ -139,7 +139,7 @@ func (s *Store) RemoveTemplate(ctx context.Context, name string) error {
 	p := s.templatefile(name)
 
 	if err := s.storage.Delete(ctx, p); err != nil {
-		return fmt.Errorf("failed to remote template: %w", err)
+		return fmt.Errorf("Failed to remote template: %w", err)
 	}
 
 	if err := s.storage.Add(ctx, p); err != nil {
@@ -147,7 +147,7 @@ func (s *Store) RemoveTemplate(ctx context.Context, name string) error {
 			return nil
 		}
 
-		return fmt.Errorf("failed to add %q to git: %w", p, err)
+		return fmt.Errorf("Failed to add %q to git: %w", p, err)
 	}
 
 	if !ctxutil.IsGitCommit(ctx) {

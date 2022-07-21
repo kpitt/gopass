@@ -58,7 +58,7 @@ func (s *Action) rcsInit(ctx context.Context, store, un, ue string) error {
 			out.Printf(ctx, "Git initialization failed. You may want to try to 'export GPG_TTY=$(tty)' and start over.")
 		}
 
-		return fmt.Errorf("failed to run RCS init: %w", err)
+		return fmt.Errorf("Failed to run RCS init: %w", err)
 	}
 
 	out.Printf(ctx, "Initialized %s repository (%s) for %s / %s...", be, bn, un, ue)

@@ -33,13 +33,13 @@ func (m *InMem) Get(ctx context.Context, name string) ([]byte, error) {
 	defer m.Unlock()
 
 	if m.data == nil {
-		return nil, fmt.Errorf("entry not found")
+		return nil, fmt.Errorf("Entry not found")
 	}
 
 	sec, found := m.data[name]
 	if !found {
 		// not found
-		return nil, fmt.Errorf("entry not found")
+		return nil, fmt.Errorf("Entry not found")
 	}
 
 	// found
@@ -116,7 +116,7 @@ func (m *InMem) Prune(ctx context.Context, prefix string) error {
 	}
 
 	if deleted < 1 {
-		return fmt.Errorf("not found")
+		return fmt.Errorf("Not found")
 	}
 
 	return nil

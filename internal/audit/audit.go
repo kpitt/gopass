@@ -48,7 +48,7 @@ var DefaultExpiration = time.Hour * 24 * 365
 
 // Batch runs a password strength audit on multiple secrets. Expiration is in days.
 func Batch(ctx context.Context, secrets []string, secStore secretGetter, expiration int) error {
-	out.Printf(ctx, "Checking %d secrets. This may take some time ...\n", len(secrets))
+	out.Printf(ctx, "Checking %d secrets. This may take some time...\n", len(secrets))
 
 	// Secrets that still need auditing.
 	pending := make(chan string, 100)
@@ -74,14 +74,14 @@ func Batch(ctx context.Context, secrets []string, secStore secretGetter, expirat
 			ui = append(ui, name)
 			match := zxcvbn.PasswordStrength(sec.Password(), ui)
 			if match.Score < 3 {
-				return fmt.Errorf("weak password (%d / 4)", match.Score)
+				return fmt.Errorf("Weak password (%d / 4)", match.Score)
 			}
 
 			return nil
 		},
 		func(name string, sec gopass.Secret) error {
 			if name == sec.Password() {
-				return fmt.Errorf("password equals name")
+				return fmt.Errorf("Password equals name")
 			}
 
 			return nil
@@ -277,9 +277,9 @@ func auditPrintResults(ctx context.Context, duplicates, messages, errors map[str
 	foundErrors := printAuditResults(errors, "%s:\n", color.RedString)
 
 	if foundWeakPasswords || foundDuplicates || foundErrors {
-		_ = notify.Notify(ctx, "gopass - audit", "Finished. Found weak passwords and/or duplicates")
+		_ = notify.Notify(ctx, "gopass - audit", "Finished. Found weak passwords and/or duplicates.")
 
-		return fmt.Errorf("found weak passwords or duplicates")
+		return fmt.Errorf("Found weak passwords or duplicates")
 	}
 
 	_ = notify.Notify(ctx, "gopass - audit", "Finished. No weak passwords or duplicates found!")

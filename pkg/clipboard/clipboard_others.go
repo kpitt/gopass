@@ -23,7 +23,7 @@ import (
 func clear(ctx context.Context, name string, content []byte, timeout int) error {
 	hash, err := argon2id.Generate(string(content), 0)
 	if err != nil {
-		return fmt.Errorf("failed to generate checksum: %w", err)
+		return fmt.Errorf("Failed to generate checksum: %w", err)
 	}
 
 	// kill any pending unclip processes
@@ -43,7 +43,7 @@ func clear(ctx context.Context, name string, content []byte, timeout int) error 
 	}
 
 	if err := cmd.Start(); err != nil {
-		return fmt.Errorf("failed to invoke unclip: %w", err)
+		return fmt.Errorf("Failed to invoke unclip: %w", err)
 	}
 
 	return nil

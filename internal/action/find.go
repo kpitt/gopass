@@ -98,10 +98,10 @@ func (s *Action) find(ctx context.Context, c *cli.Context, needle string, cb sho
 // findSelection runs a wizard that lets the user select an entry.
 func (s *Action) findSelection(ctx context.Context, c *cli.Context, choices []string, needle string, cb showFunc) error {
 	if cb == nil {
-		return fmt.Errorf("callback is nil")
+		return fmt.Errorf("Callback is nil")
 	}
 	if len(choices) < 1 {
-		return fmt.Errorf("out of options")
+		return fmt.Errorf("Out of options")
 	}
 
 	sort.Strings(choices)

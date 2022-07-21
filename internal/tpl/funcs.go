@@ -73,7 +73,7 @@ func md5cryptFunc() func(...string) (string, error) {
 	// parameters: s[0] = salt, s[-1] = password
 	return func(s ...string) (string, error) {
 		if len(s) < 1 {
-			return "", fmt.Errorf("usage: %s <salt> <password>", FuncMd5Crypt)
+			return "", fmt.Errorf("Usage: %s <salt> <password>", FuncMd5Crypt)
 		}
 
 		sl := saltLen(s)
@@ -89,7 +89,7 @@ func sshaFunc() func(...string) (string, error) {
 	// parameters: s[0] = salt, s[-1] = password
 	return func(s ...string) (string, error) {
 		if len(s) < 1 {
-			return "", fmt.Errorf("usage: %s <salt> <password>", FuncSSHA)
+			return "", fmt.Errorf("Usage: %s <salt> <password>", FuncSSHA)
 		}
 
 		return ssha.Generate(s[len(s)-1], saltLen(s)) //nolint:wrapcheck
@@ -100,7 +100,7 @@ func ssha256Func() func(...string) (string, error) {
 	// parameters: s[0] = salt, s[-1] = password
 	return func(s ...string) (string, error) {
 		if len(s) < 1 {
-			return "", fmt.Errorf("usage: %s <salt> <password>", FuncSSHA256)
+			return "", fmt.Errorf("Usage: %s <salt> <password>", FuncSSHA256)
 		}
 
 		return ssha256.Generate(s[len(s)-1], saltLen(s)) //nolint:wrapcheck
@@ -111,7 +111,7 @@ func ssha512Func() func(...string) (string, error) {
 	// parameters: s[0] = salt, s[-1] = password
 	return func(s ...string) (string, error) {
 		if len(s) < 1 {
-			return "", fmt.Errorf("usage: %s <salt> <password>", FuncSSHA512)
+			return "", fmt.Errorf("Usage: %s <salt> <password>", FuncSSHA512)
 		}
 
 		return ssha512.Generate(s[len(s)-1], saltLen(s)) //nolint:wrapcheck
@@ -122,7 +122,7 @@ func argon2iFunc() func(...string) (string, error) {
 	// parameters: s[0] = salt, s[-1] = password
 	return func(s ...string) (string, error) {
 		if len(s) < 1 {
-			return "", fmt.Errorf("usage: %s <salt> <password>", FuncArgon2i)
+			return "", fmt.Errorf("Usage: %s <salt> <password>", FuncArgon2i)
 		}
 
 		return argon2i.Generate(s[len(s)-1], uint32(saltLen(s))) //nolint:wrapcheck
@@ -133,7 +133,7 @@ func argon2idFunc() func(...string) (string, error) {
 	// parameters: s[0] = salt, s[-1] = password
 	return func(s ...string) (string, error) {
 		if len(s) < 1 {
-			return "", fmt.Errorf("usage: %s <salt> <password> or <password>", FuncArgon2id)
+			return "", fmt.Errorf("Usage: %s <salt> <password> or <password>", FuncArgon2id)
 		}
 
 		return argon2id.Generate(s[len(s)-1], uint32(saltLen(s))) //nolint:wrapcheck
@@ -144,7 +144,7 @@ func bcryptFunc() func(...string) (string, error) {
 	// parameters: s[0] = salt, s[-1] = password
 	return func(s ...string) (string, error) {
 		if len(s) < 1 {
-			return "", fmt.Errorf("usage: %s <password>", FuncBcrypt)
+			return "", fmt.Errorf("Usage: %s <password>", FuncBcrypt)
 		}
 
 		return bcrypt.Generate(s[len(s)-1]) //nolint:wrapcheck
@@ -206,7 +206,7 @@ func getValue(ctx context.Context, kv kvstore) func(...string) (string, error) {
 
 		sv, found := sec.Get(s[1])
 		if !found {
-			return "", fmt.Errorf("key %q not found", s[1])
+			return "", fmt.Errorf("Key %q not found", s[1])
 		}
 
 		return sv, nil
@@ -225,12 +225,12 @@ func getValues(ctx context.Context, kv kvstore) func(...string) ([]string, error
 
 		sec, err := kv.Get(ctx, s[0])
 		if err != nil {
-			return nil, fmt.Errorf("failed to get %q: %w", s[0], err)
+			return nil, fmt.Errorf("Failed to get %q: %w", s[0], err)
 		}
 
 		values, found := sec.Values(s[1])
 		if !found {
-			return nil, fmt.Errorf("key %q not found", s[1])
+			return nil, fmt.Errorf("Key %q not found", s[1])
 		}
 
 		return values, nil

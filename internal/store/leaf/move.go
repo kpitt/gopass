@@ -19,7 +19,7 @@ import (
 func (s *Store) Copy(ctx context.Context, from, to string) error {
 	// recursive copy?
 	if s.IsDir(ctx, from) {
-		return fmt.Errorf("recursive operations are not supported")
+		return fmt.Errorf("Recursive operations are not supported")
 	}
 
 	// try direct copy first
@@ -34,11 +34,11 @@ func (s *Store) Copy(ctx context.Context, from, to string) error {
 
 	content, err := s.Get(ctx, from)
 	if err != nil {
-		return fmt.Errorf("failed to get %q from store: %w", from, err)
+		return fmt.Errorf("Failed to get %q from store: %w", from, err)
 	}
 
 	if err := s.Set(ctxutil.WithCommitMessage(ctx, fmt.Sprintf("Copied from %s to %s", from, to)), to, content); err != nil {
-		return fmt.Errorf("failed to save %q to store: %w", to, err)
+		return fmt.Errorf("Failed to save %q to store: %w", to, err)
 	}
 
 	return nil
@@ -51,7 +51,7 @@ func (s *Store) Copy(ctx context.Context, from, to string) error {
 func (s *Store) Move(ctx context.Context, from, to string) error {
 	// recursive move?
 	if s.IsDir(ctx, from) {
-		return fmt.Errorf("recursive operations are not supported")
+		return fmt.Errorf("Recursive operations are not supported")
 	}
 
 	// try direct move first
@@ -67,15 +67,15 @@ func (s *Store) Move(ctx context.Context, from, to string) error {
 	// fall back to copy and delete
 	content, err := s.Get(ctx, from)
 	if err != nil {
-		return fmt.Errorf("failed to decrypt %q: %w", from, err)
+		return fmt.Errorf("Failed to decrypt %q: %w", from, err)
 	}
 
 	if err := s.Set(ctxutil.WithCommitMessage(ctx, fmt.Sprintf("Move from %s to %s", from, to)), to, content); err != nil {
-		return fmt.Errorf("failed to write %q: %w", to, err)
+		return fmt.Errorf("Failed to write %q: %w", to, err)
 	}
 
 	if err := s.Delete(ctx, from); err != nil {
-		return fmt.Errorf("failed to delete %q: %w", from, err)
+		return fmt.Errorf("Failed to delete %q: %w", from, err)
 	}
 
 	return nil
@@ -89,7 +89,7 @@ func (s *Store) directMove(ctx context.Context, from, to string, del bool) error
 	debug.Log("directMove %s (%q) -> %s (%q)", from, to, pFrom, pTo)
 
 	if err := s.storage.Move(ctx, pFrom, pTo, del); err != nil {
-		return fmt.Errorf("failed to move %q to %q: %w", from, to, err)
+		return fmt.Errorf("Failed to move %q to %q: %w", from, to, err)
 	}
 
 	// It is not possible to perform concurrent git add and git commit commands
@@ -106,7 +106,7 @@ func (s *Store) directMove(ctx context.Context, from, to string, del bool) error
 			return nil
 		}
 
-		return fmt.Errorf("failed to add %q and %q to git: %w", pFrom, pTo, err)
+		return fmt.Errorf("Failed to add %q and %q to git: %w", pFrom, pTo, err)
 	}
 
 	if !ctxutil.IsGitCommit(ctx) {
@@ -161,7 +161,7 @@ func (s *Store) delete(ctx context.Context, name string, recurse bool) error {
 		case errors.Is(err, store.ErrGitNothingToCommit):
 			debug.Log("skipping git commit - nothing to commit")
 		default:
-			return fmt.Errorf("failed to commit changes to git: %w", err)
+			return fmt.Errorf("Failed to commit changes to git: %w", err)
 		}
 	}
 
@@ -170,7 +170,7 @@ func (s *Store) delete(ctx context.Context, name string, recurse bool) error {
 			return nil
 		}
 
-		return fmt.Errorf("failed to push change to git remote: %w", err)
+		return fmt.Errorf("Failed to push change to git remote: %w", err)
 	}
 
 	return nil
@@ -195,7 +195,7 @@ func (s *Store) deleteRecurse(ctx context.Context, name, path string) error {
 			return nil
 		}
 
-		return fmt.Errorf("failed to add %q to git: %w", path, err)
+		return fmt.Errorf("Failed to add %q to git: %w", path, err)
 	}
 	debug.Log("pruned")
 
@@ -217,7 +217,7 @@ func (s *Store) deleteSingle(ctx context.Context, path string) error {
 			return nil
 		}
 
-		return fmt.Errorf("failed to add %q to git: %w", path, err)
+		return fmt.Errorf("Failed to add %q to git: %w", path, err)
 	}
 
 	return nil

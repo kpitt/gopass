@@ -13,7 +13,7 @@ func (s *Store) initStorageBackend(ctx context.Context) error {
 
 	store, err := backend.DetectStorage(ctx, s.path)
 	if err != nil {
-		return fmt.Errorf("unknown storage backend: %w", err)
+		return fmt.Errorf("Unknown storage backend: %w", err)
 	}
 
 	s.storage = store

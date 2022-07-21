@@ -24,7 +24,7 @@ func (s *Action) Sync(c *cli.Context) error {
 }
 
 func (s *Action) sync(ctx context.Context, store string) error {
-	out.Printf(ctx, "🚥 Syncing with all remotes ...")
+	out.Printf(ctx, "🚥 Syncing with all remotes...")
 
 	numEntries := 0
 	if l, err := s.Store.Tree(ctx); err == nil {
@@ -49,7 +49,7 @@ func (s *Action) sync(ctx context.Context, store string) error {
 		numMPs++
 		_ = s.syncMount(ctx, mp)
 	}
-	out.OKf(ctx, "All done")
+	out.OKf(ctx, "Finished syncing with remotes")
 
 	// Calculate number of changed entries.
 	// This is a rough estimate as additions and deletions.
@@ -59,9 +59,9 @@ func (s *Action) sync(ctx context.Context, store string) error {
 	}
 	diff := ""
 	if numEntries > 0 {
-		diff = fmt.Sprintf(" Added %d entries", numEntries)
+		diff = fmt.Sprintf(" Added %d entries.", numEntries)
 	} else if numEntries < 0 {
-		diff = fmt.Sprintf(" Removed %d entries", -1*numEntries)
+		diff = fmt.Sprintf(" Removed %d entries.", -1*numEntries)
 	}
 	_ = notify.Notify(ctx, "gopass - sync", fmt.Sprintf("Finished. Synced %d remotes.%s", numMPs, diff))
 
@@ -81,13 +81,13 @@ func (s *Action) syncMount(ctx context.Context, mp string) error {
 	if err != nil {
 		out.Errorf(ctx, "Failed to get sub store %q: %s", name, err)
 
-		return fmt.Errorf("failed to get sub stores (%w)", err)
+		return fmt.Errorf("Failed to get sub stores (%w)", err)
 	}
 
 	if sub == nil {
 		out.Errorf(ctx, "Failed to get sub stores '%s: nil'", name)
 
-		return fmt.Errorf("failed to get sub stores (nil)")
+		return fmt.Errorf("Failed to get sub stores (nil)")
 	}
 
 	l, err := sub.List(ctx, "")
@@ -95,7 +95,7 @@ func (s *Action) syncMount(ctx context.Context, mp string) error {
 		out.Errorf(ctx, "Failed to list store: %s", err)
 	}
 
-	out.Printf(ctxno, "\n   "+color.GreenString("%s pull and push ... ", sub.Storage().Name()))
+	out.Printf(ctxno, "\n   "+color.GreenString("%s pull and push... ", sub.Storage().Name()))
 	err = sub.Storage().Push(ctx, "", "")
 
 	switch {
@@ -139,7 +139,7 @@ func (s *Action) syncMount(ctx context.Context, mp string) error {
 
 func syncImportKeys(ctx context.Context, sub *leaf.Store, name string) error {
 	// import keys.
-	out.Printf(ctx, "\n   "+color.GreenString("importing missing keys ... "))
+	out.Printf(ctx, "\n   "+color.GreenString("importing missing keys... "))
 	if err := sub.ImportMissingPublicKeys(ctx); err != nil {
 		out.Errorf(ctx, "Failed to import missing public keys for %q: %s", name, err)
 
@@ -152,7 +152,7 @@ func syncImportKeys(ctx context.Context, sub *leaf.Store, name string) error {
 
 func syncExportKeys(ctx context.Context, sub *leaf.Store, name string) error {
 	// export keys.
-	out.Printf(ctx, "\n   "+color.GreenString("exporting missing keys ... "))
+	out.Printf(ctx, "\n   "+color.GreenString("exporting missing keys... "))
 	rs, err := sub.GetRecipients(ctx, "")
 	if err != nil {
 		out.Errorf(ctx, "Failed to load recipients for %q: %s", name, err)

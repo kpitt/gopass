@@ -29,14 +29,14 @@ func (t *File) mount(ctx context.Context) error {
 	debug.Log("CMD: %s %+v", cmd.Path, cmd.Args)
 	cmdout, err := cmd.Output()
 	if err != nil {
-		return fmt.Errorf("failed to create disk with hdid: %s", err)
+		return fmt.Errorf("Failed to create disk with hdid: %s", err)
 	}
 
 	debug.Log("Output: %s\n", cmdout)
 
 	p := strings.Split(string(cmdout), " ")
 	if len(p) < 1 {
-		return fmt.Errorf("unhandeled hdid output: %s", string(cmdout))
+		return fmt.Errorf("Unhandled hdid output: %s", string(cmdout))
 	}
 	t.dev = p[0]
 
@@ -50,7 +50,7 @@ func (t *File) mount(ctx context.Context) error {
 
 	debug.Log("CMD: %s %+v", cmd.Path, cmd.Args)
 	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to make filesystem on %s: %w", t.dev, err)
+		return fmt.Errorf("Failed to make filesystem on %s: %w", t.dev, err)
 	}
 
 	// mount ramdisk
@@ -62,7 +62,7 @@ func (t *File) mount(ctx context.Context) error {
 
 	debug.Log("CMD: %s %+v", cmd.Path, cmd.Args)
 	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to mount filesystem %s to %s: %w", t.dev, t.dir, err)
+		return fmt.Errorf("Failed to mount filesystem %s to %s: %w", t.dev, t.dir, err)
 	}
 
 	// Wait for the mount to settle. This is a hack.
@@ -92,7 +92,7 @@ func (t *File) tryUnmount(ctx context.Context) error {
 
 	debug.Log("CMD: %s %+v", cmd.Path, cmd.Args)
 	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to run command '%+v': %w", cmd.Args, err)
+		return fmt.Errorf("Failed to run command '%+v': %w", cmd.Args, err)
 	}
 
 	// eject disk

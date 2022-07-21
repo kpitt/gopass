@@ -71,12 +71,12 @@ func Check(ctx context.Context, editor string) error {
 // Invoke will start the given editor and return the content.
 func Invoke(ctx context.Context, editor string, content []byte) ([]byte, error) {
 	if !ctxutil.IsTerminal(ctx) {
-		return nil, fmt.Errorf("need terminal")
+		return nil, fmt.Errorf("Need terminal")
 	}
 
 	tmpfile, err := tempfile.New(ctx, "gopass-edit")
 	if err != nil {
-		return []byte{}, fmt.Errorf("failed to create tmpfile %s: %w", editor, err)
+		return []byte{}, fmt.Errorf("Failed to create tmpfile %s: %w", editor, err)
 	}
 
 	defer func() {
@@ -86,18 +86,18 @@ func Invoke(ctx context.Context, editor string, content []byte) ([]byte, error) 
 	}()
 
 	if _, err := tmpfile.Write(content); err != nil {
-		return []byte{}, fmt.Errorf("failed to write tmpfile to start with %s %v: %w", editor, tmpfile.Name(), err)
+		return []byte{}, fmt.Errorf("Failed to write tmpfile to start with %s %v: %w", editor, tmpfile.Name(), err)
 	}
 
 	if err := tmpfile.Close(); err != nil {
-		return []byte{}, fmt.Errorf("failed to close tmpfile to start with %s %v: %w", editor, tmpfile.Name(), err)
+		return []byte{}, fmt.Errorf("Failed to close tmpfile to start with %s %v: %w", editor, tmpfile.Name(), err)
 	}
 
 	var args []string
 	if runtime.GOOS != "windows" {
 		cmdArgs, err := shellquote.Split(editor)
 		if err != nil {
-			return []byte{}, fmt.Errorf("failed to parse EDITOR command `%s`", editor)
+			return []byte{}, fmt.Errorf("Failed to parse EDITOR command `%s`", editor)
 		}
 
 		editor = cmdArgs[0]
@@ -114,12 +114,12 @@ func Invoke(ctx context.Context, editor string, content []byte) ([]byte, error) 
 	if err := cmd.Run(); err != nil {
 		debug.Log("cmd: %s %+v - error: %+v", cmd.Path, cmd.Args, err)
 
-		return []byte{}, fmt.Errorf("failed to run %s with %s file: %w", editor, tmpfile.Name(), err)
+		return []byte{}, fmt.Errorf("Failed to run %s with %s file: %w", editor, tmpfile.Name(), err)
 	}
 
 	nContent, err := os.ReadFile(tmpfile.Name())
 	if err != nil {
-		return []byte{}, fmt.Errorf("failed to read from tmpfile: %w", err)
+		return []byte{}, fmt.Errorf("Failed to read from tmpfile: %w", err)
 	}
 
 	// enforce unix line endings in the password store.

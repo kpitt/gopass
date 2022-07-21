@@ -21,20 +21,20 @@ func (s *Action) Convert(c *cli.Context) error {
 
 	sub, err := s.Store.GetSubStore(store)
 	if err != nil {
-		return fmt.Errorf("mount %q not found: %w", store, err)
+		return fmt.Errorf("Mount %q not found: %w", store, err)
 	}
 
 	oldStorage := sub.Storage().Name()
 
 	storage, err := backend.StorageRegistry.Backend(oldStorage)
 	if err != nil {
-		return fmt.Errorf("unknown storage backend %q: %w", oldStorage, err)
+		return fmt.Errorf("Unknown storage backend %q: %w", oldStorage, err)
 	}
 	if sv := c.String("storage"); sv != "" {
 		var err error
 		storage, err = backend.StorageRegistry.Backend(sv)
 		if err != nil {
-			return fmt.Errorf("unknown storage backend %q: %w", sv, err)
+			return fmt.Errorf("Unknown storage backend %q: %w", sv, err)
 		}
 	}
 
@@ -42,13 +42,13 @@ func (s *Action) Convert(c *cli.Context) error {
 
 	crypto, err := backend.CryptoRegistry.Backend(oldCrypto)
 	if err != nil {
-		return fmt.Errorf("unknown crypto backend %q: %w", oldCrypto, err)
+		return fmt.Errorf("Unknown crypto backend %q: %w", oldCrypto, err)
 	}
 	if sv := c.String("crypto"); sv != "" {
 		var err error
 		crypto, err = backend.CryptoRegistry.Backend(sv)
 		if err != nil {
-			return fmt.Errorf("unknown crypto backend %q: %w", sv, err)
+			return fmt.Errorf("Unknown crypto backend %q: %w", sv, err)
 		}
 	}
 
@@ -82,7 +82,7 @@ func (s *Action) Convert(c *cli.Context) error {
 	}
 
 	if err := s.Store.Convert(ctx, store, crypto, storage, move); err != nil {
-		return fmt.Errorf("failed to convert %q: %w", store, err)
+		return fmt.Errorf("Failed to convert %q: %w", store, err)
 	}
 
 	out.OKf(ctx, "Successfully converted %q", store)

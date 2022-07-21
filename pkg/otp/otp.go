@@ -50,7 +50,7 @@ func Calculate(name string, sec gopass.Secret) (twofactor.OTP, string, error) {
 
 	otp, err := twofactor.NewGoogleTOTP(twofactor.Pad(secKey))
 	if err != nil {
-		return otp, label, fmt.Errorf("invalid OTP secret %q: %w", secKey, err)
+		return otp, label, fmt.Errorf("Invalid OTP secret %q: %w", secKey, err)
 	}
 
 	return otp, label, nil
@@ -82,11 +82,11 @@ func WriteQRFile(otp twofactor.OTP, label, file string) error {
 	}
 
 	if err != nil {
-		return fmt.Errorf("failed to write qr file: %w", err)
+		return fmt.Errorf("Failed to write QR code: %w", err)
 	}
 
 	if err := os.WriteFile(file, qr, 0o600); err != nil {
-		return fmt.Errorf("failed to write QR code: %w", err)
+		return fmt.Errorf("Failed to write QR code: %w", err)
 	}
 
 	return nil
@@ -96,5 +96,5 @@ var (
 	// ErrOathOTP is returned when the secret is not a valid OATH secret.
 	ErrOathOTP = fmt.Errorf("QR codes can only be generated for OATH OTPs")
 	// ErrType is returned when the secret is not a valid OTP type.
-	ErrType = fmt.Errorf("type assertion failed")
+	ErrType = fmt.Errorf("Type assertion failed")
 )

@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	// ErrInvalidHash is returned if the required parameters can not be obtained
+	// ErrInvalidHash is returned if the required parameters cannot be obtained
 	// from the hash.
 	ErrInvalidHash = fmt.Errorf("argon2i: invalid hash format")
 
@@ -65,7 +65,7 @@ func Generate(password string, saltLen uint32) (string, error) {
 
 	salt := make([]byte, params.SaltLen)
 	if _, err := rand.Read(salt); err != nil {
-		return "", fmt.Errorf("failed to read rand: %w", err)
+		return "", fmt.Errorf("Failed to read rand: %w", err)
 	}
 
 	hash := argon2.Key([]byte(password), salt, params.Iterations, params.Memory, params.Parallelism, params.KeyLen)
@@ -114,7 +114,7 @@ func unpackHash(hash string) (*Params, []byte, []byte, error) {
 
 	_, err := fmt.Sscanf(p[2], "v=%d", &version)
 	if err != nil {
-		return nil, nil, nil, fmt.Errorf("failed to decode version %s: %w", p[2], err)
+		return nil, nil, nil, fmt.Errorf("Failed to decode version %s: %w", p[2], err)
 	}
 
 	if version != argon2.Version {
@@ -125,19 +125,19 @@ func unpackHash(hash string) (*Params, []byte, []byte, error) {
 
 	_, err = fmt.Sscanf(p[3], "m=%d,t=%d,p=%d", &params.Memory, &params.Iterations, &params.Parallelism)
 	if err != nil {
-		return nil, nil, nil, fmt.Errorf("failed to decode header %s: %w", p[3], err)
+		return nil, nil, nil, fmt.Errorf("Failed to decode header %s: %w", p[3], err)
 	}
 
 	salt, err := base64.RawStdEncoding.DecodeString(p[4])
 	if err != nil {
-		return nil, nil, nil, fmt.Errorf("failed to decode salt %s: %w", p[4], err)
+		return nil, nil, nil, fmt.Errorf("Failed to decode salt %s: %w", p[4], err)
 	}
 
 	params.SaltLen = uint32(len(salt))
 
 	key, err := base64.RawStdEncoding.DecodeString(p[5])
 	if err != nil {
-		return nil, nil, nil, fmt.Errorf("failed to decode hash %s: %w", p[5], err)
+		return nil, nil, nil, fmt.Errorf("Failed to decode hash %s: %w", p[5], err)
 	}
 
 	params.KeyLen = uint32(len(key))

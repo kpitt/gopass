@@ -7,7 +7,7 @@ import (
 )
 
 // ErrKeyNotFound is returned when a key is not found.
-var ErrKeyNotFound = fmt.Errorf("no matching key found")
+var ErrKeyNotFound = fmt.Errorf("No matching key found")
 
 // KeyList is a searchable slice of Keys.
 type KeyList []Key

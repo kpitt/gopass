@@ -101,7 +101,7 @@ func (s *Action) show(ctx context.Context, c *cli.Context, name string, recurse 
 	}
 
 	if s.Store.IsDir(ctx, name) && ctxutil.IsTerminal(ctx) && !IsPasswordOnly(ctx) {
-		out.Warningf(ctx, "%s is a secret and a folder. Use 'gopass show %s' to display the secret and 'gopass list %s' to show the content of the folder", name, name, name)
+		out.Warningf(ctx, "%s is both a secret and a folder. Use 'gopass show %s' to display the secret and 'gopass list %s' to show the content of the folder.", name, name, name)
 	}
 
 	if HasRevision(ctx) {
@@ -183,7 +183,7 @@ func (s *Action) showHandleOutput(ctx context.Context, name string, sec gopass.S
 
 	if pw == "" && body == "" {
 		if ctxutil.IsShowSafeContent(ctx) && !ctxutil.IsForce(ctx) {
-			out.Warning(ctx, "safecontent=true. Use -f to display password, if any")
+			out.Warning(ctx, "Safe content is enabled (safecontent=true). Use -f to display password.")
 		}
 
 		return exit.Error(exit.NotFound, store.ErrEmptySecret, store.ErrEmptySecret.Error())
@@ -234,7 +234,7 @@ func (s *Action) showGetContent(ctx context.Context, sec gopass.Secret) (string,
 
 		return val, val, nil
 	} else if HasKey(ctx) {
-		out.Warning(ctx, "Parsing is disabled but a key was provided.")
+		out.Warning(ctx, "Cannot show the value of a specific key when parsing is disabled.")
 		debug.Log("attempting to parse key %s with parsing disabled", GetKey(ctx))
 	}
 

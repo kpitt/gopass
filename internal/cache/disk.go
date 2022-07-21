@@ -35,7 +35,7 @@ func NewOnDisk(name string, ttl time.Duration) (*OnDisk, error) {
 
 func (o *OnDisk) ensureDir() error {
 	if err := os.MkdirAll(o.dir, 0o700); err != nil {
-		return fmt.Errorf("failed to create ondisk cache dir %s: %w", o.dir, err)
+		return fmt.Errorf("Failed to create ondisk cache dir %s: %w", o.dir, err)
 	}
 
 	return nil
@@ -47,16 +47,16 @@ func (o *OnDisk) Get(key string) ([]string, error) {
 	fn := filepath.Join(o.dir, key)
 	fi, err := os.Stat(fn)
 	if err != nil {
-		return nil, fmt.Errorf("failed to stat %s: %w", fn, err)
+		return nil, fmt.Errorf("Failed to stat %s: %w", fn, err)
 	}
 
 	if time.Now().After(fi.ModTime().Add(o.ttl)) {
-		return nil, fmt.Errorf("expired")
+		return nil, fmt.Errorf("Expired")
 	}
 
 	buf, err := os.ReadFile(fn)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read file %s: %w", fn, err)
+		return nil, fmt.Errorf("Failed to read file %s: %w", fn, err)
 	}
 
 	return strings.Split(string(buf), "\n"), nil
@@ -70,7 +70,7 @@ func (o *OnDisk) Set(key string, value []string) error {
 	key = fsutil.CleanFilename(key)
 	fn := filepath.Join(o.dir, key)
 	if err := os.WriteFile(fn, []byte(strings.Join(value, "\n")), 0o644); err != nil {
-		return fmt.Errorf("failed to write %s to %s: %w", key, fn, err)
+		return fmt.Errorf("Failed to write %s to %s: %w", key, fn, err)
 	}
 
 	return nil

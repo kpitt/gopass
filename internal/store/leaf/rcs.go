@@ -35,7 +35,7 @@ func (s *Store) GetRevision(ctx context.Context, name, revision string) (gopass.
 	p := s.Passfile(name)
 	ciphertext, err := s.storage.GetRevision(ctx, p, revision)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get ciphertext of %q@%q: %w", name, revision, err)
+		return nil, fmt.Errorf("Failed to get ciphertext of %q@%q: %w", name, revision, err)
 	}
 
 	content, err := s.crypto.Decrypt(ctx, ciphertext)
@@ -60,7 +60,7 @@ func (s *Store) GitStatus(ctx context.Context, _ string) error {
 	if err != nil {
 		debug.Log("RCS status failed for %s: %s", s.path, err)
 
-		return fmt.Errorf("failed to get RCS status for %s: %w", s.path, err)
+		return fmt.Errorf("Failed to get RCS status for %s: %w", s.path, err)
 	}
 
 	out.Printf(ctx, string(buf))

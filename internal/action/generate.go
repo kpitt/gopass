@@ -269,7 +269,7 @@ func clamp(min, max, value int) int {
 }
 
 func (s *Action) generatePasswordForRule(ctx context.Context, c *cli.Context, length, name, domain string, rule pwrules.Rule) (string, error) {
-	out.Noticef(ctx, "Using password rules for %s ...", domain)
+	out.Noticef(ctx, "Using password rules for %s...", domain)
 	wl := 16
 	if iv, err := strconv.Atoi(length); err == nil {
 		wl = clamp(rule.Minlen, rule.Maxlen, iv)
@@ -278,14 +278,14 @@ func (s *Action) generatePasswordForRule(ctx context.Context, c *cli.Context, le
 	question := fmt.Sprintf("How long should the password be? (min: %d, max: %d)", rule.Minlen, rule.Maxlen)
 	iv, err := termio.AskForInt(ctx, question, wl)
 	if err != nil {
-		return "", exit.Error(exit.Usage, err, "password length must be a number")
+		return "", exit.Error(exit.Usage, err, "Password length must be a number")
 	}
 
 	iv = clamp(rule.Minlen, rule.Maxlen, iv)
 
 	pw := pwgen.NewCrypticForDomain(iv, domain).Password()
 	if pw == "" {
-		return "", fmt.Errorf("failed to generate password for %s", domain)
+		return "", fmt.Errorf("Failed to generate password for %s", domain)
 	}
 
 	return pw, nil

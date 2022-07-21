@@ -16,7 +16,7 @@ import (
 // AddMount adds a new mount.
 func (r *Store) AddMount(ctx context.Context, alias, path string, keys ...string) error {
 	if err := r.addMount(ctx, alias, path, keys...); err != nil {
-		return fmt.Errorf("failed to add mount: %w", err)
+		return fmt.Errorf("Failed to add mount: %w", err)
 	}
 
 	// check for duplicate mounts
@@ -25,7 +25,7 @@ func (r *Store) AddMount(ctx context.Context, alias, path string, keys ...string
 
 func (r *Store) addMount(ctx context.Context, alias, path string, keys ...string) error {
 	if alias == "" {
-		return fmt.Errorf("alias must not be empty")
+		return fmt.Errorf("Alias must not be empty")
 	}
 
 	if r.mounts == nil {
@@ -42,7 +42,7 @@ func (r *Store) addMount(ctx context.Context, alias, path string, keys ...string
 	// initialize sub store
 	s, err := r.initSub(ctx, alias, fullPath, keys)
 	if err != nil {
-		return fmt.Errorf("failed to init sub store %q at %q: %w", alias, fullPath, err)
+		return fmt.Errorf("Failed to init sub store %q at %q: %w", alias, fullPath, err)
 	}
 
 	r.mounts[alias] = s
@@ -61,7 +61,7 @@ func (r *Store) initSub(ctx context.Context, alias, path string, keys []string) 
 	// init regular sub store
 	s, err := leaf.New(ctx, alias, path)
 	if err != nil {
-		return nil, fmt.Errorf("failed to initialize store %q at %q: %w", alias, path, err)
+		return nil, fmt.Errorf("Failed to initialize store %q at %q: %w", alias, path, err)
 	}
 
 	if s.IsInitialized(ctx) {
@@ -79,7 +79,7 @@ func (r *Store) initSub(ctx context.Context, alias, path string, keys []string) 
 	debug.Log("[%s] Trying to initialize at %s for %+v", alias, path, keys)
 
 	if err := s.Init(ctx, path, keys...); err != nil {
-		return s, fmt.Errorf("failed to initialize store %q at %q: %w", alias, path, err)
+		return s, fmt.Errorf("Failed to initialize store %q at %q: %w", alias, path, err)
 	}
 
 	out.Printf(ctx, "Password store %s initialized for:", path)
@@ -180,7 +180,7 @@ func (r *Store) GetSubStore(name string) (*leaf.Store, error) {
 
 	debug.Log("mounts available: %+v", r.mounts)
 
-	return nil, fmt.Errorf("no such mount point %q", name)
+	return nil, fmt.Errorf("No such mount point %q", name)
 }
 
 // checkMounts performs some sanity checks on our mounts. At the moment it
@@ -189,7 +189,7 @@ func (r *Store) checkMounts() error {
 	paths := make(map[string]string, len(r.mounts))
 	for k, v := range r.mounts {
 		if _, found := paths[v.Path()]; found {
-			return fmt.Errorf("doubly mounted path at %s: %s", v.Path(), k)
+			return fmt.Errorf("Doubly mounted path at %s: %s", v.Path(), k)
 		}
 
 		paths[v.Path()] = k

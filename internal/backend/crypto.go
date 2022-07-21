@@ -65,7 +65,7 @@ func NewCrypto(ctx context.Context, id CryptoBackend) (Crypto, error) {
 		return be.New(ctx)
 	}
 
-	return nil, fmt.Errorf("unknown backend %d: %w", id, ErrNotFound)
+	return nil, fmt.Errorf("Unknown backend %d: %w", id, ErrNotFound)
 }
 
 // DetectCrypto tries to detect the crypto backend used.

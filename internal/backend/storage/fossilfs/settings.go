@@ -14,12 +14,12 @@ import (
 func (f *Fossil) fixConfig(ctx context.Context) error {
 	// enable autosync
 	if err := f.ConfigSet(ctx, "autosync", "1"); err != nil {
-		return fmt.Errorf("failed to set fossil config autosync: %w", err)
+		return fmt.Errorf("Failed to set fossil config autosync: %w", err)
 	}
 
 	// binary-glob
 	if err := f.ConfigSet(ctx, "binary-glob", "*.age,*.gpg"); err != nil {
-		return fmt.Errorf("failed to set fossil config binary-glob: %w", err)
+		return fmt.Errorf("Failed to set fossil config binary-glob: %w", err)
 	}
 
 	return nil
@@ -29,7 +29,7 @@ func (f *Fossil) fixConfig(ctx context.Context) error {
 func (f *Fossil) InitConfig(ctx context.Context, _, _ string) error {
 	// ensure a sane fossil config.
 	if err := f.fixConfig(ctx); err != nil {
-		return fmt.Errorf("failed to fix fossil config: %w", err)
+		return fmt.Errorf("Failed to fix fossil config: %w", err)
 	}
 
 	return nil

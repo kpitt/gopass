@@ -30,7 +30,7 @@ func Init(ctx context.Context, alias, path string) (*Store, error) {
 
 	st, err := backend.InitStorage(ctx, backend.GetStorageBackend(ctx), path)
 	if err != nil {
-		return nil, fmt.Errorf("failed to initialize storage for %s at %s: %w", alias, path, err)
+		return nil, fmt.Errorf("Failed to initialize storage for %s at %s: %w", alias, path, err)
 	}
 
 	s.storage = st
@@ -38,7 +38,7 @@ func Init(ctx context.Context, alias, path string) (*Store, error) {
 
 	crypto, err := backend.NewCrypto(ctx, backend.GetCryptoBackend(ctx))
 	if err != nil {
-		return nil, fmt.Errorf("failed to initialize crypto for %s at %s: %w", alias, path, err)
+		return nil, fmt.Errorf("Failed to initialize crypto for %s at %s: %w", alias, path, err)
 	}
 
 	s.crypto = crypto
@@ -58,14 +58,14 @@ func New(ctx context.Context, alias, path string) (*Store, error) {
 
 	// init storage and rcs backend
 	if err := s.initStorageBackend(ctx); err != nil {
-		return nil, fmt.Errorf("failed to init storage backend: %w", err)
+		return nil, fmt.Errorf("Failed to init storage backend: %w", err)
 	}
 
 	debug.Log("Storage for %s => %s initialized as %v", alias, path, s.storage)
 
 	// init crypto backend
 	if err := s.initCryptoBackend(ctx); err != nil {
-		return nil, fmt.Errorf("failed to init crypto backend: %w", err)
+		return nil, fmt.Errorf("Failed to init crypto backend: %w", err)
 	}
 
 	debug.Log("Crypto for %s => %s initialized as %v", alias, path, s.crypto)
@@ -159,7 +159,7 @@ func (s *Store) Exists(ctx context.Context, name string) bool {
 func (s *Store) useableKeys(ctx context.Context, name string) ([]string, error) {
 	rs, err := s.GetRecipients(ctx, name)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get recipients: %w", err)
+		return nil, fmt.Errorf("Failed to get recipients: %w", err)
 	}
 
 	if !IsCheckRecipients(ctx) {

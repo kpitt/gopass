@@ -19,7 +19,7 @@ var Prefix = "{BLF-CRYPT}"
 func Generate(password string) (string, error) {
 	h, err := bcrypt.GenerateFromPassword([]byte(password), cost)
 	if err != nil {
-		return "", fmt.Errorf("failed to generate password hash: %w", err)
+		return "", fmt.Errorf("Failed to generate password hash: %w", err)
 	}
 
 	return Prefix + string(h), nil
@@ -30,7 +30,7 @@ func Validate(password, hash string) error {
 	hash = strings.TrimPrefix(hash, Prefix)
 
 	if err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password)); err != nil {
-		return fmt.Errorf("failed to validate password hash %s: %w", hash, err)
+		return fmt.Errorf("Failed to validate password hash %s: %w", hash, err)
 	}
 
 	return nil

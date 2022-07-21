@@ -94,11 +94,11 @@ func (g *GPG) FormatKey(ctx context.Context, id, tpl string) string {
 func (g *GPG) ReadNamesFromKey(ctx context.Context, buf []byte) ([]string, error) {
 	el, err := openpgp.ReadArmoredKeyRing(bytes.NewReader(buf))
 	if err != nil {
-		return nil, fmt.Errorf("failed to read key ring: %w", err)
+		return nil, fmt.Errorf("Failed to read key ring: %w", err)
 	}
 
 	if len(el) != 1 {
-		return nil, fmt.Errorf("public Key must contain exactly one Entity")
+		return nil, fmt.Errorf("Public key must contain exactly one entity")
 	}
 
 	names := make([]string, 0, len(el[0].Identities))
@@ -112,7 +112,7 @@ func (g *GPG) ReadNamesFromKey(ctx context.Context, buf []byte) ([]string, error
 // ImportPublicKey will import a key from the given location into the keyring.
 func (g *GPG) ImportPublicKey(ctx context.Context, buf []byte) error {
 	if len(buf) < 1 {
-		return fmt.Errorf("empty input")
+		return fmt.Errorf("Empty input")
 	}
 
 	args := append(g.args, "--import")
@@ -123,7 +123,7 @@ func (g *GPG) ImportPublicKey(ctx context.Context, buf []byte) error {
 
 	debug.Log("gpg.ImportPublicKey: %s %+v", cmd.Path, cmd.Args)
 	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to run command: '%s %+v': %w", cmd.Path, cmd.Args, err)
+		return fmt.Errorf("Failed to run command: '%s %+v': %w", cmd.Path, cmd.Args, err)
 	}
 
 	// clear key cache
@@ -136,7 +136,7 @@ func (g *GPG) ImportPublicKey(ctx context.Context, buf []byte) error {
 // ExportPublicKey will export the named public key to the location given.
 func (g *GPG) ExportPublicKey(ctx context.Context, id string) ([]byte, error) {
 	if id == "" {
-		return nil, fmt.Errorf("id is empty")
+		return nil, fmt.Errorf("ID is empty")
 	}
 
 	args := append(g.args, "--armor", "--export", id)
@@ -145,11 +145,11 @@ func (g *GPG) ExportPublicKey(ctx context.Context, id string) ([]byte, error) {
 	debug.Log("%s %+v", cmd.Path, cmd.Args)
 	out, err := cmd.Output()
 	if err != nil {
-		return nil, fmt.Errorf("failed to run command '%s %+v': %w", cmd.Path, cmd.Args, err)
+		return nil, fmt.Errorf("Failed to run command '%s %+v': %w", cmd.Path, cmd.Args, err)
 	}
 
 	if len(out) < 1 {
-		return nil, fmt.Errorf("key not found")
+		return nil, fmt.Errorf("Key not found")
 	}
 
 	return out, nil

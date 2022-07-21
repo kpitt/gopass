@@ -41,7 +41,7 @@ func (l loader) Init(ctx context.Context, path string) (backend.Storage, error) 
 
 func (l loader) Handles(ctx context.Context, path string) error {
 	if !fsutil.IsDir(filepath.Join(path, ".git")) {
-		return fmt.Errorf("no .git")
+		return fmt.Errorf("No .git directory")
 	}
 
 	return nil

@@ -45,7 +45,7 @@ func (r *Store) move(ctx context.Context, from, to string, del bool) error {
 	dstIsDir := r.IsDir(ctx, to)
 
 	if srcIsDir && r.Exists(ctx, to) && !dstIsDir {
-		return fmt.Errorf("destination is a file")
+		return fmt.Errorf("Destination is a file")
 	}
 
 	if err := r.moveFromTo(ctx, subFrom, from, to, fromPrefix, srcIsDir, dstIsDir, del); err != nil {
@@ -59,7 +59,7 @@ func (r *Store) move(ctx context.Context, from, to string, del bool) error {
 		case errors.Is(err, store.ErrGitNothingToCommit):
 			debug.Log("skipping git commit - nothing to commit in %s", subFrom.Alias())
 		default:
-			return fmt.Errorf("failed to commit changes to git (%s): %w", subFrom.Alias(), err)
+			return fmt.Errorf("Failed to commit changes to git (%s): %w", subFrom.Alias(), err)
 		}
 	}
 
@@ -71,7 +71,7 @@ func (r *Store) move(ctx context.Context, from, to string, del bool) error {
 			case errors.Is(err, store.ErrGitNothingToCommit):
 				debug.Log("skipping git commit - nothing to commit in %s", subTo.Alias())
 			default:
-				return fmt.Errorf("failed to commit changes to git (%s): %w", subTo.Alias(), err)
+				return fmt.Errorf("Failed to commit changes to git (%s): %w", subTo.Alias(), err)
 			}
 		}
 	}
@@ -93,7 +93,7 @@ func (r *Store) move(ctx context.Context, from, to string, del bool) error {
 			return nil
 		}
 
-		return fmt.Errorf("failed to push change to git remote: %w", err)
+		return fmt.Errorf("Failed to push change to git remote: %w", err)
 	}
 
 	if subFrom.Equals(subTo) {
@@ -117,7 +117,7 @@ func (r *Store) move(ctx context.Context, from, to string, del bool) error {
 			return nil
 		}
 
-		return fmt.Errorf("failed to push change to git remote: %w", err)
+		return fmt.Errorf("Failed to push change to git remote: %w", err)
 	}
 
 	return nil
@@ -141,7 +141,7 @@ func (r *Store) moveFromTo(ctx context.Context, subFrom *leaf.Store, from, to, f
 	if len(entries) < 1 {
 		debug.Log("Subtree %q has no entries", from)
 
-		return fmt.Errorf("no entries")
+		return fmt.Errorf("No entries")
 	}
 
 	debug.Log("Moving (sub) tree %q to %q (entries: %+v)", from, to, entries)
@@ -168,18 +168,18 @@ func (r *Store) moveFromTo(ctx context.Context, subFrom *leaf.Store, from, to, f
 
 		content, err := r.Get(ctx, src)
 		if err != nil {
-			return fmt.Errorf("source %s does not exist in source store %s: %w", from, subFrom.Alias(), err)
+			return fmt.Errorf("Source %s does not exist in store %s: %w", from, subFrom.Alias(), err)
 		}
 
 		if err := r.Set(ctxutil.WithCommitMessage(ctx, fmt.Sprintf("Move from %s to %s", src, dst)), dst, content); err != nil {
-			return fmt.Errorf("failed to save secret %q: %w", to, err)
+			return fmt.Errorf("Failed to save secret %q: %w", to, err)
 		}
 
 		if del {
 			debug.Log("Deleting moved entry %q from source %q", from, src)
 
 			if err := r.Delete(ctx, src); err != nil {
-				return fmt.Errorf("failed to delete secret %q: %w", src, err)
+				return fmt.Errorf("Failed to delete secret %q: %w", src, err)
 			}
 		}
 
@@ -187,7 +187,7 @@ func (r *Store) moveFromTo(ctx context.Context, subFrom *leaf.Store, from, to, f
 	}
 
 	if moved < 1 {
-		return fmt.Errorf("no entries moved")
+		return fmt.Errorf("No entries moved")
 	}
 
 	debug.Log("Moved (sub) tree %q to %q", from, to)
@@ -220,12 +220,12 @@ func (r *Store) directMove(ctx context.Context, from, to string, del bool) error
 	dfn := filepath.Join(subTo.Path(), subTo.Passfile(to))
 
 	if err := fsutil.CopyFile(sfn, dfn); err != nil {
-		return fmt.Errorf("failed to copy %q to %q: %w", from, to, err)
+		return fmt.Errorf("Failed to copy %q to %q: %w", from, to, err)
 	}
 
 	if del {
 		if err := os.Remove(sfn); err != nil {
-			return fmt.Errorf("failed to delete %q from %s: %w", sfn, subFrom.Alias(), err)
+			return fmt.Errorf("Failed to delete %q from %s: %w", sfn, subFrom.Alias(), err)
 		}
 	}
 
@@ -283,7 +283,7 @@ func computeMoveDestination(src, from, to string, srcIsDir, dstIsDir bool) strin
 func (r *Store) Delete(ctx context.Context, name string) error {
 	store, sn := r.getStore(name)
 	if sn == "" {
-		return fmt.Errorf("can not delete a mount point. Use `gopass mounts remove %s`", store.Alias())
+		return fmt.Errorf("Cannot delete a mount point. Use `gopass mounts remove %s`", store.Alias())
 	}
 
 	return store.Delete(ctx, sn)
@@ -293,7 +293,7 @@ func (r *Store) Delete(ctx context.Context, name string) error {
 func (r *Store) Prune(ctx context.Context, tree string) error {
 	for mp := range r.mounts {
 		if strings.HasPrefix(mp, tree) {
-			return fmt.Errorf("can not prune subtree with mounts. Unmount first: `gopass mounts remove %s`", mp)
+			return fmt.Errorf("Cannot prune a subtree with mounts. Unmount first: `gopass mounts remove %s`", mp)
 		}
 	}
 

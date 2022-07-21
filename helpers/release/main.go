@@ -55,7 +55,7 @@ func getVersion() semver.Version {
 
 func main() {
 	fmt.Println("🌟 Preparing a new gopass release.")
-	fmt.Println("☝  Checking pre-conditions ...")
+	fmt.Println("☝  Checking pre-conditions...")
 	// - check that workdir is clean
 	if !isGitClean() {
 		panic("❌ git is dirty")
@@ -85,7 +85,7 @@ func main() {
 	fmt.Println()
 	fmt.Printf("✅ New version will be: %s\n", nextVer.String())
 	fmt.Println()
-	fmt.Println("❓ Do you want to continue? (press any key to continue or Ctrl+C to abort)")
+	fmt.Println("Press any key to continue, or Ctrl+C to abort:")
 	fmt.Scanln()
 
 	// - update VERSION
@@ -147,7 +147,7 @@ func main() {
 	time.Sleep(sleep)
 	fmt.Println()
 
-	fmt.Println("💎🙌 Done 🚀🚀🚀🚀🚀🚀")
+	fmt.Println("💎🙌 Done")
 }
 
 func getVersions() (semver.Version, semver.Version) {
@@ -347,7 +347,7 @@ func gitVersion() (semver.Version, error) {
 	}
 	lines := strings.Split(strings.TrimSpace(string(buf)), "\n")
 	if len(lines) < 1 {
-		return semver.Version{}, fmt.Errorf("no output")
+		return semver.Version{}, fmt.Errorf("No output")
 	}
 	return semver.Parse(strings.TrimPrefix(lines[len(lines)-1], "v"))
 }
@@ -365,7 +365,7 @@ func changelogEntries(since semver.Version) ([]string, error) {
 	}
 	buf, err := exec.Command("git", args...).CombinedOutput()
 	if err != nil {
-		return nil, fmt.Errorf("failed to run git %+v with error %w: %s", args, err, string(buf))
+		return nil, fmt.Errorf("Failed to run git %+v with error %w: %s", args, err, string(buf))
 	}
 
 	notes := make([]string, 0, 10)

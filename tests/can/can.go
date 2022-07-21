@@ -53,15 +53,15 @@ func WriteTo(path string) error {
 		to := filepath.Join(path, fe.Name())
 		buf, err := can.ReadFile(from)
 		if err != nil {
-			return fmt.Errorf("failed to read %s: %w", from, err)
+			return fmt.Errorf("Failed to read %s: %w", from, err)
 		}
 
 		if err := os.MkdirAll(filepath.Dir(to), 0o700); err != nil {
-			return fmt.Errorf("failed to create dir %s: %w", filepath.Dir(to), err)
+			return fmt.Errorf("Failed to create dir %s: %w", filepath.Dir(to), err)
 		}
 
 		if err := os.WriteFile(to, buf, 0o600); err != nil {
-			return fmt.Errorf("failed to write %s: %w", to, err)
+			return fmt.Errorf("Failed to write %s: %w", to, err)
 		}
 	}
 

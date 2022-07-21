@@ -10,7 +10,7 @@ import (
 )
 
 // ErrNotInit is returned when the file is not initialized.
-var ErrNotInit = fmt.Errorf("not initialized")
+var ErrNotInit = fmt.Errorf("Not initialized")
 
 // globalPrefix is prefixed to all temporary dirs.
 var globalPrefix string
@@ -26,7 +26,7 @@ type File struct {
 func New(ctx context.Context, prefix string) (*File, error) {
 	td, err := os.MkdirTemp(tempdirBase(), globalPrefix+prefix)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create tempdir: %w", err)
+		return nil, fmt.Errorf("Failed to create tempdir: %w", err)
 	}
 
 	tf := &File{
@@ -36,14 +36,14 @@ func New(ctx context.Context, prefix string) (*File, error) {
 	if err := tf.mount(ctx); err != nil {
 		_ = os.RemoveAll(tf.dir)
 
-		return nil, fmt.Errorf("failed to mount %s: %w", tf.dir, err)
+		return nil, fmt.Errorf("Failed to mount %s: %w", tf.dir, err)
 	}
 
 	fn := filepath.Join(tf.dir, "secret")
 
 	fh, err := os.OpenFile(fn, os.O_CREATE|os.O_EXCL|os.O_WRONLY, 0o600)
 	if err != nil {
-		return nil, fmt.Errorf("failed to open file %s: %w", fn, err)
+		return nil, fmt.Errorf("Failed to open file %s: %w", fn, err)
 	}
 
 	tf.fh = fh
@@ -83,7 +83,7 @@ func (t *File) Remove(ctx context.Context) error {
 	_ = t.Close()
 
 	if err := t.unmount(ctx); err != nil {
-		return fmt.Errorf("failed to unmount %s from %s: %w", t.dev, t.dir, err)
+		return fmt.Errorf("Failed to unmount %s from %s: %w", t.dev, t.dir, err)
 	}
 
 	if t.dir == "" {
@@ -91,7 +91,7 @@ func (t *File) Remove(ctx context.Context) error {
 	}
 
 	if err := os.RemoveAll(t.dir); err != nil {
-		return fmt.Errorf("failed to remove %s: %w", t.dir, err)
+		return fmt.Errorf("Failed to remove %s: %w", t.dir, err)
 	}
 
 	return nil

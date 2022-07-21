@@ -42,7 +42,7 @@ func tryDownload(ctx context.Context, url string) ([]byte, error) {
 	return buf, backoff.Retry(func() error {
 		select {
 		case <-ctx.Done():
-			return backoff.Permanent(fmt.Errorf("user aborted"))
+			return backoff.Permanent(fmt.Errorf("User aborted"))
 		default:
 		}
 		d, err := download(ctx, url)
@@ -57,7 +57,7 @@ func tryDownload(ctx context.Context, url string) ([]byte, error) {
 func download(ctx context.Context, url string) ([]byte, error) {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create request: %w", err)
+		return nil, fmt.Errorf("Failed to create request: %w", err)
 	}
 
 	// we want binary data, please
@@ -67,7 +67,7 @@ func download(ctx context.Context, url string) ([]byte, error) {
 
 	resp, err := ctxhttp.Do(ctx, httpClient, req)
 	if err != nil {
-		return nil, fmt.Errorf("failed to download %s: %w", url, err)
+		return nil, fmt.Errorf("Failed to download %s: %w", url, err)
 	}
 
 	var body io.ReadCloser
@@ -84,7 +84,7 @@ func download(ctx context.Context, url string) ([]byte, error) {
 
 	count, err := io.Copy(buf, body)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read response body: %w", err)
+		return nil, fmt.Errorf("Failed to read response body: %w", err)
 	}
 
 	bar.Set(resp.ContentLength)

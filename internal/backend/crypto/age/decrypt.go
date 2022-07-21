@@ -36,11 +36,11 @@ func (a *Age) decrypt(ciphertext []byte, ids ...age.Identity) ([]byte, error) {
 	f := bytes.NewReader(ciphertext)
 	r, err := age.Decrypt(f, ids...)
 	if err != nil {
-		return nil, fmt.Errorf("failed to decrypt: %w", err)
+		return nil, fmt.Errorf("Failed to decrypt: %w", err)
 	}
 	n, err := io.Copy(out, r)
 	if err != nil {
-		return nil, fmt.Errorf("failed to write plaintext to buffer: %w", err)
+		return nil, fmt.Errorf("Failed to write plaintext to buffer: %w", err)
 	}
 	debug.Log("Decrypted %d bytes of ciphertext to %d bytes of plaintext", len(ciphertext), n)
 

@@ -59,7 +59,7 @@ func loadCustomAliases() error {
 
 	fh, err := os.Open(fn)
 	if err != nil {
-		return fmt.Errorf("failed to open %s for reading: %w", fn, err)
+		return fmt.Errorf("Failed to open %s for reading: %w", fn, err)
 	}
 
 	defer func() {
@@ -67,7 +67,7 @@ func loadCustomAliases() error {
 	}()
 
 	if err := json.NewDecoder(fh).Decode(&customAliases); err != nil {
-		return fmt.Errorf("failed to decode custom aliases: %w", err)
+		return fmt.Errorf("Failed to decode custom aliases: %w", err)
 	}
 
 	return nil
@@ -78,12 +78,12 @@ func saveCustomAliases() error {
 
 	dir := filepath.Dir(fn)
 	if err := os.MkdirAll(dir, 0o700); err != nil {
-		return fmt.Errorf("failed to create directory %s: %w", dir, err)
+		return fmt.Errorf("Failed to create directory %s: %w", dir, err)
 	}
 
 	fh, err := os.OpenFile(fn, os.O_WRONLY|os.O_CREATE, 0o600)
 	if err != nil {
-		return fmt.Errorf("failed to open %s for writing: %w", fn, err)
+		return fmt.Errorf("Failed to open %s for writing: %w", fn, err)
 	}
 
 	defer func() {
@@ -91,7 +91,7 @@ func saveCustomAliases() error {
 	}()
 
 	if err := json.NewEncoder(fh).Encode(customAliases); err != nil {
-		return fmt.Errorf("failed to encode custom aliases: %w", err)
+		return fmt.Errorf("Failed to encode custom aliases: %w", err)
 	}
 
 	return nil

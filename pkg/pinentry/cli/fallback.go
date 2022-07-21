@@ -31,11 +31,11 @@ func (c *Client) Option(string) error {
 	return nil
 }
 
-// GetPIN prompts for the pin in the termnial and returns the output.
+// GetPIN prompts for the pin in the terminal and returns the output.
 func (c *Client) GetPIN() (string, error) {
 	pw, err := termio.AskForPassword(context.TODO(), "your PIN", c.repeat)
 	if err != nil {
-		return "", fmt.Errorf("failed to ask for PIN: %w", err)
+		return "", fmt.Errorf("Failed to ask for PIN: %w", err)
 	}
 
 	return pw, nil

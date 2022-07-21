@@ -17,14 +17,14 @@ import (
 // Set encodes and writes the cipertext of one entry to disk.
 func (s *Store) Set(ctx context.Context, name string, sec gopass.Byter) error {
 	if strings.Contains(name, "//") {
-		return fmt.Errorf("invalid secret name: %s", name)
+		return fmt.Errorf("Invalid secret name: %s", name)
 	}
 
 	p := s.Passfile(name)
 
 	recipients, err := s.useableKeys(ctx, name)
 	if err != nil {
-		return fmt.Errorf("failed to list useable keys for %q: %w", p, err)
+		return fmt.Errorf("Failed to list useable keys for %q: %w", p, err)
 	}
 
 	// make sure the encryptor can decrypt later
@@ -38,7 +38,7 @@ func (s *Store) Set(ctx context.Context, name string, sec gopass.Byter) error {
 	}
 
 	if err := s.storage.Set(ctx, p, ciphertext); err != nil {
-		return fmt.Errorf("failed to write secret: %w", err)
+		return fmt.Errorf("Failed to write secret: %w", err)
 	}
 
 	// It is not possible to perform concurrent git add and git commit commands
@@ -55,7 +55,7 @@ func (s *Store) Set(ctx context.Context, name string, sec gopass.Byter) error {
 			return nil
 		}
 
-		return fmt.Errorf("failed to add %q to git: %w", p, err)
+		return fmt.Errorf("Failed to add %q to git: %w", p, err)
 	}
 
 	if !ctxutil.IsGitCommit(ctx) {
@@ -79,7 +79,7 @@ func (s *Store) gitCommitAndPush(ctx context.Context, name string) error {
 		case errors.Is(err, store.ErrGitNothingToCommit):
 			debug.Log("commitAndPush - skipping git commit - nothing to commit")
 		default:
-			return fmt.Errorf("failed to commit changes to git: %w", err)
+			return fmt.Errorf("Failed to commit changes to git: %w", err)
 		}
 	}
 
@@ -102,7 +102,7 @@ func (s *Store) gitCommitAndPush(ctx context.Context, name string) error {
 			return nil
 		}
 
-		return fmt.Errorf("failed to push to git remote: %w", err)
+		return fmt.Errorf("Failed to push to git remote: %w", err)
 	}
 
 	debug.Log("synced with remote")

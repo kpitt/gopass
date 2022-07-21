@@ -16,11 +16,11 @@ import (
 // UpdateMoveAfterQuit is exported for testing.
 var UpdateMoveAfterQuit = true
 
-// Update will start th interactive update assistant.
+// Update will start the interactive update assistant.
 //nolint:goerr113
 func Update(ctx context.Context, currentVersion semver.Version) error {
 	if err := IsUpdateable(ctx); err != nil {
-		out.Errorf(ctx, "Your gopass binary is externally managed. Can not update: %q", err)
+		out.Errorf(ctx, "Your gopass binary is externally managed. Cannot update: %q", err)
 
 		return err
 	}
@@ -45,14 +45,14 @@ func Update(ctx context.Context, currentVersion semver.Version) error {
 		}
 	}
 
-	debug.Log("downloading SHA256SUMS ...")
+	debug.Log("downloading SHA256SUMS...")
 
 	_, sha256sums, err := downloadAsset(ctx, rel.Assets, "SHA256SUMS")
 	if err != nil {
 		return err
 	}
 
-	debug.Log("downloading SHA256SUMS.sig ...")
+	debug.Log("downloading SHA256SUMS.sig...")
 
 	_, sig, err := downloadAsset(ctx, rel.Assets, "SHA256SUMS.sig")
 	if err != nil {
@@ -63,7 +63,7 @@ func Update(ctx context.Context, currentVersion semver.Version) error {
 
 	ok, err := gpgVerify(sha256sums, sig)
 	if err != nil {
-		return fmt.Errorf("signature verification failed: %w", err)
+		return fmt.Errorf("Signature verification failed: %w", err)
 	}
 
 	if !ok {

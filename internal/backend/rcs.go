@@ -59,5 +59,5 @@ func Clone(ctx context.Context, id StorageBackend, repo, path string) (Storage, 
 		return be.Clone(ctx, repo, path)
 	}
 
-	return nil, fmt.Errorf("unknown backend %d: %w", id, ErrNotFound)
+	return nil, fmt.Errorf("Unknown backend %d: %w", id, ErrNotFound)
 }

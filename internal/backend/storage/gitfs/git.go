@@ -70,7 +70,7 @@ func Clone(ctx context.Context, repo, path, userName, userEmail string) (*Git, e
 
 	// initialize the local git config.
 	if err := g.InitConfig(ctx, userName, userEmail); err != nil {
-		return g, fmt.Errorf("failed to configure git: %w", err)
+		return g, fmt.Errorf("Failed to configure git: %w", err)
 	}
 	out.Printf(ctx, "git configured at %s", g.fs.Path())
 
@@ -86,7 +86,7 @@ func Init(ctx context.Context, path, userName, userEmail string) (*Git, error) {
 	// or already initialized. Only run git init if the folder is completely empty.
 	if !g.IsInitialized() {
 		if err := g.Cmd(ctx, "Init", "init"); err != nil {
-			return nil, fmt.Errorf("failed to initialize git: %w", err)
+			return nil, fmt.Errorf("Failed to initialize git: %w", err)
 		}
 		out.Printf(ctx, "git initialized at %s", g.fs.Path())
 	}
@@ -97,13 +97,13 @@ func Init(ctx context.Context, path, userName, userEmail string) (*Git, error) {
 
 	// initialize the local git config.
 	if err := g.InitConfig(ctx, userName, userEmail); err != nil {
-		return g, fmt.Errorf("failed to configure git: %w", err)
+		return g, fmt.Errorf("Failed to configure git: %w", err)
 	}
 	out.Printf(ctx, "git configured at %s", g.fs.Path())
 
 	// add current content of the store.
 	if err := g.Add(ctx, g.fs.Path()); err != nil {
-		return g, fmt.Errorf("failed to add %q to git: %w", g.fs.Path(), err)
+		return g, fmt.Errorf("Failed to add %q to git: %w", g.fs.Path(), err)
 	}
 
 	// commit if there is something to commit.
@@ -114,7 +114,7 @@ func Init(ctx context.Context, path, userName, userEmail string) (*Git, error) {
 	}
 
 	if err := g.Commit(ctx, "Add current content of password store"); err != nil {
-		return g, fmt.Errorf("failed to commit changes to git: %w", err)
+		return g, fmt.Errorf("Failed to commit changes to git: %w", err)
 	}
 
 	return g, nil

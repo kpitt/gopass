@@ -48,14 +48,14 @@ func main() {
 	}
 
 	// update gopass.pw
-	fmt.Println("☝  Updating gopass.pw ...")
+	fmt.Println("☝  Updating gopass.pw...")
 	if err := updateGopasspw(htmlDir, curVer); err != nil {
 		fmt.Printf("Failed to update gopasspw.github.io: %s\n", err)
 	}
 
 	// only update gopasspw
 	if len(os.Args) > 1 && os.Args[1] == "render" {
-		fmt.Println("💎🙌 Done (render gopasspw only) 🚀🚀🚀🚀🚀🚀")
+		fmt.Println("💎🙌 Done (render gopasspw only)")
 
 		return
 	}
@@ -72,11 +72,11 @@ func main() {
 	fmt.Printf("✅ New version milestone will be: %s\n", nextVer.String())
 	fmt.Printf("✅ Expecting HTML in: %s\n", htmlDir)
 	fmt.Println()
-	fmt.Println("❓ Do you want to continue? (press any key to continue or Ctrl+C to abort)")
+	fmt.Println("Press any key to continue, or Ctrl+C to abort:")
 	fmt.Scanln()
 
 	// create a new GitHub milestone
-	fmt.Println("☝  Creating new GitHub Milestone(s) ...")
+	fmt.Println("☝  Creating new GitHub Milestone(s)...")
 	if err := ghCl.createMilestones(ctx, nextVer); err != nil {
 		fmt.Printf("Failed to create GitHub milestones: %s\n", err)
 	}
@@ -89,7 +89,7 @@ func main() {
 		upd.update(ctx)
 	}
 
-	fmt.Println("💎🙌 Done 🚀🚀🚀🚀🚀🚀")
+	fmt.Println("💎🙌 Done")
 }
 
 func mustCheckEnv() {
@@ -197,7 +197,7 @@ func gitCommitAndPush(dir string, v semver.Version) error {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to add index.html: %w", err)
+		return fmt.Errorf("Failed to add index.html: %w", err)
 	}
 
 	cmd = exec.Command("git", "commit", "-s", "-m", "Update to v"+v.String())
@@ -205,7 +205,7 @@ func gitCommitAndPush(dir string, v semver.Version) error {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to commit changes: %w", err)
+		return fmt.Errorf("Failed to commit changes: %w", err)
 	}
 
 	cmd = exec.Command("git", "push", "origin", "master")
@@ -213,7 +213,7 @@ func gitCommitAndPush(dir string, v semver.Version) error {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to push changes: %w", err)
+		return fmt.Errorf("Failed to push changes: %w", err)
 	}
 
 	return nil
@@ -292,7 +292,7 @@ func (u *repoUpdater) update(ctx context.Context) {
 		fmt.Println()
 		fmt.Println("------------------------------")
 		fmt.Println()
-		fmt.Printf("🌟 Updating: %s ...\n", upd.Distro)
+		fmt.Printf("🌟 Updating %s...\n", upd.Distro)
 		fmt.Println()
 		if err := upd.UpFn(ctx); err != nil {
 			fmt.Printf("❌ Updating %s failed: %s\n", upd.Distro, err)
@@ -522,7 +522,7 @@ func (r *repo) commitMsg() string {
 }
 
 func (r *repo) updatePrepare() error {
-	fmt.Println("🌟 Running prepare ...")
+	fmt.Println("🌟 Running prepare...")
 
 	// git co master
 	if err := r.gitCoMaster(); err != nil {
@@ -548,7 +548,7 @@ func (r *repo) updatePrepare() error {
 }
 
 func (r *repo) updateFinalize(path string) error {
-	fmt.Println("🌟 Running finalize ...")
+	fmt.Println("🌟 Running finalize...")
 
 	// git commit -m 'gopass: update to VER'
 	if err := r.gitCommit(path); err != nil {

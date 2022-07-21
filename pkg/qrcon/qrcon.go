@@ -15,15 +15,15 @@ const (
 	white = "\033[47m  \033[0m"
 )
 
-// ErrUnknowColor is returned when the color is unknown.
-var ErrUnknowColor = fmt.Errorf("unknown color")
+// ErrUnknownColor is returned when the color is unknown.
+var ErrUnknownColor = fmt.Errorf("Unknown color")
 
 // QRCode returns a string containing an ANSI encoded
 // QR Code.
 func QRCode(content string) (string, error) {
 	q, err := qrcode.New(content, qrcode.Medium)
 	if err != nil {
-		return "", fmt.Errorf("failed to create qr code: %w", err)
+		return "", fmt.Errorf("Failed to create QR code: %w", err)
 	}
 
 	var sb strings.Builder
@@ -41,7 +41,7 @@ func QRCode(content string) (string, error) {
 			case sameColor(col, q.BackgroundColor):
 				_, _ = sb.WriteString(white)
 			default:
-				return "", fmt.Errorf("error at (%d,%d): %+v: %w", x, y, col, ErrUnknowColor)
+				return "", fmt.Errorf("Error at (%d,%d): %+v: %w", x, y, col, ErrUnknownColor)
 			}
 		}
 

@@ -73,7 +73,7 @@ func (u GUnit) initConfig() error {
 		0o600,
 	)
 	if err != nil {
-		return fmt.Errorf("failed to write config: %w", err)
+		return fmt.Errorf("Failed to write config: %w", err)
 	}
 
 	return nil
@@ -96,14 +96,14 @@ func (u GUnit) recipients() []byte {
 func (u GUnit) InitStore(name string) error {
 	dir := u.StoreDir(name)
 	if err := os.MkdirAll(dir, 0o700); err != nil {
-		return fmt.Errorf("failed to create store dir %s: %w", dir, err)
+		return fmt.Errorf("Failed to create store dir %s: %w", dir, err)
 	}
 
 	fn := filepath.Join(dir, ".gpg-id") // gpgcli.IDFile
 	_ = os.Remove(fn)
 
 	if err := os.WriteFile(fn, u.recipients(), 0o600); err != nil {
-		return fmt.Errorf("failed to write IDFile %s: %w", fn, err)
+		return fmt.Errorf("Failed to write IDFile %s: %w", fn, err)
 	}
 
 	if err := can.WriteTo(u.GPGHome()); err != nil {
@@ -115,11 +115,11 @@ func (u GUnit) InitStore(name string) error {
 	for _, e := range el {
 		tfn := filepath.Join(dir, ".public-keys", e.PrimaryKey.KeyIdShortString())
 		if err := os.MkdirAll(filepath.Dir(tfn), 0o700); err != nil {
-			return fmt.Errorf("failed to create public-keys dir %s: %w", filepath.Dir(tfn), err)
+			return fmt.Errorf("Failed to create public-keys dir %s: %w", filepath.Dir(tfn), err)
 		}
 		fh, err := os.Create(tfn)
 		if err != nil {
-			return fmt.Errorf("failed to create public-keys file %s: %w", tfn, err)
+			return fmt.Errorf("Failed to create public-keys file %s: %w", tfn, err)
 		}
 		defer fh.Close() //nolint:errcheck
 

@@ -27,7 +27,7 @@ func AllPathsToSlash(paths []string) []string {
 func setupEnv(em map[string]string) error {
 	for k, v := range em {
 		if err := os.Setenv(k, v); err != nil {
-			return fmt.Errorf("failed to set env %s to %s: %w", k, v, err)
+			return fmt.Errorf("Failed to set env %s to %s: %w", k, v, err)
 		}
 	}
 

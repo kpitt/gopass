@@ -1000,7 +1000,7 @@ func (s *Action) GetCommands() []*cli.Command {
 		nc := bc.Commands(s.IsInitialized, func(alias string) (string, error) {
 			sub, err := s.Store.GetSubStore(alias)
 			if err != nil || sub == nil {
-				return "", fmt.Errorf("failed to get sub store for %s: %w", alias, err)
+				return "", fmt.Errorf("Failed to get sub store for %s: %w", alias, err)
 			}
 
 			return sub.Path(), nil

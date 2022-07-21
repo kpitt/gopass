@@ -52,20 +52,20 @@ You can add secondary stores with 'gopass init --path <path to secondary store> 
 	}
 
 	if len(recipients) < 1 {
-		return fmt.Errorf("failed to initialize store: no valid recipients given in %+v", ids)
+		return fmt.Errorf("Failed to initialize store: no valid recipients given in %+v", ids)
 	}
 
 	kl, err := s.crypto.FindIdentities(ctx, recipients...)
 	if err != nil {
-		return fmt.Errorf("failed to get available private keys: %w", err)
+		return fmt.Errorf("Failed to get available private keys: %w", err)
 	}
 
 	if len(kl) < 1 {
-		return fmt.Errorf("none of the recipients has a secret key. You will not be able to decrypt the secrets you add")
+		return fmt.Errorf("None of the recipients has a secret key. You will not be able to decrypt the secrets you add.")
 	}
 
 	if err := s.saveRecipients(ctx, recipients, "Initialized Store for "+strings.Join(recipients, ", ")); err != nil {
-		return fmt.Errorf("failed to initialize store: %w", err)
+		return fmt.Errorf("Failed to initialize store: %w", err)
 	}
 	out.OKf(ctx, "Wrote recipients to %s", s.idFile(ctx, ""))
 

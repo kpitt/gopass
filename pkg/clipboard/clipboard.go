@@ -18,7 +18,7 @@ var (
 	// -ldflags=='-X github.com/kpitt/gopass/pkg/clipboard.Helpers=termux-api'.
 	Helpers = "xsel or xclip"
 	// ErrNotSupported is returned when the clipboard is not accessible.
-	ErrNotSupported = fmt.Errorf("WARNING: No clipboard available. Install " + Helpers + ", provide $GOPASS_CLIPBOARD_COPY_CMD and $GOPASS_CLIPBOARD_CLEAR_CMD or use -f to print to console")
+	ErrNotSupported = fmt.Errorf("WARNING: No clipboard available. Install " + Helpers + ", provide $GOPASS_CLIPBOARD_COPY_CMD and $GOPASS_CLIPBOARD_CLEAR_CMD, or use -f to print to console.")
 )
 
 // CopyTo copies the given data to the clipboard and enqueues automatic
@@ -31,7 +31,7 @@ func CopyTo(ctx context.Context, name string, content []byte, timeout int) error
 		if err := callCommand(ctx, clipboardCopyCMD, name, content); err != nil {
 			_ = notify.Notify(ctx, "gopass - clipboard", "failed to call clipboard copy command")
 
-			return fmt.Errorf("failed to call clipboard copy command: %w", err)
+			return fmt.Errorf("Failed to call clipboard copy command: %w", err)
 		}
 	} else if clipboard.Unsupported {
 		out.Errorf(ctx, "%s", ErrNotSupported)
@@ -41,7 +41,7 @@ func CopyTo(ctx context.Context, name string, content []byte, timeout int) error
 	} else if err := copyToClipboard(ctx, content); err != nil {
 		_ = notify.Notify(ctx, "gopass - clipboard", "failed to write to clipboard")
 
-		return fmt.Errorf("failed to write to clipboard: %w", err)
+		return fmt.Errorf("Failed to write to clipboard: %w", err)
 	}
 
 	if timeout < 1 {
@@ -51,7 +51,7 @@ func CopyTo(ctx context.Context, name string, content []byte, timeout int) error
 	if err := clear(ctx, name, content, timeout); err != nil {
 		_ = notify.Notify(ctx, "gopass - clipboard", "failed to clear clipboard")
 
-		return fmt.Errorf("failed to clear clipboard: %w", err)
+		return fmt.Errorf("Failed to clear clipboard: %w", err)
 	}
 
 	out.Printf(ctx, "✔ Copied %s to clipboard. Will clear in %d seconds.", color.YellowString(name), timeout)
@@ -69,24 +69,24 @@ func callCommand(ctx context.Context, cmd string, parameter string, stdinValue [
 	}()
 
 	if err != nil {
-		return fmt.Errorf("failed to create stdin pipe: %w", err)
+		return fmt.Errorf("Failed to create stdin pipe: %w", err)
 	}
 
 	if err = clipboardProcess.Start(); err != nil {
-		return fmt.Errorf("failed to start clipboard process: %w", err)
+		return fmt.Errorf("Failed to start clipboard process: %w", err)
 	}
 
 	if _, err = stdin.Write(stdinValue); err != nil {
-		return fmt.Errorf("failed to write to STDIN: %w", err)
+		return fmt.Errorf("Failed to write to STDIN: %w", err)
 	}
 
 	// Force STDIN close before we wait for the process to finish, so we avoid deadlocks
 	if err = stdin.Close(); err != nil {
-		return fmt.Errorf("failed to close STDIN: %w", err)
+		return fmt.Errorf("Failed to close STDIN: %w", err)
 	}
 
 	if err := clipboardProcess.Wait(); err != nil {
-		return fmt.Errorf("failed to call clipboard command: %w", err)
+		return fmt.Errorf("Failed to call clipboard command: %w", err)
 	}
 
 	return nil

@@ -39,7 +39,7 @@ func (s *Store) ImportMissingPublicKeys(ctx context.Context, newrs ...string) er
 	}
 	rs, err := s.GetRecipients(ctx, "")
 	if err != nil {
-		return fmt.Errorf("failed to get recipients: %w", err)
+		return fmt.Errorf("Failed to get recipients: %w", err)
 	}
 
 	rs = append(rs, newrs...)
@@ -101,13 +101,13 @@ func (s *Store) decodePublicKey(ctx context.Context, r string) ([]string, error)
 		}
 		buf, err := s.storage.Get(ctx, filename)
 		if err != nil {
-			return nil, fmt.Errorf("unable to read Public Key %q %q: %w", r, filename, err)
+			return nil, fmt.Errorf("Unable to read public key %q %q: %w", r, filename, err)
 		}
 
 		return s.crypto.ReadNamesFromKey(ctx, buf)
 	}
 
-	return nil, fmt.Errorf("public key %q not found", r)
+	return nil, fmt.Errorf("Public key %q not found", r)
 }
 
 // export an ASCII armored public key.
@@ -121,16 +121,16 @@ func (s *Store) exportPublicKey(ctx context.Context, exp keyExporter, r string) 
 
 	pk, err := exp.ExportPublicKey(ctx, r)
 	if err != nil {
-		return "", fmt.Errorf("failed to export public key: %w", err)
+		return "", fmt.Errorf("Failed to export public key: %w", err)
 	}
 
 	// ECC keys are at least 700 byte, RSA should be a lot bigger
 	if len(pk) < 32 {
-		return "", fmt.Errorf("exported key too small")
+		return "", fmt.Errorf("Exported key too small")
 	}
 
 	if err := s.storage.Set(ctx, filename, pk); err != nil {
-		return "", fmt.Errorf("failed to write exported public key to store: %w", err)
+		return "", fmt.Errorf("Failed to write exported public key to store: %w", err)
 	}
 
 	return filename, nil
@@ -164,7 +164,7 @@ func (s *Store) importPublicKey(ctx context.Context, r string) error {
 		return im.ImportPublicKey(ctx, pk)
 	}
 
-	return fmt.Errorf("public key not found in store")
+	return fmt.Errorf("Public key not found in store")
 }
 
 type locker interface {

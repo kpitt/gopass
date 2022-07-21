@@ -16,7 +16,7 @@ import (
 var _ gopass.Secret = &KV{}
 
 // ErrMultiKey is returned when a key is found multiple times.
-var ErrMultiKey = fmt.Errorf("multiple identical keys not supported")
+var ErrMultiKey = fmt.Errorf("Multiple identical keys not supported")
 
 // NewKV creates a new KV secret.
 func NewKV() *KV {
@@ -51,7 +51,7 @@ func NewKVWithData(pw string, kvps map[string][]string, body string, converted b
 // ------
 // Line | Description
 // ---- | -----------
-//    0 | Password. Must contain the "password" or be empty. Can not be omitted.
+//    0 | Password. Must contain the "password" or be empty. Cannot be omitted.
 //  1-n | Key-Value pairs, e.g. "key: value". Can be omitted but the secret
 //      | might get parsed as a "Plain" secret if zero key-value pairs are found.
 //  n+1 | Body. Can contain any number of characters that will be parsed as
@@ -148,7 +148,7 @@ func (k *KV) Values(key string) ([]string, bool) {
 func (k *KV) Set(key string, value any) error {
 	key = strings.ToLower(key)
 	if v, ok := k.data[key]; ok && len(v) > 1 {
-		return fmt.Errorf("cannot set key %s: this entry contains multiple same keys. Please use 'gopass edit' instead: %w", key, ErrMultiKey)
+        return fmt.Errorf("Cannot set key %s: This entry contains duplicate keys. Please use 'gopass edit' instead: %w", key, ErrMultiKey)
 	}
 
 	k.data[key] = []string{fmt.Sprintf("%s", value)}
@@ -197,7 +197,7 @@ func ParseKV(in []byte) (*KV, error) {
 
 	line, err := r.ReadString('\n')
 	if err != nil {
-		return nil, fmt.Errorf("failed to read line: %w", err)
+		return nil, fmt.Errorf("Failed to read line: %w", err)
 	}
 
 	k.password = strings.TrimRight(line, "\n")
@@ -211,7 +211,7 @@ func ParseKV(in []byte) (*KV, error) {
 				break
 			}
 
-			return nil, fmt.Errorf("failed to read line: %w", err)
+			return nil, fmt.Errorf("Failed to read line: %w", err)
 		}
 		// append non KV pairs to the body
 		if !strings.Contains(line, ":") {

@@ -105,7 +105,7 @@ func checkOverflow(m map[string]any) error {
 	keys := maps.Keys(m)
 	sort.Strings(keys)
 
-	return fmt.Errorf("unknown fields: %+v", keys)
+	return fmt.Errorf("Unknown fields: %+v", keys)
 }
 
 type configer interface {
@@ -201,19 +201,19 @@ func decode(buf []byte, relaxed bool) (*Config, error) {
 func (c *Config) Save() error {
 	buf, err := yaml.Marshal(c)
 	if err != nil {
-		return fmt.Errorf("failed to marshal YAML: %w", err)
+		return fmt.Errorf("Failed to marshal YAML: %w", err)
 	}
 
 	cfgLoc := configLocation()
 	cfgDir := filepath.Dir(cfgLoc)
 	if !fsutil.IsDir(cfgDir) {
 		if err := os.MkdirAll(cfgDir, 0o700); err != nil {
-			return fmt.Errorf("failed to create dir %q: %w", cfgDir, err)
+			return fmt.Errorf("Failed to create dir %q: %w", cfgDir, err)
 		}
 	}
 
 	if err := os.WriteFile(cfgLoc, buf, 0o600); err != nil {
-		return fmt.Errorf("failed to write config file to %q: %w", cfgLoc, err)
+		return fmt.Errorf("Failed to write config file to %q: %w", cfgLoc, err)
 	}
 	debug.Log("Saved config to %s: %+v\n", cfgLoc, c)
 

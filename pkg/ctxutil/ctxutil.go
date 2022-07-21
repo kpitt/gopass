@@ -38,7 +38,7 @@ const (
 )
 
 // ErrNoCallback is returned when no callback is set in the context.
-var ErrNoCallback = fmt.Errorf("no callback")
+var ErrNoCallback = fmt.Errorf("No callback")
 
 // WithGlobalFlags parses any global flags from the cli context and returns
 // a regular context.

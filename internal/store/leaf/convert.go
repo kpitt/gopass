@@ -30,7 +30,7 @@ func (s *Store) Convert(ctx context.Context, cryptoBe backend.CryptoBackend, sto
 	// remove any previous attempts
 	if pDir := filepath.Join(filepath.Dir(s.path), filepath.Base(s.path)+"-autoconvert"); fsutil.IsDir(pDir) {
 		if err := os.RemoveAll(pDir); err != nil {
-			return fmt.Errorf("failed to remove previous attempt %q: %w", pDir, err)
+			return fmt.Errorf("Failed to remove previous attempt %q: %w", pDir, err)
 		}
 	}
 
@@ -80,7 +80,7 @@ func (s *Store) Convert(ctx context.Context, cryptoBe backend.CryptoBackend, sto
 		return err
 	}
 
-	out.Printf(ctx, "Converting store ...")
+	out.Printf(ctx, "Converting store...")
 	bar := termio.NewProgressBar(int64(len(entries)))
 	bar.Hidden = ctxutil.IsHidden(ctx)
 	if !ctxutil.IsTerminal(ctx) || ctxutil.IsHidden(ctx) {

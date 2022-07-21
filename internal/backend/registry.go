@@ -15,7 +15,7 @@ var (
 	StorageRegistry = NewRegistry[StorageBackend, StorageLoader]()
 
 	// ErrNotFound is returned if the requested backend was not found.
-	ErrNotFound = fmt.Errorf("backend not found")
+	ErrNotFound = fmt.Errorf("Backend not found")
 )
 
 // Prioritized is the interface for prioritized items.

@@ -35,7 +35,7 @@ type Fossil struct {
 func New(path string) (*Fossil, error) {
 	marker := filepath.Join(path, CheckoutMarker)
 	if !fsutil.IsFile(marker) {
-		return nil, fmt.Errorf("no fossil checkout marker found at %s", marker)
+		return nil, fmt.Errorf("No fossil checkout marker found at %s", marker)
 	}
 
 	return &Fossil{
@@ -64,7 +64,7 @@ func Clone(ctx context.Context, repo, path string) (*Fossil, error) {
 
 	// initialize the local fossil config.
 	if err := f.InitConfig(ctx, "", ""); err != nil {
-		return f, fmt.Errorf("failed to configure git: %w", err)
+		return f, fmt.Errorf("Failed to configure fossil: %w", err)
 	}
 
 	out.Printf(ctx, "fossil configured at %s", f.fs.Path())
@@ -82,11 +82,11 @@ func Init(ctx context.Context, path, _, _ string) (*Fossil, error) {
 	if !f.IsInitialized() {
 		repo := filepath.Join(filepath.Dir(path), "."+filepath.Base(path)+".fossil")
 		if err := f.Cmd(ctx, "Init", "init", repo); err != nil {
-			return nil, fmt.Errorf("failed to initialize fossil in %s: %w", repo, err)
+			return nil, fmt.Errorf("Failed to initialize fossil in %s: %w", repo, err)
 		}
 
 		if err := f.Cmd(ctx, "Open", "open", repo); err != nil {
-			return nil, fmt.Errorf("failed to open fossil in %s: %w", repo, err)
+			return nil, fmt.Errorf("Failed to open fossil in %s: %w", repo, err)
 		}
 
 		out.Printf(ctx, "fossil initialized at %s", f.fs.Path())
@@ -99,14 +99,14 @@ func Init(ctx context.Context, path, _, _ string) (*Fossil, error) {
 
 	// initialize the local fossil config.
 	if err := f.InitConfig(ctx, "", ""); err != nil {
-		return f, fmt.Errorf("failed to configure fossil: %w", err)
+		return f, fmt.Errorf("Failed to configure fossil: %w", err)
 	}
 
 	out.Printf(ctx, "fossil configured at %s", f.fs.Path())
 
 	// add current content of the store.
 	if err := f.Add(ctx, f.fs.Path()); err != nil {
-		return f, fmt.Errorf("failed to add %q to fossil: %w", f.fs.Path(), err)
+		return f, fmt.Errorf("Failed to add %q to fossil: %w", f.fs.Path(), err)
 	}
 
 	// commit if there is something to commit.
@@ -117,7 +117,7 @@ func Init(ctx context.Context, path, _, _ string) (*Fossil, error) {
 	}
 
 	if err := f.Commit(ctx, "Add current content of password store"); err != nil {
-		return f, fmt.Errorf("failed to commit changes to fossil: %w", err)
+		return f, fmt.Errorf("Failed to commit changes to fossil: %w", err)
 	}
 
 	return f, nil

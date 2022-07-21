@@ -12,7 +12,7 @@ import (
 )
 
 // ErrMaxTries is returned when the maximum number of tries is reached.
-var ErrMaxTries = fmt.Errorf("maximum tries exceeded")
+var ErrMaxTries = fmt.Errorf("Maximum tries exceeded")
 
 // Character classes.
 const (
@@ -62,7 +62,7 @@ func GeneratePasswordWithAllClasses(length int, symbols bool) (string, error) {
 		return pw, nil
 	}
 
-	return "", fmt.Errorf("failed to generate matching password after %d rounds: %w", c.MaxTries, ErrMaxTries)
+	return "", fmt.Errorf("Failed to generate matching password after %d rounds: %w", c.MaxTries, ErrMaxTries)
 }
 
 // GeneratePasswordCharsetCheck generates a random password from a given

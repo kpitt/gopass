@@ -112,7 +112,7 @@ func (r *Store) RecipientsTree(ctx context.Context, pretty bool) (*tree.Root, er
 		}
 
 		if err := root.AddMount(alias, substore.Path()); err != nil {
-			return nil, fmt.Errorf("failed to add mount: %w", err)
+			return nil, fmt.Errorf("Failed to add mount: %w", err)
 		}
 
 		for name, recps := range substore.RecipientsTree(ctx) {

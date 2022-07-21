@@ -13,7 +13,7 @@ import (
 )
 
 // ErrUnknown is returned when the secret is not recognized.
-var ErrUnknown = fmt.Errorf("unknown secrets type")
+var ErrUnknown = fmt.Errorf("Unknown secrets type")
 
 // parseLegacyMIME is a fallback parser for the transient MIME format.
 func parseLegacyMIME(buf []byte) (*secrets.KV, error) {
@@ -27,7 +27,7 @@ func parseLegacyMIME(buf []byte) (*secrets.KV, error) {
 
 	line, err := r.ReadString('\n')
 	if err != nil {
-		return nil, fmt.Errorf("failed to read line: %w", err)
+		return nil, fmt.Errorf("Failed to read line: %w", err)
 	}
 
 	if strings.TrimSpace(line) != secrets.Ident {

@@ -14,7 +14,7 @@ func TestInit(t *testing.T) { //nolint:paralleltest
 	assert.Error(t, err)
 	assert.Contains(t, out, "Initializing a new password store ...")
 	assert.Contains(t, out, "Error: Failed to initialize store")
-	assert.Contains(t, out, "failed to read user input: can not select private key without terminal\n")
+	assert.Contains(t, out, "failed to read user input: cannot select private key without terminal\n")
 
 	ts = newTester(t)
 	defer ts.teardown()

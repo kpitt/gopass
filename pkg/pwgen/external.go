@@ -12,9 +12,9 @@ import (
 
 var (
 	// ErrNoExternal is returned when no external generator is set.
-	ErrNoExternal = fmt.Errorf("no external generator")
+	ErrNoExternal = fmt.Errorf("No external generator")
 	// ErrNoCommand is returned when no command is set.
-	ErrNoCommand = fmt.Errorf("no command")
+	ErrNoCommand = fmt.Errorf("No command")
 )
 
 // GenerateExternal will invoke an external password generator,
@@ -27,7 +27,7 @@ func GenerateExternal(pwlen int) (string, error) {
 
 	cmdArgs, err := shellquote.Split(c)
 	if err != nil {
-		return "", fmt.Errorf("failed to split %s: %w", c, err)
+		return "", fmt.Errorf("Failed to split %s: %w", c, err)
 	}
 
 	if len(cmdArgs) < 1 {
@@ -45,7 +45,7 @@ func GenerateExternal(pwlen int) (string, error) {
 
 	out, err := exec.Command(exe, args...).Output()
 	if err != nil {
-		return "", fmt.Errorf("failed to execute %s %v: %w", exe, args, err)
+		return "", fmt.Errorf("Failed to execute %s %v: %w", exe, args, err)
 	}
 
 	return strings.TrimSpace(string(out)), nil

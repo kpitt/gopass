@@ -107,7 +107,7 @@ func setupApp(ctx context.Context, sv semver.Version) (context.Context, *cli.App
 	// initialize action handlers
 	action, err := ap.New(cfg, sv)
 	if err != nil {
-		out.Errorf(ctx, "failed to initialize gopass: %s", err)
+		out.Errorf(ctx, "Failed to initialize gopass: %s", err)
 		os.Exit(exit.Unknown)
 	}
 

@@ -10,7 +10,7 @@ import (
 )
 
 // ErrUnknownType is returned when an unknown type is encountered.
-var ErrUnknownType = fmt.Errorf("unknown type")
+var ErrUnknownType = fmt.Errorf("Unknown type")
 
 func longName(name string) string {
 	// "If s does not contain sep and sep is not empty, Split returns a slice of length 1 whose only element is s."
@@ -52,7 +52,7 @@ func formatFlagFunc() func(cli.Flag) (string, error) {
 		case *cli.UintFlag:
 			return formatFlag(ft.Name, ft.Usage), nil
 		default:
-			return "", fmt.Errorf("error '%T': %w", f, ErrUnknownType)
+			return "", fmt.Errorf("Error '%T': %w", f, ErrUnknownType)
 		}
 	}
 }

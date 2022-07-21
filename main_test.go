@@ -39,7 +39,7 @@ func TestGetVersion(t *testing.T) {
 	version = "1.9.0"
 
 	if getVersion().LT(semver.Version{Major: 1, Minor: 9}) {
-		t.Errorf("invalid version")
+		t.Errorf("Invalid version")
 	}
 }
 

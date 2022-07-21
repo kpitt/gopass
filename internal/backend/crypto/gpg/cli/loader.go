@@ -37,7 +37,7 @@ func (l loader) Handles(ctx context.Context, s backend.Storage) error {
 		return nil
 	}
 
-	return fmt.Errorf("not supported")
+	return fmt.Errorf("Not supported")
 }
 
 func (l loader) Priority() int {

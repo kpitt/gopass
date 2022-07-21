@@ -58,12 +58,12 @@ func (g *Git) Path() string {
 func (g *Git) Fsck(ctx context.Context) error {
 	// ensure sane git config.
 	if err := g.fixConfig(ctx); err != nil {
-		return fmt.Errorf("failed to fix git config: %w", err)
+		return fmt.Errorf("Failed to fix git config: %w", err)
 	}
 
 	// add any untracked files.
 	if err := g.addUntrackedFiles(ctx); err != nil {
-		return fmt.Errorf("failed to add untracked files: %w", err)
+		return fmt.Errorf("Failed to add untracked files: %w", err)
 	}
 
 	return g.fs.Fsck(ctx)
@@ -79,7 +79,7 @@ func (g *Git) addUntrackedFiles(ctx context.Context) error {
 
 	debug.Log("untracked files found: %v", ut)
 	if err := g.Add(ctx, ut...); err != nil {
-		return fmt.Errorf("failed to add untracked files: %w", err)
+		return fmt.Errorf("Failed to add untracked files: %w", err)
 	}
 
 	return g.Commit(ctx, "fsck")

@@ -16,13 +16,13 @@ func (a *Age) Encrypt(ctx context.Context, plaintext []byte, recipients []string
 	// add our own public keys to the recipients to ensure we can decrypt it later.
 	idRecps, err := a.IdentityRecipients(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch identity recipients for encryption: %w", err)
+		return nil, fmt.Errorf("Failed to fetch identity recipients for encryption: %w", err)
 	}
 	// parse the most specific recipients file and add it to the final
 	// recipients, too.
 	recp, err := a.parseRecipients(ctx, recipients)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse recipients file for encryption: %w", err)
+		return nil, fmt.Errorf("Failed to parse recipients file for encryption: %w", err)
 	}
 
 	recp = dedupe(append(recp, idRecps...))

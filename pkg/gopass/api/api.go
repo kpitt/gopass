@@ -24,10 +24,10 @@ type Gopass struct {
 var _ gopass.Store = &Gopass{}
 
 // ErrNotImplemented is returned when a method is not implemented.
-var ErrNotImplemented = fmt.Errorf("not yet implemented")
+var ErrNotImplemented = fmt.Errorf("Not yet implemented")
 
 // ErrNotInitialized is returned when the store is not initialized.
-var ErrNotInitialized = fmt.Errorf("password store not initialized. run 'gopass setup' first")
+var ErrNotInitialized = fmt.Errorf("Password store not initialized. Run 'gopass setup' first.")
 
 // New creates a new secret store.
 // WARNING: This will need to change to accommodate for runtime configuration.
@@ -37,7 +37,7 @@ func New(ctx context.Context) (*Gopass, error) {
 
 	initialized, err := store.IsInitialized(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to check initialization: %w", err)
+		return nil, fmt.Errorf("Failed to check initialization: %w", err)
 	}
 
 	if !initialized {
@@ -96,7 +96,7 @@ func (g *Gopass) String() string {
 // Close shuts down all background processes.
 func (g *Gopass) Close(ctx context.Context) error {
 	if err := queue.GetQueue(ctx).Close(ctx); err != nil {
-		return fmt.Errorf("failed to close queue: %w", err)
+		return fmt.Errorf("Failed to close queue: %w", err)
 	}
 
 	return nil

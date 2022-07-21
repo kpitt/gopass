@@ -21,7 +21,7 @@ import (
 func (s *Store) reencrypt(ctx context.Context) error {
 	entries, err := s.List(ctx, "")
 	if err != nil {
-		return fmt.Errorf("failed to list store: %w", err)
+		return fmt.Errorf("Failed to list store: %w", err)
 	}
 
 	// Most gnupg setups don't work well with concurrency > 1, but
@@ -73,7 +73,7 @@ func (s *Store) reencrypt(ctx context.Context) error {
 				// we wait for all workers to have finished
 				wg.Wait()
 
-				return fmt.Errorf("context canceled")
+				return fmt.Errorf("Context canceled")
 			default:
 			}
 
@@ -103,7 +103,7 @@ func (s *Store) reencrypt(ctx context.Context) error {
 					continue
 				}
 
-				return fmt.Errorf("failed to add %q to git: %w", p, err)
+				return fmt.Errorf("Failed to add %q to git: %w", p, err)
 			}
 
 			debug.Log("added %s to git", p)
@@ -117,7 +117,7 @@ func (s *Store) reencrypt(ctx context.Context) error {
 		case errors.Is(err, store.ErrGitNothingToCommit):
 			debug.Log("skipping git commit - nothing to commit")
 		default:
-			return fmt.Errorf("failed to commit changes to git: %w", err)
+			return fmt.Errorf("Failed to commit changes to git: %w", err)
 		}
 	}
 
@@ -142,7 +142,7 @@ func (s *Store) reencryptGitPush(ctx context.Context) error {
 			return nil
 		}
 
-		return fmt.Errorf("failed to push change to git remote: %w", err)
+		return fmt.Errorf("Failed to push change to git remote: %w", err)
 	}
 
 	return nil

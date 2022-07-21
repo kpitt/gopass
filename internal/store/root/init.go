@@ -17,7 +17,7 @@ func (r *Store) IsInitialized(ctx context.Context) (bool, error) {
 		debug.Log("initializing store and possible sub-stores")
 
 		if err := r.initialize(ctx); err != nil {
-			return false, fmt.Errorf("failed to initialize stores: %w", err)
+			return false, fmt.Errorf("Failed to initialize stores: %w", err)
 		}
 	}
 
@@ -40,7 +40,7 @@ func (r *Store) Init(ctx context.Context, alias, path string, ids ...string) err
 
 	sub, err := leaf.New(ctx, alias, path)
 	if err != nil {
-		return fmt.Errorf("failed to instantiate new sub store: %w", err)
+		return fmt.Errorf("Failed to instantiate new sub store: %w", err)
 	}
 
 	if !r.store.IsInitialized(ctx) && alias == "" {
@@ -50,7 +50,7 @@ func (r *Store) Init(ctx context.Context, alias, path string, ids ...string) err
 	debug.Log("Initializing sub store at %s for %+v", path, ids)
 
 	if err := sub.Init(ctx, path, ids...); err != nil {
-		return fmt.Errorf("failed to initialize new sub store: %w", err)
+		return fmt.Errorf("Failed to initialize new sub store: %w", err)
 	}
 
 	if alias == "" {
@@ -76,7 +76,7 @@ func (r *Store) initialize(ctx context.Context) error {
 
 	s, err := leaf.New(ctx, "", path)
 	if err != nil {
-		return fmt.Errorf("failed to initialize the root store at %q: %w", r.cfg.Path, err)
+		return fmt.Errorf("Failed to initialize the root store at %q: %w", r.cfg.Path, err)
 	}
 
 	debug.Log("Root Store initialized at %s", path)
@@ -97,7 +97,7 @@ func (r *Store) initialize(ctx context.Context) error {
 
 	// check for duplicate mounts
 	if err := r.checkMounts(); err != nil {
-		return fmt.Errorf("checking mounts failed: %w", err)
+		return fmt.Errorf("Checking mounts failed: %w", err)
 	}
 
 	return nil

@@ -28,7 +28,7 @@ func RandomLengthDelim(length int, delim, lang string) (string, error) {
 	g.SetCapitalize(delim == "")
 
 	if err := g.UseLangWordlist(lang); err != nil {
-		return "", fmt.Errorf("failed to use wordlist for lang %s: %w", lang, err)
+		return "", fmt.Errorf("Failed to use wordlist for lang %s: %w", lang, err)
 	}
 
 	return string(g.GeneratePassword()), nil

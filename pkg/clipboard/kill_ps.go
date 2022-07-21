@@ -15,7 +15,7 @@ import (
 func killPrecedessors() error {
 	procs, err := ps.Processes()
 	if err != nil {
-		return fmt.Errorf("failed to list processes: %w", err)
+		return fmt.Errorf("Failed to list processes: %w", err)
 	}
 
 	for _, proc := range procs {

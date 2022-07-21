@@ -24,7 +24,7 @@ const (
 func (s *Store) Recipients(ctx context.Context) []string {
 	rs, err := s.GetRecipients(ctx, "")
 	if err != nil {
-		out.Errorf(ctx, "failed to read recipient list: %s", err)
+		out.Errorf(ctx, "Failed to read recipient list: %s", err)
 	}
 
 	return rs
@@ -65,24 +65,24 @@ func (s *Store) RecipientsTree(ctx context.Context) map[string][]string {
 func (s *Store) AddRecipient(ctx context.Context, id string) error {
 	rs, err := s.GetRecipients(ctx, "")
 	if err != nil {
-		return fmt.Errorf("failed to read recipient list: %w", err)
+		return fmt.Errorf("Failed to read recipient list: %w", err)
 	}
 
 	debug.Log("new recipient: %q - existing: %+v", id, rs)
 
 	for _, k := range rs {
 		if k == id {
-			return fmt.Errorf("recipient already in store")
+			return fmt.Errorf("Recipient already in store")
 		}
 	}
 
 	rs = append(rs, id)
 
 	if err := s.saveRecipients(ctx, rs, "Added Recipient "+id); err != nil {
-		return fmt.Errorf("failed to save recipients: %w", err)
+		return fmt.Errorf("Failed to save recipients: %w", err)
 	}
 
-	out.Printf(ctx, "Reencrypting existing secrets. This may take some time ...")
+	out.Printf(ctx, "Reencrypting existing secrets. This may take some time...")
 
 	return s.reencrypt(ctxutil.WithCommitMessage(ctx, "Added Recipient "+id))
 }
@@ -91,7 +91,7 @@ func (s *Store) AddRecipient(ctx context.Context, id string) error {
 func (s *Store) SaveRecipients(ctx context.Context) error {
 	rs, err := s.GetRecipients(ctx, "")
 	if err != nil {
-		return fmt.Errorf("failed to get recipients: %w", err)
+		return fmt.Errorf("Failed to get recipients: %w", err)
 	}
 
 	return s.saveRecipients(ctx, rs, "Save Recipients")
@@ -108,12 +108,12 @@ func (s *Store) SetRecipients(ctx context.Context, rs []string) error {
 func (s *Store) RemoveRecipient(ctx context.Context, id string) error {
 	keys, err := s.crypto.FindRecipients(ctx, id)
 	if err != nil {
-		out.Warningf(ctx, "Warning: Failed to get GPG Key Info for %s: %s", id, err)
+		out.Warningf(ctx, "Warning: Failed to get GPG key info for %s: %s", id, err)
 	}
 
 	rs, err := s.GetRecipients(ctx, "")
 	if err != nil {
-		return fmt.Errorf("failed to read recipient list: %w", err)
+		return fmt.Errorf("Failed to read recipient list: %w", err)
 	}
 
 	nk := make([]string, 0, len(rs)-1)
@@ -132,7 +132,7 @@ RECIPIENTS:
 		// To do this though, we need to ensure that we also do a FindRecipients on the id name from the stored ids.
 		recipientIds, err := s.crypto.FindRecipients(ctx, k)
 		if err != nil {
-			out.Warningf(ctx, "Warning: Failed to get GPG Key Info for %s: %s", k, err)
+			out.Warningf(ctx, "Warning: Failed to get GPG key info for %s: %s", k, err)
 		}
 		debug.Log("returned the following ids for recipient %s: %s", k, recipientIds)
 
@@ -158,11 +158,11 @@ RECIPIENTS:
 	}
 
 	if len(rs) == len(nk) {
-		return fmt.Errorf("recipient not in store")
+		return fmt.Errorf("Recipient not in store")
 	}
 
 	if err := s.saveRecipients(ctx, nk, "Removed Recipient "+id); err != nil {
-		return fmt.Errorf("failed to save recipients: %w", err)
+		return fmt.Errorf("Failed to save recipients: %w", err)
 	}
 
 	return s.reencrypt(ctxutil.WithCommitMessage(ctx, "Removed Recipient "+id))
@@ -209,7 +209,7 @@ func (s *Store) GetRecipients(ctx context.Context, name string) ([]string, error
 func (s *Store) getRecipients(ctx context.Context, idf string) ([]string, error) {
 	buf, err := s.storage.Get(ctx, idf)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get recipients from %q: %w", idf, err)
+		return nil, fmt.Errorf("Failed to get recipients from %q: %w", idf, err)
 	}
 
 	return recipients.Unmarshal(buf), nil
@@ -238,7 +238,7 @@ func (s *Store) ExportMissingPublicKeys(ctx context.Context, rs []string) (bool,
 		if err != nil {
 			failed = true
 
-			out.Errorf(ctx, "failed to export public key for %q: %s", r, err)
+			out.Errorf(ctx, "Failed to export public key for %q: %s", r, err)
 
 			continue
 		}
@@ -254,7 +254,7 @@ func (s *Store) ExportMissingPublicKeys(ctx context.Context, rs []string) (bool,
 
 			failed = true
 
-			out.Errorf(ctx, "failed to add public key for %q to git: %s", r, err)
+			out.Errorf(ctx, "Failed to add public key for %q to git: %s", r, err)
 
 			continue
 		}
@@ -269,7 +269,7 @@ func (s *Store) ExportMissingPublicKeys(ctx context.Context, rs []string) (bool,
 	}
 
 	if failed {
-		return exported, fmt.Errorf("some keys failed")
+		return exported, fmt.Errorf("Some keys failed")
 	}
 
 	return exported, nil
@@ -278,25 +278,25 @@ func (s *Store) ExportMissingPublicKeys(ctx context.Context, rs []string) (bool,
 // Save all Recipients in memory to the recipients file on disk.
 func (s *Store) saveRecipients(ctx context.Context, rs []string, msg string) error {
 	if len(rs) < 1 {
-		return fmt.Errorf("can not remove all recipients")
+		return fmt.Errorf("Cannot remove all recipients")
 	}
 
 	idf := s.idFile(ctx, "")
 
 	buf := recipients.Marshal(rs)
 	if err := s.storage.Set(ctx, idf, buf); err != nil {
-		return fmt.Errorf("failed to write recipients file: %w", err)
+		return fmt.Errorf("Failed to write recipients file: %w", err)
 	}
 
 	if err := s.storage.Add(ctx, idf); err != nil {
 		if !errors.Is(err, store.ErrGitNotInit) {
-			return fmt.Errorf("failed to add file %q to git: %w", idf, err)
+			return fmt.Errorf("Failed to add file %q to git: %w", idf, err)
 		}
 	}
 
 	if err := s.storage.Commit(ctx, msg); err != nil {
 		if !errors.Is(err, store.ErrGitNotInit) && !errors.Is(err, store.ErrGitNothingToCommit) {
-			return fmt.Errorf("failed to commit changes to git: %w", err)
+			return fmt.Errorf("Failed to commit changes to git: %w", err)
 		}
 	}
 
@@ -314,14 +314,14 @@ func (s *Store) saveRecipients(ctx context.Context, rs []string, msg string) err
 		}
 
 		if errors.Is(err, store.ErrGitNoRemote) {
-			msg := "Warning: git has no remote. Ignoring auto-push option\n" +
+			msg := "Warning: git has no remote. Ignoring auto-push option.\n" +
 				"Run: gopass git remote add origin ..."
 			debug.Log(msg)
 
 			return nil
 		}
 
-		return fmt.Errorf("failed to push changes to git: %w", err)
+		return fmt.Errorf("Failed to push changes to git: %w", err)
 	}
 
 	return nil
