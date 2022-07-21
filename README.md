@@ -1,17 +1,9 @@
-<p align="center">
-    <img src="docs/logo.png" height="250" alt="gopass Gopher by Vincent Leinweber, remixed from the Renée French original Gopher" title="gopass Gopher by Vincent Leinweber, remixed from the Renée French original Gopher" />
-</p>
-
 # gopass
 
-[![Build Status](https://img.shields.io/github/workflow/status/gopasspw/gopass/Build%20gopass/master)](https://github.com/gopasspw/gopass/actions/workflows/build.yml?query=branch%3Amaster)
-[![Packaging status](https://repology.org/badge/tiny-repos/gopass-gopasspw.svg)](https://repology.org/project/gopass-gopasspw/versions)
-[![Go Report Card](https://goreportcard.com/badge/github.com/gopasspw/gopass)](https://goreportcard.com/report/github.com/gopasspw/gopass)
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/gopasspw/gopass/blob/master/LICENSE)
-[![Github All Releases](https://img.shields.io/github/downloads/gopasspw/gopass/total.svg)](https://github.com/gopasspw/gopass/releases)
-[![codecov](https://codecov.io/gh/gopasspw/gopass/branch/master/graph/badge.svg)](https://codecov.io/gh/gopasspw/gopass)
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1899/badge)](https://bestpractices.coreinfrastructure.org/projects/1899)
-[![Gopass Slack](https://img.shields.io/badge/%23gopass-Slack-brightgreen)](https://join.slack.com/t/gopassworkspace/shared_invite/zt-17jl74b5x-U1OUW4ts4AQ7eAf2V4QaaQ)
+[![Build Status](https://img.shields.io/github/workflow/status/kpitt/gopass/Build%20gopass/master)](https://github.com/kpitt/gopass/actions/workflows/build.yml?query=branch%3Amaster)
+[![Go Report Card](https://goreportcard.com/badge/github.com/kpitt/gopass)](https://goreportcard.com/report/github.com/kpitt/gopass)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/kpitt/gopass/blob/master/LICENSE)
+[![Github All Releases](https://img.shields.io/github/downloads/kpitt/gopass/total.svg)](https://github.com/kpitt/gopass/releases)
 
 ## Introduction
 
@@ -21,13 +13,9 @@ systems (Linux, MacOS, BSD, Windows).
 
 For detailed usage and installation instructions please check out our [documentation](docs/).
 
-## Screenshot
-
-![screenshot](docs/showcase.png)
-
 ## Features
 
-Please see [docs/features.md](https://github.com/gopasspw/gopass/blob/master/docs/features.md) for an extensive list of all features along with several usage examples. Some examples are available in our
+Please see [docs/features.md](https://github.com/kpitt/gopass/blob/master/docs/features.md) for an extensive list of all features along with several usage examples. Some examples are available in our
 [example password store](https://github.com/gopasspw/password-store-example).
 
 | **Feature**                 | **State**     | **Description**                                                   |
@@ -55,12 +43,12 @@ Gopass is a versatile command line based password manager that is being develope
 
 ## Installation
 
-Please see [docs/setup.md](https://github.com/gopasspw/gopass/blob/master/docs/setup.md).
+Please see [docs/setup.md](https://github.com/kpitt/gopass/blob/master/docs/setup.md).
 
 If you have [Go](https://golang.org/) 1.18 (or greater) installed:
 
 ```bash
-go install github.com/gopasspw/gopass
+go install github.com/kpitt/gopass
 ```
 
 WARNING: Please prefer releases, unless you want to contribute to the
@@ -128,7 +116,7 @@ gopass update
 
 or to upgrade with Go installed, run:
 ```bash
-go install github.com/gopasspw/gopass@latest
+go install github.com/kpitt/gopass@latest
 ```
 
 Otherwise, use the setup docs mentioned in the installation section to reinstall the latest version.
@@ -151,7 +139,7 @@ Please refer to the Git commit log for a complete list of contributors.
 
 gopass is developed in the open. Here are some of the channels we use to communicate and contribute:
 
-* Issue tracker: Use the [GitHub issue tracker](https://github.com/gopasspw/gopass/issues) to file bugs and feature requests.
+* Issue tracker: Use the [GitHub issue tracker](https://github.com/kpitt/gopass/issues) to file bugs and feature requests.
 
 ## Integrations
 
