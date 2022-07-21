@@ -5,9 +5,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	_ "github.com/gopasspw/gopass/internal/backend/crypto"
-	_ "github.com/gopasspw/gopass/internal/backend/storage"
-	"github.com/gopasspw/gopass/internal/config"
+	_ "github.com/kpitt/gopass/internal/backend/crypto"
+	_ "github.com/kpitt/gopass/internal/backend/storage"
+	"github.com/kpitt/gopass/internal/config"
 	"github.com/stretchr/testify/assert"
 )
 

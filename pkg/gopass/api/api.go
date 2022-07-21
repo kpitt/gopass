@@ -5,14 +5,14 @@ import (
 	"fmt"
 
 	// load crypto backends.
-	_ "github.com/gopasspw/gopass/internal/backend/crypto"
+	_ "github.com/kpitt/gopass/internal/backend/crypto"
 	// load storage backends.
-	_ "github.com/gopasspw/gopass/internal/backend/storage"
-	"github.com/gopasspw/gopass/internal/config"
-	"github.com/gopasspw/gopass/internal/queue"
-	"github.com/gopasspw/gopass/internal/store/root"
-	"github.com/gopasspw/gopass/internal/tree"
-	"github.com/gopasspw/gopass/pkg/gopass"
+	_ "github.com/kpitt/gopass/internal/backend/storage"
+	"github.com/kpitt/gopass/internal/config"
+	"github.com/kpitt/gopass/internal/queue"
+	"github.com/kpitt/gopass/internal/store/root"
+	"github.com/kpitt/gopass/internal/tree"
+	"github.com/kpitt/gopass/pkg/gopass"
 )
 
 // Gopass is a secret store implementation.

@@ -8,9 +8,9 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/gopasspw/gopass/internal/backend/crypto/gpg"
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/internal/backend/crypto/gpg"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 // ListRecipients returns a parsed list of GPG public keys.

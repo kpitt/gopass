@@ -6,17 +6,17 @@ import (
 	"os"
 
 	"github.com/fatih/color"
-	"github.com/gopasspw/gopass/internal/action/exit"
-	"github.com/gopasspw/gopass/internal/backend"
-	"github.com/gopasspw/gopass/internal/backend/crypto/age"
-	"github.com/gopasspw/gopass/internal/backend/crypto/gpg"
-	gpgcli "github.com/gopasspw/gopass/internal/backend/crypto/gpg/cli"
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/internal/store/root"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
-	"github.com/gopasspw/gopass/pkg/debug"
-	"github.com/gopasspw/gopass/pkg/pwgen/xkcdgen"
-	"github.com/gopasspw/gopass/pkg/termio"
+	"github.com/kpitt/gopass/internal/action/exit"
+	"github.com/kpitt/gopass/internal/backend"
+	"github.com/kpitt/gopass/internal/backend/crypto/age"
+	"github.com/kpitt/gopass/internal/backend/crypto/gpg"
+	gpgcli "github.com/kpitt/gopass/internal/backend/crypto/gpg/cli"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/internal/store/root"
+	"github.com/kpitt/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/pwgen/xkcdgen"
+	"github.com/kpitt/gopass/pkg/termio"
 	"github.com/urfave/cli/v2"
 )
 
@@ -147,7 +147,7 @@ func (s *Action) initGenerateIdentity(ctx context.Context, crypto backend.Crypto
 		// Note: This issue shouldn't matter much past Linux Kernel 5.6,
 		// eventually we might want to remove this notice. Only applies to
 		// GPG.
-		out.Printf(ctx, "⏳ This can take a long time. If you get impatient see https://github.com/gopasspw/gopass/blob/master/docs/entropy.md")
+		out.Printf(ctx, "⏳ This can take a long time. If you get impatient see https://github.com/kpitt/gopass/blob/master/docs/entropy.md")
 		if want, err := termio.AskForBool(ctx, "Continue?", true); err != nil || !want {
 			return fmt.Errorf("user aborted: %w", err)
 		}

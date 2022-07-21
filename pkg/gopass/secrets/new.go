@@ -1,7 +1,7 @@
 package secrets
 
 import (
-	"github.com/gopasspw/gopass/pkg/gopass"
+	"github.com/kpitt/gopass/pkg/gopass"
 )
 
 // New creates a new secret.

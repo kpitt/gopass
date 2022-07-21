@@ -7,9 +7,9 @@ import (
 	"testing"
 
 	"github.com/fatih/color"
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
-	"github.com/gopasspw/gopass/tests/gptest"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/tests/gptest"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

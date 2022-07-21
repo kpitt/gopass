@@ -12,8 +12,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gopasspw/gopass/tests/can"
-	"github.com/gopasspw/gopass/tests/gptest"
+	"github.com/kpitt/gopass/tests/can"
+	"github.com/kpitt/gopass/tests/gptest"
 	shellquote "github.com/kballard/go-shellquote"
 	"github.com/stretchr/testify/require"
 )

@@ -253,15 +253,15 @@ type repoUpdater struct {
 }
 
 func newRepoUpdater(client *github.Client, v semver.Version, user, fork string) (*repoUpdater, error) {
-	relURL := fmt.Sprintf("https://github.com/gopasspw/gopass/releases/download/v%s/gopass-%s.tar.gz", v.String(), v.String())
-	// fetch https://github.com/gopasspw/gopass/archive/vVER.tar.gz
+	relURL := fmt.Sprintf("https://github.com/kpitt/gopass/releases/download/v%s/gopass-%s.tar.gz", v.String(), v.String())
+	// fetch https://github.com/kpitt/gopass/archive/vVER.tar.gz
 	// compute sha256, sha512
 	relSHA256, relSHA512, err := checksum(relURL)
 	if err != nil {
 		return nil, err
 	}
-	arcURL := fmt.Sprintf("https://github.com/gopasspw/gopass/archive/v%s.tar.gz", v.String())
-	// fetch https://github.com/gopasspw/gopass/archive/vVER.tar.gz
+	arcURL := fmt.Sprintf("https://github.com/kpitt/gopass/archive/v%s.tar.gz", v.String())
+	// fetch https://github.com/kpitt/gopass/archive/vVER.tar.gz
 	// compute sha256, sha512
 	arcSHA256, arcSHA512, err := checksum(arcURL)
 	if err != nil {
@@ -340,7 +340,7 @@ func (u *repoUpdater) updateAlpine(ctx context.Context) error {
 	repl := map[string]*string{
 		"pkgver=":     strp("pkgver=" + u.v.String()),
 		"sha512sums=": strp("sha512sums=\"" + u.arcSHA512 + "  gopass-" + u.v.String() + ".tar.gz\""),
-		"source=":     strp(`source="$pkgname-$pkgver.tar.gz::https://github.com/gopasspw/gopass/archive/v$pkgver.tar.gz"`),
+		"source=":     strp(`source="$pkgname-$pkgver.tar.gz::https://github.com/kpitt/gopass/archive/v$pkgver.tar.gz"`),
 	}
 
 	if err := updateBuild(buildPath, repl); err != nil {
@@ -424,7 +424,7 @@ func (u *repoUpdater) updateVoid(ctx context.Context) error {
 	repl := map[string]*string{
 		"version=":   strp("version=" + u.v.String()),
 		"checksum=":  strp("checksum=" + u.arcSHA256),
-		"distfiles=": strp(`distfiles="https://github.com/gopasspw/gopass/archive/v${version}.tar.gz"`),
+		"distfiles=": strp(`distfiles="https://github.com/kpitt/gopass/archive/v${version}.tar.gz"`),
 	}
 	if err := updateBuild(
 		buildPath,

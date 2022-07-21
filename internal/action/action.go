@@ -6,10 +6,10 @@ import (
 	"path/filepath"
 
 	"github.com/blang/semver/v4"
-	"github.com/gopasspw/gopass/internal/config"
-	"github.com/gopasspw/gopass/internal/reminder"
-	"github.com/gopasspw/gopass/internal/store/root"
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/internal/config"
+	"github.com/kpitt/gopass/internal/reminder"
+	"github.com/kpitt/gopass/internal/store/root"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 var (

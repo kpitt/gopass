@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os/exec"
 
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 // GenerateIdentity will create a new GPG keypair in batch mode.

@@ -6,9 +6,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/internal/store"
-	"github.com/gopasspw/gopass/internal/tree"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/internal/store"
+	"github.com/kpitt/gopass/internal/tree"
 )
 
 // List will return a flattened list of all tree entries.

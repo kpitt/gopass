@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/blang/semver/v4"
-	"github.com/gopasspw/gopass/internal/backend/crypto/gpg"
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/internal/backend/crypto/gpg"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 var staticPrivateKeyList = gpg.KeyList{
@@ -109,7 +109,7 @@ func (m *Mocker) ImportPublicKey(context.Context, []byte) error {
 
 // Version returns dummy version info.
 func (m *Mocker) Version(context.Context) semver.Version {
-	return debug.ModuleVersion("github.com/gopasspw/gopass/internal/backend/crypto/plain")
+	return debug.ModuleVersion("github.com/kpitt/gopass/internal/backend/crypto/plain")
 }
 
 // Binary always returns 'gpg'.

@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/gopasspw/gopass/internal/backend/crypto/gpg"
-	"github.com/gopasspw/gopass/internal/backend/crypto/gpg/gpgconf"
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/internal/backend/crypto/gpg"
+	"github.com/kpitt/gopass/internal/backend/crypto/gpg/gpgconf"
+	"github.com/kpitt/gopass/pkg/debug"
 	lru "github.com/hashicorp/golang-lru"
 )
 

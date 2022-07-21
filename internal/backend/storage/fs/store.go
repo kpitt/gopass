@@ -12,8 +12,8 @@ import (
 	"strings"
 
 	"github.com/blang/semver/v4"
-	"github.com/gopasspw/gopass/pkg/debug"
-	"github.com/gopasspw/gopass/pkg/fsutil"
+	"github.com/kpitt/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/fsutil"
 )
 
 // Store is a fs based store.
@@ -217,7 +217,7 @@ func (s *Store) Name() string {
 
 // Version returns the version of this backend.
 func (s *Store) Version(context.Context) semver.Version {
-	return debug.ModuleVersion("github.com/gopasspw/gopass/internal/backend/fs")
+	return debug.ModuleVersion("github.com/kpitt/gopass/internal/backend/fs")
 }
 
 // String implements fmt.Stringer.

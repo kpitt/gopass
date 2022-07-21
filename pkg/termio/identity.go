@@ -4,7 +4,7 @@ import (
 	"context"
 	"os"
 
-	"github.com/gopasspw/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/urfave/cli/v2"
 )
 

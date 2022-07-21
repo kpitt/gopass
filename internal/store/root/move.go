@@ -9,11 +9,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/gopasspw/gopass/internal/store"
-	"github.com/gopasspw/gopass/internal/store/leaf"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
-	"github.com/gopasspw/gopass/pkg/debug"
-	"github.com/gopasspw/gopass/pkg/fsutil"
+	"github.com/kpitt/gopass/internal/store"
+	"github.com/kpitt/gopass/internal/store/leaf"
+	"github.com/kpitt/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/fsutil"
 )
 
 // Copy will copy one entry to another location. Multi-store copies are

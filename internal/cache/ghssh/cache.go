@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/google/go-github/github"
-	"github.com/gopasspw/gopass/internal/cache"
+	"github.com/kpitt/gopass/internal/cache"
 )
 
 // Cache is a disk-backed GitHub SSH public key cache.

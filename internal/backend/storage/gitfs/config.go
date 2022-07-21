@@ -8,9 +8,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/internal/store"
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/internal/store"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 const (

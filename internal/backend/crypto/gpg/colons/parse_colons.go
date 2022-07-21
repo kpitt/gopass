@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/gopasspw/gopass/internal/backend/crypto/gpg"
+	"github.com/kpitt/gopass/internal/backend/crypto/gpg"
 )
 
 var (

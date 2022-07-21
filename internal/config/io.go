@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"sort"
 
-	"github.com/gopasspw/gopass/pkg/debug"
-	"github.com/gopasspw/gopass/pkg/fsutil"
+	"github.com/kpitt/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/fsutil"
 	"golang.org/x/exp/maps"
 	"gopkg.in/yaml.v3"
 )

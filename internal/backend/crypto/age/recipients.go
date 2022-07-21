@@ -6,7 +6,7 @@ import (
 
 	"filippo.io/age"
 	"filippo.io/age/agessh"
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 // FindRecipients returns all list of usable recipient key IDs matching the search strings.

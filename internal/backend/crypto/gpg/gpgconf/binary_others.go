@@ -7,8 +7,8 @@ import (
 	"context"
 	"os/exec"
 
-	"github.com/gopasspw/gopass/pkg/debug"
-	"github.com/gopasspw/gopass/pkg/fsutil"
+	"github.com/kpitt/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/fsutil"
 )
 
 func detectBinary(_ context.Context, name string) (string, error) {

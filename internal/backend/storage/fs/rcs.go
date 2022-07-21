@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/gopasspw/gopass/internal/backend"
-	"github.com/gopasspw/gopass/internal/store"
+	"github.com/kpitt/gopass/internal/backend"
+	"github.com/kpitt/gopass/internal/store"
 )
 
 // Add does nothing.

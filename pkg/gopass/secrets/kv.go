@@ -8,8 +8,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/gopasspw/gopass/pkg/debug"
-	"github.com/gopasspw/gopass/pkg/gopass"
+	"github.com/kpitt/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/gopass"
 	"golang.org/x/exp/maps"
 )
 

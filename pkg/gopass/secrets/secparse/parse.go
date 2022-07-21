@@ -3,10 +3,10 @@ package secparse
 import (
 	"errors"
 
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/pkg/debug"
-	"github.com/gopasspw/gopass/pkg/gopass"
-	"github.com/gopasspw/gopass/pkg/gopass/secrets"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/gopass"
+	"github.com/kpitt/gopass/pkg/gopass/secrets"
 )
 
 // Parse tries to parse a secret. It will start with the most specific

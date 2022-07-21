@@ -3,10 +3,10 @@ package action
 import (
 	"io/ioutil"
 
-	"github.com/gopasspw/gopass/internal/action/exit"
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/internal/tpl"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/internal/action/exit"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/internal/tpl"
+	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/urfave/cli/v2"
 )
 

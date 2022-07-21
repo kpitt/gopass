@@ -11,7 +11,7 @@ import (
 	"os/exec"
 
 	"github.com/atotto/clipboard"
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 func copyToClipboard(ctx context.Context, content []byte) error {

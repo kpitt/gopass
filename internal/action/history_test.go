@@ -7,12 +7,12 @@ import (
 	"testing"
 
 	"github.com/blang/semver/v4"
-	"github.com/gopasspw/gopass/internal/backend"
-	"github.com/gopasspw/gopass/internal/config"
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
-	"github.com/gopasspw/gopass/pkg/termio"
-	"github.com/gopasspw/gopass/tests/gptest"
+	"github.com/kpitt/gopass/internal/backend"
+	"github.com/kpitt/gopass/internal/config"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/pkg/termio"
+	"github.com/kpitt/gopass/tests/gptest"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

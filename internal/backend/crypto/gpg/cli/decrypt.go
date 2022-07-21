@@ -6,7 +6,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 // Decrypt will try to decrypt the given file.

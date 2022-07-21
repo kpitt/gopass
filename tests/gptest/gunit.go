@@ -10,7 +10,7 @@ import (
 	"github.com/ProtonMail/go-crypto/openpgp"
 	"github.com/ProtonMail/go-crypto/openpgp/armor"
 	aclip "github.com/atotto/clipboard"
-	"github.com/gopasspw/gopass/tests/can"
+	"github.com/kpitt/gopass/tests/can"
 	"github.com/stretchr/testify/assert"
 )
 

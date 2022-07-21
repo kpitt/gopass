@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/gopasspw/gopass/internal/out"
+	"github.com/kpitt/gopass/internal/out"
 	"github.com/stretchr/testify/assert"
 )
 

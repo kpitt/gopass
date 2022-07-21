@@ -7,9 +7,9 @@
 // WITHOUT NOTICE until this note is gone.
 //
 // If you want to try it anyway please look at the following examples:
-// * https://github.com/gopasspw/gopass-hibp
-// * https://github.com/gopasspw/gopass-jsonapi
+// * https://github.com/kpitt/gopass-hibp
+// * https://github.com/kpitt/gopass-jsonapi
 // * https://github.com/gopasspw/git-credential-gopass
-// * https://github.com/gopasspw/gopass-summon-provider
+// * https://github.com/kpitt/gopass-summon-provider
 //
 package gopass

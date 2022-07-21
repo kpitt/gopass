@@ -19,11 +19,11 @@ import (
 	"time"
 
 	"github.com/blang/semver/v4"
-	ap "github.com/gopasspw/gopass/internal/action"
-	"github.com/gopasspw/gopass/internal/action/pwgen"
-	_ "github.com/gopasspw/gopass/internal/backend/crypto"
-	_ "github.com/gopasspw/gopass/internal/backend/storage"
-	"github.com/gopasspw/gopass/internal/config"
+	ap "github.com/kpitt/gopass/internal/action"
+	"github.com/kpitt/gopass/internal/action/pwgen"
+	_ "github.com/kpitt/gopass/internal/backend/crypto"
+	_ "github.com/kpitt/gopass/internal/backend/storage"
+	"github.com/kpitt/gopass/internal/config"
 	"github.com/urfave/cli/v2"
 )
 
@@ -159,7 +159,7 @@ func findExecutable(file string) error {
 }
 
 var manTpl = `
-.TH GOPASS "{{ .SectionNumber }}" "{{ .DatePretty }}" "gopass (github.com/gopasspw/gopass) {{ .Version }}" "{{ .SectionName }}"
+.TH GOPASS "{{ .SectionNumber }}" "{{ .DatePretty }}" "gopass (github.com/kpitt/gopass) {{ .Version }}" "{{ .SectionName }}"
 .SH NAME
 gopass - The standard Unix password manager
 .SH SYNOPSIS
@@ -187,7 +187,7 @@ gopass - The standard Unix password manager
 {{- end}}
 
 .SH "REPORTING BUGS"
-Report bugs to <https://github.com/gopasspw/gopass/issues/new>
+Report bugs to <https://github.com/kpitt/gopass/issues/new>
 .SH "COPYRIGHT"
 Copyright \(co 2021 Gopass Authors
 This program is free software; you may redistribute it under the terms of

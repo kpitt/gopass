@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gopasspw/gopass/internal/cache"
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/internal/cache"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 // Store stores timestamps on disk.

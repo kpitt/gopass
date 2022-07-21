@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/gopasspw/gopass/pkg/termio"
+	"github.com/kpitt/gopass/pkg/termio"
 )
 
 // Client is pinentry CLI drop-in.

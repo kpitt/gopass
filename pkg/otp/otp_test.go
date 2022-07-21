@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/gokyle/twofactor"
-	"github.com/gopasspw/gopass/pkg/gopass/secrets/secparse"
+	"github.com/kpitt/gopass/pkg/gopass/secrets/secparse"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

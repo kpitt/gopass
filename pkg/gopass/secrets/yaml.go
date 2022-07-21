@@ -10,9 +10,9 @@ import (
 	"strings"
 
 	"github.com/caspr-io/yamlpath"
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/pkg/debug"
-	"github.com/gopasspw/gopass/pkg/gopass"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/gopass"
 	"golang.org/x/exp/maps"
 	yaml "gopkg.in/yaml.v3"
 )

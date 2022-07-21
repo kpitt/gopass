@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/gopasspw/gopass/internal/backend"
-	"github.com/gopasspw/gopass/pkg/fsutil"
-	"github.com/gopasspw/gopass/pkg/termio"
+	"github.com/kpitt/gopass/internal/backend"
+	"github.com/kpitt/gopass/pkg/fsutil"
+	"github.com/kpitt/gopass/pkg/termio"
 )
 
 const (

@@ -12,8 +12,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 type contextKey int

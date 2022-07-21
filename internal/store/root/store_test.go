@@ -6,12 +6,12 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/gopasspw/gopass/internal/backend"
-	_ "github.com/gopasspw/gopass/internal/backend/crypto"
-	_ "github.com/gopasspw/gopass/internal/backend/storage"
-	"github.com/gopasspw/gopass/internal/config"
-	"github.com/gopasspw/gopass/internal/tree"
-	"github.com/gopasspw/gopass/tests/gptest"
+	"github.com/kpitt/gopass/internal/backend"
+	_ "github.com/kpitt/gopass/internal/backend/crypto"
+	_ "github.com/kpitt/gopass/internal/backend/storage"
+	"github.com/kpitt/gopass/internal/config"
+	"github.com/kpitt/gopass/internal/tree"
+	"github.com/kpitt/gopass/tests/gptest"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

@@ -4,12 +4,12 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/gopasspw/gopass/internal/backend"
-	"github.com/gopasspw/gopass/internal/backend/crypto/plain"
-	"github.com/gopasspw/gopass/internal/store/mockstore/inmem"
-	"github.com/gopasspw/gopass/internal/tree"
-	"github.com/gopasspw/gopass/pkg/gopass"
-	"github.com/gopasspw/gopass/pkg/gopass/secrets/secparse"
+	"github.com/kpitt/gopass/internal/backend"
+	"github.com/kpitt/gopass/internal/backend/crypto/plain"
+	"github.com/kpitt/gopass/internal/store/mockstore/inmem"
+	"github.com/kpitt/gopass/internal/tree"
+	"github.com/kpitt/gopass/pkg/gopass"
+	"github.com/kpitt/gopass/pkg/gopass/secrets/secparse"
 )
 
 // MockStore is an mocked store.

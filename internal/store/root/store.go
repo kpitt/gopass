@@ -7,10 +7,10 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/gopasspw/gopass/internal/backend"
-	"github.com/gopasspw/gopass/internal/config"
-	"github.com/gopasspw/gopass/internal/store/leaf"
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/internal/backend"
+	"github.com/kpitt/gopass/internal/config"
+	"github.com/kpitt/gopass/internal/store/leaf"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 // Store is the public facing password store. It contains one or more

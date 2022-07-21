@@ -7,13 +7,13 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/gopasspw/gopass/internal/backend"
-	"github.com/gopasspw/gopass/internal/diff"
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/internal/store"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
-	"github.com/gopasspw/gopass/pkg/debug"
-	"github.com/gopasspw/gopass/pkg/gopass"
+	"github.com/kpitt/gopass/internal/backend"
+	"github.com/kpitt/gopass/internal/diff"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/internal/store"
+	"github.com/kpitt/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/gopass"
 )
 
 // Fsck checks all entries matching the given prefix.

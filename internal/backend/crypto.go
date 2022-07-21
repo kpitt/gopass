@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/blang/semver/v4"
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 // CryptoBackend is a cryptographic backend.

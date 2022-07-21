@@ -8,7 +8,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/gopasspw/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/pkg/ctxutil"
 )
 
 // Notify displays a desktop notification through msg

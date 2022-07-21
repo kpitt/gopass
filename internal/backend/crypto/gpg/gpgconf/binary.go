@@ -4,7 +4,7 @@ import (
 	"context"
 	"os"
 
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 // Binary returns the GPG binary location.

@@ -6,8 +6,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/gopasspw/gopass/pkg/debug"
-	"github.com/gopasspw/gopass/pkg/pwgen/pwrules"
+	"github.com/kpitt/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/pwgen/pwrules"
 	"github.com/muesli/crunchy"
 )
 

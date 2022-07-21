@@ -13,11 +13,11 @@ import (
 	"strings"
 
 	"github.com/fatih/color"
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
-	"github.com/gopasspw/gopass/pkg/debug"
-	"github.com/gopasspw/gopass/pkg/fsutil"
-	"github.com/gopasspw/gopass/pkg/tempfile"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/fsutil"
+	"github.com/kpitt/gopass/pkg/tempfile"
 	shellquote "github.com/kballard/go-shellquote"
 )
 
@@ -63,7 +63,7 @@ func Check(ctx context.Context, editor string) error {
 	}
 
 	debug.Log("%s did not match %s", string(buf), vimOptsRe)
-	out.Warningf(ctx, "Vim might leak credentials. Check your setup.\nhttps://github.com/gopasspw/gopass/blob/master/docs/setup.md#securing-your-editor")
+	out.Warningf(ctx, "Vim might leak credentials. Check your setup.\nhttps://github.com/kpitt/gopass/blob/master/docs/setup.md#securing-your-editor")
 
 	return nil
 }

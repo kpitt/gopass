@@ -4,9 +4,9 @@ import (
 	"context"
 	"os"
 
-	"github.com/gopasspw/gopass/internal/env"
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/internal/env"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/pkg/ctxutil"
 )
 
 func (s *Action) printReminder(ctx context.Context) {

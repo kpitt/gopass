@@ -6,11 +6,11 @@ import (
 	"runtime"
 	"strings"
 
-	fishcomp "github.com/gopasspw/gopass/internal/completion/fish"
-	zshcomp "github.com/gopasspw/gopass/internal/completion/zsh"
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/internal/tree"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
+	fishcomp "github.com/kpitt/gopass/internal/completion/fish"
+	zshcomp "github.com/kpitt/gopass/internal/completion/zsh"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/internal/tree"
+	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/urfave/cli/v2"
 )
 

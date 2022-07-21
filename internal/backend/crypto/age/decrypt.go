@@ -8,8 +8,8 @@ import (
 	"os"
 
 	"filippo.io/age"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 // Decrypt will attempt to decrypt the given payload.

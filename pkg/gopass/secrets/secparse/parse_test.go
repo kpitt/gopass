@@ -3,7 +3,7 @@ package secparse
 import (
 	"testing"
 
-	"github.com/gopasspw/gopass/pkg/gopass/secrets"
+	"github.com/kpitt/gopass/pkg/gopass/secrets"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

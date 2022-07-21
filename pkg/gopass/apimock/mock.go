@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/gopasspw/gopass/internal/store/mockstore"
-	"github.com/gopasspw/gopass/pkg/gopass"
+	"github.com/kpitt/gopass/internal/store/mockstore"
+	"github.com/kpitt/gopass/pkg/gopass"
 )
 
 // ErrNotImplemented is returned when a method is not implemented.

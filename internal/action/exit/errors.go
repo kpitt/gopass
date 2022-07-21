@@ -3,7 +3,7 @@ package exit
 import (
 	"fmt"
 
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/debug"
 	"github.com/urfave/cli/v2"
 )
 

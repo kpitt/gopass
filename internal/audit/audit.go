@@ -10,13 +10,13 @@ import (
 	"time"
 
 	"github.com/fatih/color"
-	"github.com/gopasspw/gopass/internal/backend"
-	"github.com/gopasspw/gopass/internal/notify"
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
-	"github.com/gopasspw/gopass/pkg/debug"
-	"github.com/gopasspw/gopass/pkg/gopass"
-	"github.com/gopasspw/gopass/pkg/termio"
+	"github.com/kpitt/gopass/internal/backend"
+	"github.com/kpitt/gopass/internal/notify"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/gopass"
+	"github.com/kpitt/gopass/pkg/termio"
 	"github.com/muesli/crunchy"
 	"github.com/nbutton23/zxcvbn-go"
 )
@@ -96,7 +96,7 @@ func Batch(ctx context.Context, secrets []string, secStore secretGetter, expirat
 	// runtime.NumCPU(), but sadly this causes various problems with multiple
 	// gnupg jobs running in parallel. See the entire discussion here:
 	//
-	// https://github.com/gopasspw/gopass/pull/245
+	// https://github.com/kpitt/gopass/pull/245
 	//
 	// We can't even have different backends determine their own value for
 	// maxJobs because we would need to change the interface for that.

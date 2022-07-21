@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/atotto/clipboard"
-	"github.com/gopasspw/gopass/internal/out"
+	"github.com/kpitt/gopass/internal/out"
 	ps "github.com/mitchellh/go-ps"
 	"github.com/stretchr/testify/assert"
 )

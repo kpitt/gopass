@@ -6,8 +6,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/stretchr/testify/assert"
 )
 

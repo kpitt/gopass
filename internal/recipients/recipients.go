@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"strings"
 
-	"github.com/gopasspw/gopass/internal/set"
+	"github.com/kpitt/gopass/internal/set"
 )
 
 // Marshal all in memory Recipients line by line to []byte.

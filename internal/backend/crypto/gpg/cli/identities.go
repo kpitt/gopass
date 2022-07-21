@@ -3,7 +3,7 @@ package cli
 import (
 	"context"
 
-	"github.com/gopasspw/gopass/internal/backend/crypto/gpg"
+	"github.com/kpitt/gopass/internal/backend/crypto/gpg"
 )
 
 // ListIdentities returns a parsed list of GPG secret keys.

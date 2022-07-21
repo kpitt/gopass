@@ -9,8 +9,8 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/pkg/ctxutil"
 	"golang.org/x/term"
 )
 

@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gopasspw/gopass/internal/action/exit"
-	"github.com/gopasspw/gopass/internal/audit"
-	"github.com/gopasspw/gopass/internal/editor"
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/internal/queue"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
-	"github.com/gopasspw/gopass/pkg/debug"
-	"github.com/gopasspw/gopass/pkg/gopass/secrets"
+	"github.com/kpitt/gopass/internal/action/exit"
+	"github.com/kpitt/gopass/internal/audit"
+	"github.com/kpitt/gopass/internal/editor"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/internal/queue"
+	"github.com/kpitt/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/gopass/secrets"
 	"github.com/urfave/cli/v2"
 )
 

@@ -6,7 +6,7 @@ package appdir
 import (
 	"os"
 
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 // Name is used in the final path of the generated path.

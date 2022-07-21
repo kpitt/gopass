@@ -7,14 +7,14 @@ import (
 	"os"
 
 	"github.com/fatih/color"
-	"github.com/gopasspw/gopass/internal/action/exit"
-	"github.com/gopasspw/gopass/internal/backend"
-	"github.com/gopasspw/gopass/internal/cui"
-	"github.com/gopasspw/gopass/internal/out"
-	si "github.com/gopasspw/gopass/internal/store"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
-	"github.com/gopasspw/gopass/pkg/debug"
-	"github.com/gopasspw/gopass/pkg/termio"
+	"github.com/kpitt/gopass/internal/action/exit"
+	"github.com/kpitt/gopass/internal/backend"
+	"github.com/kpitt/gopass/internal/cui"
+	"github.com/kpitt/gopass/internal/out"
+	si "github.com/kpitt/gopass/internal/store"
+	"github.com/kpitt/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/termio"
 	"github.com/urfave/cli/v2"
 )
 

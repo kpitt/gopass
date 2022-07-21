@@ -12,8 +12,8 @@ import (
 	"strconv"
 	"syscall"
 
-	"github.com/gopasspw/gopass/internal/pwschemes/argon2id"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/internal/pwschemes/argon2id"
+	"github.com/kpitt/gopass/pkg/ctxutil"
 )
 
 // clear will spawn a copy of gopass that waits in a detached background

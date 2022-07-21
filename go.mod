@@ -1,4 +1,4 @@
-module github.com/gopasspw/gopass
+module github.com/kpitt/gopass
 
 go 1.18
 

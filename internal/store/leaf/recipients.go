@@ -8,11 +8,11 @@ import (
 	"strings"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/gopasspw/gopass/internal/out"
-	"github.com/gopasspw/gopass/internal/recipients"
-	"github.com/gopasspw/gopass/internal/store"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/internal/out"
+	"github.com/kpitt/gopass/internal/recipients"
+	"github.com/kpitt/gopass/internal/store"
+	"github.com/kpitt/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 const (

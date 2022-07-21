@@ -8,10 +8,10 @@ import (
 	"time"
 
 	"github.com/blang/semver/v4"
-	"github.com/gopasspw/gopass/internal/cache"
-	"github.com/gopasspw/gopass/internal/cache/ghssh"
-	"github.com/gopasspw/gopass/pkg/appdir"
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/internal/cache"
+	"github.com/kpitt/gopass/internal/cache/ghssh"
+	"github.com/kpitt/gopass/pkg/appdir"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 const (

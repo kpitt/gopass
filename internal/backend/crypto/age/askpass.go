@@ -6,9 +6,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gopasspw/gopass/internal/cache"
-	"github.com/gopasspw/gopass/pkg/debug"
-	"github.com/gopasspw/gopass/pkg/pinentry/cli"
+	"github.com/kpitt/gopass/internal/cache"
+	"github.com/kpitt/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/pinentry/cli"
 	"github.com/nbutton23/zxcvbn-go"
 	"github.com/twpayne/go-pinentry"
 )

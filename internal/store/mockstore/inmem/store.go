@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/blang/semver/v4"
-	"github.com/gopasspw/gopass/internal/backend"
+	"github.com/kpitt/gopass/internal/backend"
 	"golang.org/x/exp/maps"
 )
 

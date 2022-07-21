@@ -7,8 +7,8 @@ import (
 	"os"
 
 	"filippo.io/age"
-	"github.com/gopasspw/gopass/pkg/ctxutil"
-	"github.com/gopasspw/gopass/pkg/debug"
+	"github.com/kpitt/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/pkg/debug"
 )
 
 // Encrypt will encrypt the given payload.
