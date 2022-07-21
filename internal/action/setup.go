@@ -29,7 +29,6 @@ func (s *Action) Setup(c *cli.Context) error {
 
 	ctx = initParseContext(ctx, c)
 
-	out.Printf(ctx, logo)
 	out.Printf(ctx, "🌟 Welcome to gopass!")
 	out.Printf(ctx, "🌟 Initializing a new password store ...")
 
