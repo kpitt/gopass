@@ -3,75 +3,68 @@ package termio
 import (
 	"fmt"
 	"math"
-	"strings"
-	"sync/atomic"
-	"syscall"
-	"time"
 
-	"github.com/dustin/go-humanize"
-	"github.com/fatih/color"
-	"golang.org/x/term"
+	"github.com/muesli/goprogressbar"
 )
 
-const (
-	fps = 25
-)
+func init() {
+	goprogressbar.Stdout = Stderr
+}
 
-var now = time.Now
-
-// ProgressBar is a gopass progress bar.
+// ProgressBar is a wrapper around goprogressbar.
 type ProgressBar struct {
-	// keep both int64 fields at the top to ensure correct
-	// 8-byte alignment on 32 bit systems. See https://golang.org/pkg/sync/atomic/#pkg-note-BUG
-	// and https://github.com/golang/go/issues/36606
-	total   int64
-	current int64
-
-	mutex   chan struct{}
-	lastUpd time.Time
-
+	Bar    *goprogressbar.ProgressBar
 	Hidden bool
-	Bytes  bool
 }
 
 // NewProgressBar creates a new progress bar.
-func NewProgressBar(total int64) *ProgressBar {
+func NewProgressBar(text string, total int64) *ProgressBar {
 	return &ProgressBar{
-		total:   total,
-		current: 0,
-		mutex:   make(chan struct{}, 1),
+		Bar: &goprogressbar.ProgressBar{
+			Total:   total,
+			Current: 0,
+            Text:    text,
+			Width:   60,
+			PrependTextFunc: func(p *goprogressbar.ProgressBar) string {
+				cur := p.Current
+				max := p.Total
+				digits := int(math.Log10(float64(max))) + 1
+				// Log10(0) is undefined
+				if max < 1 {
+					digits = 1
+				}
+				return fmt.Sprintf(fmt.Sprintf(" %%%dd / %%%dd ", digits, digits), cur, max)
+			},
+		},
 	}
 }
 
 // Add adds the given amount to the progress.
 func (p *ProgressBar) Add(v int64) {
-	cur := atomic.AddInt64(&p.current, v)
-	if max := atomic.LoadInt64(&p.total); cur > max {
-		atomic.StoreInt64(&p.total, cur)
-	}
-
+	cur := p.Bar.Current + v
+	p.Bar.Current = min(cur, p.Bar.Total)
 	p.print()
 }
 
 // Inc adds one to the progress.
 func (p *ProgressBar) Inc() {
-	cur := atomic.AddInt64(&p.current, 1)
-	if max := atomic.LoadInt64(&p.total); cur > max {
-		atomic.StoreInt64(&p.total, cur)
+	if p.Bar.Current < p.Bar.Total {
+		p.Bar.Current++
 	}
-
 	p.print()
 }
 
 // Set sets an arbitrary progress.
 func (p *ProgressBar) Set(v int64) {
-	atomic.StoreInt64(&p.current, v)
-
-	if max := atomic.LoadInt64(&p.total); v > max {
-		atomic.StoreInt64(&p.total, v)
-	}
-
+	p.Bar.Current = min(v, p.Bar.Total)
 	p.print()
+}
+
+// SetText changes the status text.
+// Does not display the updated progress bar, so set the status
+// text before calling an update function such as `Inc`.
+func (p *ProgressBar) SetText(text string) {
+    p.Bar.Text = text
 }
 
 // Done finalizes the progress bar.
@@ -85,136 +78,25 @@ func (p *ProgressBar) Done() {
 
 // Clear removes the progress bar.
 func (p *ProgressBar) Clear() {
-	clearLine()
+	p.Bar.Clear()
 }
 
 // print will print the progress bar, if necessary.
 func (p *ProgressBar) print() {
-	if p.Hidden {
-		return
-	}
-
-	// try to lock
-	select {
-	case p.mutex <- struct{}{}:
-		// lock acquired
-		p.tryPrint()
-		<-p.mutex
-	default:
-		// lock not acquired
-		return
+	if ! p.Hidden {
+        p.Bar.LazyPrint()
 	}
 }
 
-func (p *ProgressBar) tryPrint() {
-	ts := now()
-	if p.current == 0 || p.current >= p.total-1 || ts.Sub(p.lastUpd) > time.Second/fps {
-		p.lastUpd = ts
-		p.doPrint()
-	}
+// `current` gets the current progress value (mostly for testing)
+func (p *ProgressBar) current() int64 {
+    return p.Bar.Current
 }
 
-// doPrint redraws the current line.
-// This method is based on https://github.com/muesli/goprogressbar/blob/master/progressbar.go#L96
-func (p *ProgressBar) doPrint() {
-	clearLine()
-
-	cur, max, pct := p.percent()
-	pctStr := fmt.Sprintf("%.2f%%", pct*100)
-	// ensure consistent length
-	for len(pctStr) < 7 {
-		pctStr = " " + pctStr
-	}
-
-	termWidth, _, _ := term.GetSize(int(syscall.Stdin)) //nolint:unconvert
-	if termWidth < 0 {
-		// if we can determine the size (e.g. windows, fake term, mock)
-		// assume a sane default of 80
-		termWidth = 80
-	}
-
-	barWidth := uint(termWidth)
-	digits := int(math.Log10(float64(max))) + 1
-	// Log10(0) is undefined
-	if max < 1 {
-		digits = 1
-	}
-
-	text := fmt.Sprintf(fmt.Sprintf(" %%%dd / %%%dd ", digits, digits), cur, max)
-
-	if p.Bytes {
-		curStr := humanize.Bytes(uint64(cur))
-		maxStr := humanize.Bytes(uint64(max))
-		digits := len(maxStr) + 1
-		text = fmt.Sprintf(fmt.Sprintf(" %%%ds / %%%ds ", digits, digits), curStr, maxStr)
-	}
-
-	size := int(barWidth) - len(text) - len(pctStr) - 5
-	fill := int(math.Max(2, math.Floor((float64(size)*pct)+.5)))
-
-	fmt.Fprint(Stderr, text)
-
-	// not enough space
-	if size < 11 {
-		return
-	}
-
-	// Rgggggggggggmcyy
-	// Gooooooooooopass
-	tg := color.RedString("G")
-	to := strings.Repeat(color.GreenString("o"), gteZero(fill-5))
-	tp := strings.Repeat(color.YellowString("p"), boundedMin(1, fill-4))
-	ta := strings.Repeat(color.MagentaString("a"), boundedMin(1, fill-3))
-	ts := strings.Repeat(color.CyanString("s"), boundedMin(2, fill-1))
-	spc := strings.Repeat(" ", gteZero(size-fill))
-	fmt.Fprintf(Stderr, "[%s%s%s%s%s%s] %s ",
-		tg,
-		to,
-		tp,
-		ta,
-		ts,
-		spc,
-		pctStr,
-	)
-}
-
-func gteZero(a int) int {
-	if a >= 0 {
-		return a
-	}
-
-	return 0
-}
-
-func min(a, b int) int {
+func min(a, b int64) int64 {
 	if a < b {
 		return a
 	}
 
 	return b
-}
-
-func boundedMin(a, b int) int {
-	return gteZero(min(a, b))
-}
-
-func (p *ProgressBar) percent() (int64, int64, float64) {
-	cur := atomic.LoadInt64(&p.current)
-	max := atomic.LoadInt64(&p.total)
-	pct := float64(cur) / float64(max)
-
-	if p.total < 1 {
-		if p.current < 1 {
-			pct = 1
-		} else {
-			pct = 0
-		}
-	}
-
-	// normalized between 0.0 and 1.0
-	return cur, max, math.Min(1, math.Max(0, pct))
-}
-
-func clearLine() {
-	fmt.Fprintf(Stderr, "\033[2K\r]")
 }

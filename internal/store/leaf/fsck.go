@@ -18,31 +18,29 @@ import (
 
 // Fsck checks all entries matching the given prefix.
 func (s *Store) Fsck(ctx context.Context, path string) error {
-	ctx = out.AddPrefix(ctx, "["+s.alias+"] ")
+    prefix := ""
+    if s.alias != "" {
+        prefix = "[" + s.alias + "] "
+        ctx = out.AddPrefix(ctx, prefix)
+    }
+
 	debug.Log("Checking %s", path)
 
 	// first let the storage backend check itself
-	out.Printf(ctx, "Checking storage backend")
 	if err := s.storage.Fsck(ctx); err != nil {
 		return fmt.Errorf("storage backend found: %w", err)
 	}
 
+	pcb := ctxutil.GetProgressCallback(ctx)
+
 	// then try to compact storage / rcs
-	out.Printf(ctx, "Compacting storage if possible")
+    pcb(prefix + "Compacting storage")
 	if err := s.storage.Compact(ctx); err != nil {
 		return fmt.Errorf("storage backend compaction failed: %w", err)
 	}
 
-	pcb := ctxutil.GetProgressCallback(ctx)
-
 	// then we'll make sure all the secrets are readable by us and every
 	// valid recipient
-	if path == "" {
-		out.Printf(ctx, "Checking all secrets in store")
-	} else {
-		out.Printf(ctx, "Checking all secrets matching %s", path)
-	}
-
 	names, err := s.List(ctx, path)
 	if err != nil {
 		return fmt.Errorf("failed to list entries for %s: %w", path, err)
@@ -50,7 +48,7 @@ func (s *Store) Fsck(ctx context.Context, path string) error {
 
 	sort.Strings(names)
 	for _, name := range names {
-		pcb()
+		pcb(prefix + "Checking secrets")
 		if strings.HasPrefix(name, s.alias+"/") {
 			name = strings.TrimPrefix(name, s.alias+"/")
 		}

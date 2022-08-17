@@ -51,7 +51,7 @@ func WithGlobalFlags(c *cli.Context) context.Context {
 }
 
 // ProgressCallback is a callback for updateing progress.
-type ProgressCallback func()
+type ProgressCallback func(msg string)
 
 // WithTerminal returns a context with an explicit value for terminal.
 func WithTerminal(ctx context.Context, isTerm bool) context.Context {
@@ -275,7 +275,7 @@ func HasProgressCallback(ctx context.Context) bool {
 func GetProgressCallback(ctx context.Context) ProgressCallback {
 	cb, ok := ctx.Value(ctxKeyProgressCallback).(ProgressCallback)
 	if !ok || cb == nil {
-		return func() {}
+		return func(_ string) {}
 	}
 
 	return cb

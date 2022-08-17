@@ -15,11 +15,8 @@ func (s *Action) Audit(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 
 	expiry := c.Int("expiry")
-	if expiry > 0 {
-		out.Print(ctx, "Auditing password expiration ...")
-	} else {
+	if expiry <= 0 {
 		_ = s.rem.Reset("audit")
-		out.Print(ctx, "Auditing passwords for common flaws ...")
 	}
 
 	t, err := s.Store.Tree(ctx)

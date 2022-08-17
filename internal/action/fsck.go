@@ -24,7 +24,7 @@ func (s *Action) Fsck(c *cli.Context) error {
 		ctx = leaf.WithFsckDecrypt(ctx, c.Bool("decrypt"))
 	}
 
-	out.Printf(ctx, "Checking password store integrity ...")
+	out.Printf(ctx, "Checking password store integrity...\n")
 	// make sure config is in the right place.
 	// we may have loaded it from one of the fallback locations.
 	if err := s.cfg.Save(); err != nil {
@@ -47,9 +47,12 @@ func (s *Action) Fsck(c *cli.Context) error {
 
 	pwList := t.List(tree.INF)
 
-	bar := termio.NewProgressBar(int64(len(pwList) * 2))
+	mounts := s.Store.MountPoints()
+	steps := len(pwList)*2 + len(mounts) + 1
+	bar := termio.NewProgressBar("Checking storage backend", int64(steps))
 	bar.Hidden = ctxutil.IsHidden(ctx)
-	ctx = ctxutil.WithProgressCallback(ctx, func() {
+	ctx = ctxutil.WithProgressCallback(ctx, func(msg string) {
+		bar.SetText(msg)
 		bar.Inc()
 	})
 	ctx = out.AddPrefix(ctx, "\n")
