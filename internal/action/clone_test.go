@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/blang/semver/v4"
 	"github.com/kpitt/gopass/internal/backend"
 	git "github.com/kpitt/gopass/internal/backend/storage/gitfs"
 	"github.com/kpitt/gopass/internal/config"
@@ -101,7 +100,7 @@ func TestCloneBackendIsStoredForMount(t *testing.T) { //nolint:paralleltest
 	cfg := config.Load()
 	cfg.Path = u.StoreDir("")
 
-	act, err := newAction(cfg, semver.Version{}, false)
+	act, err := newAction(cfg, "1.0.0", false)
 	require.NoError(t, err)
 	require.NotNil(t, act)
 

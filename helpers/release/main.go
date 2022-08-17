@@ -17,7 +17,6 @@ import (
 	"regexp"
 	"sort"
 	"strings"
-	"text/template"
 	"time"
 
 	"github.com/blang/semver/v4"
@@ -26,31 +25,6 @@ import (
 var (
 	sleep   = time.Second
 	issueRE = regexp.MustCompile(`#(\d+)\b`)
-	verTmpl = `package main
-
-import (
-	"strings"
-
-	"github.com/blang/semver/v4"
-)
-
-func getVersion() semver.Version {
-	sv, err := semver.Parse(strings.TrimPrefix(version, "v"))
-	if err == nil {
-		return sv
-	}
-
-	return semver.Version{
-		Major: {{ .Major }},
-		Minor: {{ .Minor }},
-		Patch: {{ .Patch }},
-		Pre: []semver.PRVersion{
-			{VersionStr: "git"},
-		},
-		Build: []string{"HEAD"},
-	}
-}
-`
 )
 
 func main() {
@@ -93,12 +67,6 @@ func main() {
 		panic(err)
 	}
 	fmt.Println("✅ Wrote VERSION")
-	time.Sleep(sleep)
-	// - update version.go
-	if err := writeVersionGo(nextVer); err != nil {
-		panic(err)
-	}
-	fmt.Println("✅ Wrote version.go")
 	time.Sleep(sleep)
 	// - update CHANGELOG.md
 	if err := writeChangelog(prevVer, nextVer); err != nil {
@@ -239,7 +207,7 @@ func gitCoRel(v semver.Version) error {
 }
 
 func gitCommit(v semver.Version) error {
-	cmd := exec.Command("git", "add", "CHANGELOG.md", "VERSION", "version.go", "gopass.1", "*.completion")
+	cmd := exec.Command("git", "add", "CHANGELOG.md", "VERSION", "gopass.1", "*.completion")
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
 		return err
@@ -299,29 +267,6 @@ func updateManpage() error {
 
 func writeVersion(v semver.Version) error {
 	return os.WriteFile("VERSION", []byte(v.String()+"\n"), 0o644)
-}
-
-type tplPayload struct {
-	Major uint64
-	Minor uint64
-	Patch uint64
-}
-
-func writeVersionGo(v semver.Version) error {
-	tmpl, err := template.New("version").Parse(verTmpl)
-	if err != nil {
-		return err
-	}
-	fh, err := os.Create("version.go")
-	if err != nil {
-		return err
-	}
-	defer fh.Close()
-	return tmpl.Execute(fh, tplPayload{
-		Major: v.Major,
-		Minor: v.Minor,
-		Patch: v.Patch,
-	})
 }
 
 func isGitClean() bool {

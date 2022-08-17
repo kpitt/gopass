@@ -4,13 +4,10 @@ import (
 	"bytes"
 	"context"
 	"flag"
-	"fmt"
 	"os"
-	"runtime"
 	"testing"
 
 	"github.com/atotto/clipboard"
-	"github.com/blang/semver/v4"
 	"github.com/fatih/color"
 	"github.com/kpitt/gopass/internal/action"
 	"github.com/kpitt/gopass/internal/backend"
@@ -28,26 +25,16 @@ func TestVersionPrinter(t *testing.T) {
 	t.Parallel()
 
 	buf := &bytes.Buffer{}
-	vp := makeVersionPrinter(buf, semver.Version{Major: 1})
+	vp := makeVersionPrinter(buf, "1.0.0", "2022-08-17")
 	vp(nil)
-	assert.Equal(t, fmt.Sprintf("gopass 1.0.0 %s %s %s\n", runtime.Version(), runtime.GOOS, runtime.GOARCH), buf.String())
-}
-
-func TestGetVersion(t *testing.T) {
-	t.Parallel()
-
-	version = "1.9.0"
-
-	if getVersion().LT(semver.Version{Major: 1, Minor: 9}) {
-		t.Errorf("invalid version")
-	}
+	assert.Contains(t, buf.String(), "gopass version 1.0.0 (2022-08-17)\n")
 }
 
 func TestSetupApp(t *testing.T) {
 	t.Parallel()
 
 	ctx := context.Background()
-	_, app := setupApp(ctx, semver.Version{})
+	_, app := setupApp(ctx, "1.9.0", "2022-08-17")
 	assert.NotNil(t, app)
 }
 
@@ -123,7 +110,7 @@ func TestGetCommands(t *testing.T) { //nolint:paralleltest
 	ctx = ctxutil.WithHidden(ctx, true)
 	ctx = backend.WithCryptoBackendString(ctx, "plain")
 
-	act, err := action.New(cfg, semver.Version{})
+	act, err := action.New(cfg, "1.9.0")
 	assert.NoError(t, err)
 
 	app := cli.NewApp()

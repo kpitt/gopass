@@ -1,24 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"strings"
-
-	"github.com/blang/semver/v4"
 )
 
-func getVersion() semver.Version {
-	sv, err := semver.Parse(strings.TrimPrefix(version, "v"))
-	if err == nil {
-		return sv
+func FormatVersion(version, buildDate string) string {
+	version = strings.TrimPrefix(version, "v")
+
+	var dateStr string
+	if buildDate != "" {
+		dateStr = fmt.Sprintf(" (%s)", buildDate)
 	}
 
-	return semver.Version{
-		Major: 1,
-		Minor: 14,
-		Patch: 4,
-		Pre: []semver.PRVersion{
-			{VersionStr: "git"},
-		},
-		Build: []string{"HEAD"},
-	}
+	return version + dateStr
 }

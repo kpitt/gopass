@@ -28,6 +28,7 @@ func (s *Action) Version(c *cli.Context) error {
 	_ = s.IsInitialized(c)
 
 	cli.VersionPrinter(c)
+	fmt.Fprintln(stdout)
 
 	cryptoVer := versionInfo(ctx, s.Store.Crypto(ctx, ""))
 	storageVer := versionInfo(ctx, s.Store.Storage(ctx, ""))
@@ -45,6 +46,7 @@ func (s *Action) Version(c *cli.Context) error {
 		}
 	}
 
+	fmt.Fprintln(stdout)
 	fmt.Fprintf(stdout, "Available Crypto Backends: %s\n", strings.Join(backend.CryptoRegistry.BackendNames(), ", "))
 	fmt.Fprintf(stdout, "Available Storage Backends: %s\n", strings.Join(backend.StorageRegistry.BackendNames(), ", "))
 
@@ -75,6 +77,25 @@ func versionInfo(ctx context.Context, v versioner) string {
 	return fmt.Sprintf("%s %s", v.Name(), v.Version(ctx))
 }
 
+func (s *Action) getSemver() (semver.Version, error) {
+	version := strings.TrimPrefix(s.version, "v")
+	parts := strings.SplitN(version, "-", 3)
+	if len(parts) != 3 {
+		// doesn't look like a "git describe" version, so parse as-is
+		return semver.Parse(version)
+	}
+
+	baseVer, err := semver.Parse(parts[0])
+	if err != nil {
+		return baseVer, err
+	}
+
+	// Treat "git describe" dev version as a pre-release of the next patch
+	baseVer.Patch++
+	version = fmt.Sprintf("%s-DEV.%s+%s", baseVer.String(), parts[1], parts[2])
+	return semver.Parse(version)
+}
+
 func (s *Action) checkVersion(ctx context.Context, u chan string) {
 	msg := ""
 	defer func() {
@@ -90,7 +111,7 @@ func (s *Action) checkVersion(ctx context.Context, u chan string) {
 	// force checking for updates, mainly for testing.
 	force := os.Getenv("GOPASS_FORCE_CHECK") != ""
 
-	if !force && strings.HasSuffix(s.version.String(), "+HEAD") {
+	if !force && strings.ContainsRune(s.version, '-') {
 		// chan not check version against HEAD.
 		debug.Log("remote version check disabled for dev version")
 
@@ -105,14 +126,19 @@ func (s *Action) checkVersion(ctx context.Context, u chan string) {
 		return
 	}
 
-	r, err := updater.FetchLatestRelease(ctx)
+	sv, err := s.getSemver()
 	if err != nil {
-		msg = color.RedString("\nError checking latest version: %s", err)
-
+		msg = color.RedString("\nError parsing current version: %s", err)
 		return
 	}
 
-	if s.version.GTE(r.Version) {
+	r, err := updater.FetchLatestRelease(ctx)
+	if err != nil {
+		msg = color.RedString("\nError checking latest version: %s", err)
+		return
+	}
+
+	if sv.GTE(r.Version) {
 		_ = s.rem.Reset("update")
 		debug.Log("gopass is up-to-date (local: %q, GitHub: %q)", s.version, r.Version)
 

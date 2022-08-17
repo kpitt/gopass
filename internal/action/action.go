@@ -5,7 +5,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/blang/semver/v4"
 	"github.com/kpitt/gopass/internal/config"
 	"github.com/kpitt/gopass/internal/reminder"
 	"github.com/kpitt/gopass/internal/store/root"
@@ -15,7 +14,6 @@ import (
 var (
 	stdin  io.Reader = os.Stdin
 	stdout io.Writer = os.Stdout
-	stderr io.Writer = os.Stderr
 )
 
 // Action knows everything to run gopass CLI actions.
@@ -23,16 +21,16 @@ type Action struct {
 	Name    string
 	Store   *root.Store
 	cfg     *config.Config
-	version semver.Version
+	version string
 	rem     *reminder.Store
 }
 
 // New returns a new Action wrapper.
-func New(cfg *config.Config, sv semver.Version) (*Action, error) {
-	return newAction(cfg, sv, true)
+func New(cfg *config.Config, version string) (*Action, error) {
+	return newAction(cfg, version, true)
 }
 
-func newAction(cfg *config.Config, sv semver.Version, remind bool) (*Action, error) {
+func newAction(cfg *config.Config, version string, remind bool) (*Action, error) {
 	name := "gopass"
 	if len(os.Args) > 0 {
 		name = filepath.Base(os.Args[0])
@@ -41,7 +39,7 @@ func newAction(cfg *config.Config, sv semver.Version, remind bool) (*Action, err
 	act := &Action{
 		Name:    name,
 		cfg:     cfg,
-		version: sv,
+		version: version,
 		Store:   root.New(cfg),
 	}
 

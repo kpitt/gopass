@@ -2,16 +2,15 @@ FIRST_GOPATH              := $(firstword $(subst :, ,$(GOPATH)))
 PKGS                      := $(shell go list ./... | grep -v /tests | grep -v /xcpb | grep -v /gpb)
 GOFILES_NOVENDOR          := $(shell find . -name vendor -prune -o -type f -name '*.go' -not -name '*.pb.go' -print)
 GOFILES_BUILD             := $(shell find . -type f -name '*.go' -not -name '*_test.go')
-GOPASS_VERSION            ?= $(shell cat VERSION)
+GOPASS_VERSION            ?= $(shell git describe --tags 2>/dev/null || git rev-parse --short=8 HEAD)
 GOPASS_OUTPUT             ?= gopass
-GOPASS_REVISION           := $(shell cat COMMIT 2>/dev/null || git rev-parse --short=8 HEAD)
 BASH_COMPLETION_OUTPUT    := bash.completion
 FISH_COMPLETION_OUTPUT    := fish.completion
 ZSH_COMPLETION_OUTPUT     := zsh.completion
 CLIPHELPERS               ?= ""
 # Support reproducible builds by embedding date according to SOURCE_DATE_EPOCH if present
-DATE                      := $(shell date -u -d "@$(SOURCE_DATE_EPOCH)" '+%FT%T%z' 2>/dev/null || date -u '+%FT%T%z')
-BUILDFLAGS_NOPIE          := -tags=netgo -trimpath -ldflags="-s -w -X main.version=$(GOPASS_VERSION) -X main.commit=$(GOPASS_REVISION) -X main.date=$(DATE) $(CLIPHELPERS)" -gcflags="-trimpath=$(GOPATH)" -asmflags="-trimpath=$(GOPATH)"
+DATE                      := $(shell date -u -d "@$(SOURCE_DATE_EPOCH)" '+%F' 2>/dev/null || date -u '+%F')
+BUILDFLAGS_NOPIE          := -tags=netgo -trimpath -ldflags="-s -w -X github.com/kpitt/gopass/internal/build.Version=$(GOPASS_VERSION) -X github.com/kpitt/gopass/internal/build.Date=$(DATE) $(CLIPHELPERS)" -gcflags="-trimpath=$(GOPATH)" -asmflags="-trimpath=$(GOPATH)"
 BUILDFLAGS                ?= $(BUILDFLAGS_NOPIE) -buildmode=pie
 TESTFLAGS                 ?=
 PWD                       := $(shell pwd)
@@ -68,7 +67,7 @@ clean:
 	@printf '%s\n' '$(OK)'
 
 $(GOPASS_OUTPUT): $(GOFILES_BUILD)
-	@echo -n ">> BUILD, version = $(GOPASS_VERSION)/$(GOPASS_REVISION), output = $@"
+	@echo -n ">> BUILD, version = $(GOPASS_VERSION), output = $@"
 	@$(GO) build -o $@ $(BUILDFLAGS)
 	@printf '%s\n' '$(OK)'
 

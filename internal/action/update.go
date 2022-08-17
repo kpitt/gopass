@@ -3,6 +3,7 @@ package action
 import (
 	"fmt"
 	"runtime"
+	"strings"
 
 	"github.com/kpitt/gopass/internal/action/exit"
 	"github.com/kpitt/gopass/internal/out"
@@ -17,9 +18,8 @@ func (s *Action) Update(c *cli.Context) error {
 
 	ctx := ctxutil.WithGlobalFlags(c)
 
-	if s.version.String() == "0.0.0+HEAD" {
-		out.Errorf(ctx, "Can not check version against HEAD")
-
+	if strings.ContainsRune(s.version, '-') {
+		out.Errorf(ctx, "Cannot check pre-release version")
 		return nil
 	}
 
@@ -27,8 +27,13 @@ func (s *Action) Update(c *cli.Context) error {
 		return fmt.Errorf("gopass update is not supported on windows (#1722)")
 	}
 
+	sv, err := s.getSemver()
+	if err != nil {
+		return fmt.Errorf("could not parse current gopass version")
+	}
+
 	out.Printf(ctx, "⚒ Checking for available updates ...")
-	if err := updater.Update(ctx, s.version); err != nil {
+	if err := updater.Update(ctx, sv); err != nil {
 		return exit.Error(exit.Unknown, err, "Failed to update gopass: %s", err)
 	}
 
