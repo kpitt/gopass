@@ -165,7 +165,7 @@ func (s *Action) generateCopyOrPrint(ctx context.Context, c *cli.Context, name, 
 
 	out.Printf(
 		ctx,
-		"⚠ The generated password is:\n\n%s\n",
+		"- The generated password is:\n\n%s\n",
 		out.Secret(password),
 	)
 

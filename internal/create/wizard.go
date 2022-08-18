@@ -66,7 +66,7 @@ func New(ctx context.Context, s backend.Storage) (*Wizard, error) {
 				Priority: 0,
 				Prefix:   "websites",
 				NameFrom: []string{"url", "username"},
-				Welcome:  "🧪 Creating Website login",
+				Welcome:  "- Creating Website login",
 				Attributes: []Attribute{
 					{
 						Name:   "url",
@@ -96,7 +96,7 @@ func New(ctx context.Context, s backend.Storage) (*Wizard, error) {
 					"authority",
 					"application",
 				},
-				Welcome: "🔑 Creating PIN Code",
+				Welcome: "- Creating PIN Code",
 				Attributes: []Attribute{
 					{
 						Name:   "authority",

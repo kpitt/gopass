@@ -52,9 +52,9 @@ func (s *Action) Delete(c *cli.Context) error {
 	}
 
 	if !c.Bool("force") { // don't check if it's force anyway.
-		qStr := fmt.Sprintf("☠ Are you sure you would like to delete %q?", names)
+		qStr := fmt.Sprintf("? Are you sure you would like to delete %q?", names)
 		if key != "" {
-			qStr = fmt.Sprintf("☠ Are you sure you would like to delete %q from %q?", key, name)
+			qStr = fmt.Sprintf("? Are you sure you would like to delete %q from %q?", key, name)
 		}
 		if (s.Store.Exists(ctx, name) || s.Store.IsDir(ctx, name)) && key == "" && !termio.AskForConfirmation(ctx, qStr) {
 			return nil

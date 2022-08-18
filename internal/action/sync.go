@@ -67,7 +67,7 @@ func (s *Action) autoSync(ctx context.Context) error {
 }
 
 func (s *Action) sync(ctx context.Context, store string) error {
-	out.Printf(ctx, "🚥 Syncing with all remotes ...")
+	out.Printf(ctx, "- Syncing with all remotes...")
 
 	numEntries := 0
 	if l, err := s.Store.Tree(ctx); err == nil {

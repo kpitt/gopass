@@ -32,7 +32,7 @@ func (s *Action) Update(c *cli.Context) error {
 		return fmt.Errorf("could not parse current gopass version")
 	}
 
-	out.Printf(ctx, "⚒ Checking for available updates ...")
+	out.Printf(ctx, "- Checking for available updates...")
 	if err := updater.Update(ctx, sv); err != nil {
 		return exit.Error(exit.Unknown, err, "Failed to update gopass: %s", err)
 	}

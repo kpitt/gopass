@@ -59,7 +59,7 @@ func Notice(ctx context.Context, arg any) {
 		return
 	}
 	debug.LogN(1, "NOTICE: %s", arg)
-	fmt.Fprintf(Stdout, Prefix(ctx)+"⚠ %s"+newline(ctx), arg)
+	fmt.Fprintf(Stdout, Prefix(ctx)+"! %s"+newline(ctx), arg)
 }
 
 // Noticef prints the string with an exclamation mark in front.
@@ -68,7 +68,7 @@ func Noticef(ctx context.Context, format string, args ...any) {
 		return
 	}
 	debug.LogN(1, "NOTICE: "+format, args...)
-	fmt.Fprintf(Stdout, Prefix(ctx)+"⚠ "+format+newline(ctx), args...)
+	fmt.Fprintf(Stdout, Prefix(ctx)+"! "+format+newline(ctx), args...)
 }
 
 // Error prints the string with a red cross in front.
@@ -77,7 +77,7 @@ func Error(ctx context.Context, arg any) {
 		return
 	}
 	debug.LogN(1, "ERROR: %s", arg)
-	fmt.Fprint(Stderr, color.RedString(Prefix(ctx)+"❌ %s"+newline(ctx), arg))
+	fmt.Fprint(Stderr, color.RedString(Prefix(ctx)+"✗ %s"+newline(ctx), arg))
 }
 
 // Errorf prints the string in red to stderr.
@@ -86,7 +86,7 @@ func Errorf(ctx context.Context, format string, args ...any) {
 		return
 	}
 	debug.LogN(1, "ERROR: "+format, args...)
-	fmt.Fprint(Stderr, color.RedString(Prefix(ctx)+"❌ "+format+newline(ctx), args...))
+	fmt.Fprint(Stderr, color.RedString(Prefix(ctx)+"✗ "+format+newline(ctx), args...))
 }
 
 // OK prints the string with a green checkmark in front.
@@ -95,7 +95,7 @@ func OK(ctx context.Context, arg any) {
 		return
 	}
 	debug.LogN(1, "OK: %s", arg)
-	fmt.Fprintf(Stdout, Prefix(ctx)+"✅ %s"+newline(ctx), arg)
+	fmt.Fprintf(Stdout, Prefix(ctx)+"✓ %s"+newline(ctx), arg)
 }
 
 // OKf prints the string in with an OK checkmark in front.
@@ -104,7 +104,7 @@ func OKf(ctx context.Context, format string, args ...any) {
 		return
 	}
 	debug.LogN(1, "OK: "+format, args...)
-	fmt.Fprintf(Stdout, Prefix(ctx)+"✅ "+format+newline(ctx), args...)
+	fmt.Fprintf(Stdout, Prefix(ctx)+"✓ "+format+newline(ctx), args...)
 }
 
 // Warning prints the string with a warning sign in front.
@@ -113,7 +113,7 @@ func Warning(ctx context.Context, arg any) {
 		return
 	}
 	debug.LogN(1, "WARNING: %s", arg)
-	fmt.Fprint(Stderr, color.YellowString(Prefix(ctx)+"⚠ %s"+newline(ctx), arg))
+	fmt.Fprint(Stderr, color.YellowString(Prefix(ctx)+"! %s"+newline(ctx), arg))
 }
 
 // Warningf prints the string in yellow to stderr and prepends a warning sign.
@@ -122,5 +122,5 @@ func Warningf(ctx context.Context, format string, args ...any) {
 		return
 	}
 	debug.LogN(1, "WARNING: "+format, args...)
-	fmt.Fprint(Stderr, color.YellowString(Prefix(ctx)+"⚠ "+format+newline(ctx), args...))
+	fmt.Fprint(Stderr, color.YellowString(Prefix(ctx)+"! "+format+newline(ctx), args...))
 }

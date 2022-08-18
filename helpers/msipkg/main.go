@@ -62,7 +62,7 @@ func main() {
 	}
 
 	fmt.Println()
-	fmt.Printf("✅ Current version is: %s\n", curVer.String())
+	fmt.Printf("- Current version is: %s\n", curVer.String())
 
 	td, err := os.MkdirTemp("", "gopass-")
 	if err != nil {
@@ -95,7 +95,7 @@ func main() {
 	}
 	fh.Close()
 
-	fmt.Printf("✅ Wrote Wix XML config to: %s\n", wCfg)
+	fmt.Printf("✓ Wrote Wix XML config to: %s\n", wCfg)
 
 	msiPkg := fmt.Sprintf("dist/gopass-%s-windows-%s.msi", "x64", curVer.String())
 	cmd := exec.CommandContext(ctx, "wixl", wCfg, "-o", msiPkg, "--arch", "x64")
@@ -107,7 +107,7 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Printf("✅ Created MSI package at: %s\n", msiPkg)
+	fmt.Printf("✓ Created MSI package at: %s\n", msiPkg)
 	fmt.Println()
 }
 

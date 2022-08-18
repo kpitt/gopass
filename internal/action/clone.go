@@ -48,7 +48,7 @@ func (s *Action) Clone(c *cli.Context) error {
 	}
 
 	out.Printf(ctx, "🌟 Welcome to gopass!")
-	out.Printf(ctx, "🌟 Cloning an existing password store from %q ...", repo)
+	out.Printf(ctx, "- Cloning an existing password store from %q ...", repo)
 
 	if name := termio.DetectName(ctx, c); name != "" {
 		ctx = ctxutil.WithUsername(ctx, name)
@@ -187,14 +187,14 @@ func (s *Action) cloneCheckDecryptionKeys(ctx context.Context, mount string) err
 	// check for existing GPG/Age keypairs (private/secret keys). We need at least
 	// one useable key pair. If none exists try to create one.
 	if !s.initHasUseablePrivateKeys(ctx, crypto) {
-		out.Printf(ctx, "🔐 No useable cryptographic keys. Generating new key pair")
+		out.Printf(ctx, "! No useable cryptographic keys. Generating new key pair")
 		if crypto.Name() == "gpgcli" {
-			out.Printf(ctx, "🕰 Key generation may take up to a few minutes")
+			out.Printf(ctx, "! Key generation may take up to a few minutes")
 		}
 		if err := s.initGenerateIdentity(ctx, crypto, ctxutil.GetUsername(ctx), ctxutil.GetEmail(ctx)); err != nil {
 			return fmt.Errorf("failed to create new private key: %w", err)
 		}
-		out.Printf(ctx, "🔐 Cryptographic keys generated")
+		out.Printf(ctx, "✓ Cryptographic keys generated")
 	}
 
 	debug.Log("We have useable private keys")
@@ -256,14 +256,14 @@ func (s *Action) cloneAddMount(ctx context.Context, mount, path string) error {
 }
 
 func (s *Action) cloneGetGitConfig(ctx context.Context, name string) (string, string, error) {
-	out.Printf(ctx, "🎩 Gathering information for the git repository ...")
+	out.Printf(ctx, "- Gathering information for the git repository...")
 	// for convenience, set defaults to user-selected values from available private keys.
 	// NB: discarding returned error since this is merely a best-effort look-up for convenience.
 	username, email, _ := cui.AskForGitConfigUser(ctx, s.Store.Crypto(ctx, name))
 	if username == "" {
 		username = termio.DetectName(ctx, nil)
 		var err error
-		username, err = termio.AskForString(ctx, "🚶 What is your name?", username)
+		username, err = termio.AskForString(ctx, "? What is your name?", username)
 		if err != nil {
 			return "", "", exit.Error(exit.IO, err, "Failed to read user input: %s", err)
 		}
@@ -272,7 +272,7 @@ func (s *Action) cloneGetGitConfig(ctx context.Context, name string) (string, st
 	if email == "" {
 		email = termio.DetectEmail(ctx, nil)
 		var err error
-		email, err = termio.AskForString(ctx, "📧 What is your email?", email)
+		email, err = termio.AskForString(ctx, "? What is your email?", email)
 		if err != nil {
 			return "", "", exit.Error(exit.IO, err, "Failed to read user input: %s", err)
 		}

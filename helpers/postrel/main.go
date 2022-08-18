@@ -48,7 +48,7 @@ func main() {
 	}
 
 	// update gopass.pw
-	fmt.Println("☝  Updating gopass.pw ...")
+	fmt.Println("- Updating gopass.pw...")
 	if err := updateGopasspw(htmlDir, curVer); err != nil {
 		fmt.Printf("Failed to update gopasspw.github.io: %s\n", err)
 	}
@@ -68,15 +68,15 @@ func main() {
 	}
 
 	fmt.Println()
-	fmt.Printf("✅ Current version is: %s\n", curVer.String())
-	fmt.Printf("✅ New version milestone will be: %s\n", nextVer.String())
-	fmt.Printf("✅ Expecting HTML in: %s\n", htmlDir)
+	fmt.Printf("- Current version is: %s\n", curVer.String())
+	fmt.Printf("- New version milestone will be: %s\n", nextVer.String())
+	fmt.Printf("- Expecting HTML in: %s\n", htmlDir)
 	fmt.Println()
-	fmt.Println("❓ Do you want to continue? (press any key to continue or Ctrl+C to abort)")
+	fmt.Println("? Do you want to continue? (press any key to continue or Ctrl+C to abort)")
 	fmt.Scanln()
 
 	// create a new GitHub milestone
-	fmt.Println("☝  Creating new GitHub Milestone(s) ...")
+	fmt.Println("- Creating new GitHub Milestone(s) ...")
 	if err := ghCl.createMilestones(ctx, nextVer); err != nil {
 		fmt.Printf("Failed to create GitHub milestones: %s\n", err)
 	}
@@ -110,7 +110,7 @@ type ghClient struct {
 func newGHClient(ctx context.Context) (*ghClient, error) {
 	pat := os.Getenv("GITHUB_TOKEN")
 	if pat == "" {
-		return nil, fmt.Errorf("❌ Please set GITHUB_TOKEN")
+		return nil, fmt.Errorf("✗ Please set GITHUB_TOKEN")
 	}
 
 	ts := oauth2.StaticTokenSource(
@@ -144,7 +144,7 @@ func (g *ghClient) createMilestones(ctx context.Context, v semver.Version) error
 func (g *ghClient) createMilestone(ctx context.Context, title string, offset int, ms []*github.Milestone) error {
 	for _, m := range ms {
 		if *m.Title == title {
-			fmt.Printf("❌ Milestone %s exists\n", title)
+			fmt.Printf("✗ Milestone %s exists\n", title)
 			return nil
 		}
 	}
@@ -155,7 +155,7 @@ func (g *ghClient) createMilestone(ctx context.Context, title string, offset int
 		DueOn: &due,
 	})
 	if err == nil {
-		fmt.Printf("✅ Milestone %s created\n", title)
+		fmt.Printf("✓ Milestone %s created\n", title)
 	}
 
 	return err
@@ -292,14 +292,14 @@ func (u *repoUpdater) update(ctx context.Context) {
 		fmt.Println()
 		fmt.Println("------------------------------")
 		fmt.Println()
-		fmt.Printf("🌟 Updating: %s ...\n", upd.Distro)
+		fmt.Printf("- Updating: %s...\n", upd.Distro)
 		fmt.Println()
 		if err := upd.UpFn(ctx); err != nil {
-			fmt.Printf("❌ Updating %s failed: %s\n", upd.Distro, err)
+			fmt.Printf("✗ Updating %s failed: %s\n", upd.Distro, err)
 
 			continue
 		}
-		fmt.Printf("✅ Distro %s updated\n", upd.Distro)
+		fmt.Printf("✓ Distro %s updated\n", upd.Distro)
 	}
 }
 
@@ -320,7 +320,7 @@ func (u *repoUpdater) updateAlpine(ctx context.Context) error {
 	if err := r.updatePrepare(); err != nil {
 		return err
 	}
-	fmt.Println("✅ Prepared")
+	fmt.Println("✓ Prepared")
 
 	// update community/gopass/APKBUILD
 	buildFn := "community/gopass/APKBUILD"
@@ -335,12 +335,12 @@ func (u *repoUpdater) updateAlpine(ctx context.Context) error {
 	if err := updateBuild(buildPath, repl); err != nil {
 		return err
 	}
-	fmt.Println("✅ Built")
+	fmt.Println("✓ Built")
 
 	if err := r.updateFinalize(buildFn); err != nil {
 		return err
 	}
-	fmt.Println("✅ Finalized")
+	fmt.Println("✓ Finalized")
 
 	// TODO could open an MR: https://docs.gitlab.com/ce/api/merge_requests.html#create-mhttps://docs.gitlab.com/ce/api/merge_requests.html#comments-on-merge-requestsr
 	return nil
@@ -362,7 +362,7 @@ func (u *repoUpdater) updateHomebrew(ctx context.Context) error {
 	if err := r.updatePrepare(); err != nil {
 		return err
 	}
-	fmt.Println("✅ Prepared")
+	fmt.Println("✓ Prepared")
 
 	// update Formula/gopass.rb
 	buildFn := "Formula/gopass.rb"
@@ -378,12 +378,12 @@ func (u *repoUpdater) updateHomebrew(ctx context.Context) error {
 	); err != nil {
 		return err
 	}
-	fmt.Println("✅ Built")
+	fmt.Println("✓ Built")
 
 	if err := r.updateFinalize(buildFn); err != nil {
 		return err
 	}
-	fmt.Println("✅ Finalized")
+	fmt.Println("✓ Finalized")
 
 	return u.createPR(ctx, r.commitMsg(), u.ghUser+":"+r.branch(), "Homebrew", "homebrew-core")
 }
@@ -404,7 +404,7 @@ func (u *repoUpdater) updateVoid(ctx context.Context) error {
 	if err := r.updatePrepare(); err != nil {
 		return err
 	}
-	fmt.Println("✅ Prepared")
+	fmt.Println("✓ Prepared")
 
 	// update srcpkgs/gopass/template
 	buildFn := "srcpkgs/gopass/template"
@@ -421,12 +421,12 @@ func (u *repoUpdater) updateVoid(ctx context.Context) error {
 	); err != nil {
 		return err
 	}
-	fmt.Println("✅ Built")
+	fmt.Println("✓ Built")
 
 	if err := r.updateFinalize(buildFn); err != nil {
 		return err
 	}
-	fmt.Println("✅ Finalized")
+	fmt.Println("✓ Finalized")
 
 	return u.createPR(ctx, r.commitMsg(), u.ghUser+":"+r.branch(), "void-linux", "void-packages")
 }
@@ -442,12 +442,12 @@ func (u *repoUpdater) createPR(ctx context.Context, title, from, toOrg, toRepo s
 
 	pr, resp, err := u.github.PullRequests.Create(ctx, toOrg, toRepo, newPR)
 	if err != nil {
-		fmt.Printf("❌ Creating GitHub PR failed: %s", err)
+		fmt.Printf("✗ Creating GitHub PR failed: %s", err)
 		fmt.Printf("Request: %+v\n", newPR)
 		fmt.Printf("Response: %+v\n", resp)
 		return err
 	}
-	fmt.Printf("✅ GitHub PR created: %s\n", pr.GetHTMLURL())
+	fmt.Printf("✓ GitHub PR created: %s\n", pr.GetHTMLURL())
 	return err
 }
 
@@ -522,7 +522,7 @@ func (r *repo) commitMsg() string {
 }
 
 func (r *repo) updatePrepare() error {
-	fmt.Println("🌟 Running prepare ...")
+	fmt.Println("- Running prepare...")
 
 	// git co master
 	if err := r.gitCoMaster(); err != nil {
@@ -548,7 +548,7 @@ func (r *repo) updatePrepare() error {
 }
 
 func (r *repo) updateFinalize(path string) error {
-	fmt.Println("🌟 Running finalize ...")
+	fmt.Println("- Running finalize...")
 
 	// git commit -m 'gopass: update to VER'
 	if err := r.gitCommit(path); err != nil {
