@@ -96,7 +96,7 @@ func AskForBool(ctx context.Context, text string, def bool) (bool, error) {
 }
 
 // AskForInt asks for an valid interger once. If the input
-// can not be converted to an int it returns an error.
+// cannot be converted to an int it returns an error.
 func AskForInt(ctx context.Context, text string, def int) (int, error) {
 	if ctxutil.IsAlwaysYes(ctx) {
 		return def, nil

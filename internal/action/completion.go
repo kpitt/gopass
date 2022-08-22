@@ -62,7 +62,7 @@ set -A complete_gopass -- $PASS_LIST %s
 `
 
 	if a == nil {
-		return fmt.Errorf("can not parse command options")
+		return fmt.Errorf("cannot parse command options")
 	}
 
 	opts := make([]string, 0, len(a.Commands))

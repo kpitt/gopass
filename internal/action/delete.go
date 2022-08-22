@@ -71,7 +71,7 @@ func (s *Action) Delete(c *cli.Context) error {
 	for _, name := range names {
 		debug.Log("removing entry %q", name)
 		if err := s.Store.Delete(ctx, name); err != nil {
-			return exit.Error(exit.IO, err, "Can not delete %q: %s", name, err)
+			return exit.Error(exit.IO, err, "Cannot delete %q: %s", name, err)
 		}
 	}
 
@@ -98,13 +98,13 @@ func (s *Action) deleteRecursive(ctx context.Context, name string, force bool) e
 func (s *Action) deleteKeyFromYAML(ctx context.Context, name, key string) error {
 	sec, err := s.Store.Get(ctx, name)
 	if err != nil {
-		return exit.Error(exit.IO, err, "Can not delete key %q from %q: %s", key, name, err)
+		return exit.Error(exit.IO, err, "Cannot delete key %q from %q: %s", key, name, err)
 	}
 
 	sec.Del(key)
 
 	if err := s.Store.Set(ctxutil.WithCommitMessage(ctx, "Updated Key"), name, sec); err != nil {
-		return exit.Error(exit.IO, err, "Can not delete key %q from %q: %s", key, name, err)
+		return exit.Error(exit.IO, err, "Cannot delete key %q from %q: %s", key, name, err)
 	}
 
 	return nil

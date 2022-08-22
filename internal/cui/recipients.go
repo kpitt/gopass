@@ -30,11 +30,11 @@ const (
 // AskForPrivateKey prompts the user to select from a list of private keys.
 func AskForPrivateKey(ctx context.Context, crypto backend.Crypto, prompt string) (string, error) {
 	if !ctxutil.IsInteractive(ctx) {
-		return "", fmt.Errorf("can not select private key without terminal")
+		return "", fmt.Errorf("cannot select private key without terminal")
 	}
 
 	if crypto == nil {
-		return "", fmt.Errorf("can not select private key without valid crypto backend")
+		return "", fmt.Errorf("cannot select private key without valid crypto backend")
 	}
 
 	kl, err := crypto.ListIdentities(ctx)

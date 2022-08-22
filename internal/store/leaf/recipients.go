@@ -278,7 +278,7 @@ func (s *Store) ExportMissingPublicKeys(ctx context.Context, rs []string) (bool,
 // Save all Recipients in memory to the recipients file on disk.
 func (s *Store) saveRecipients(ctx context.Context, rs []string, msg string) error {
 	if len(rs) < 1 {
-		return fmt.Errorf("can not remove all recipients")
+		return fmt.Errorf("cannot remove all recipients")
 	}
 
 	idf := s.idFile(ctx, "")

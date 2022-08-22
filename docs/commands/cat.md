@@ -40,7 +40,7 @@ $ gopass cat test/new
 
 In contrast to `insert` it handles any kind of data-stream from STDIN and
 encodes it.
-Drawback: you can not just simply read the password with `gopass show`.
+Drawback: you cannot just simply read the password with `gopass show`.
 
 ## Flags
 

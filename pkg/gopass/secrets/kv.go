@@ -52,7 +52,7 @@ func NewKVWithData(pw string, kvps map[string][]string, body string, converted b
 // Line | Description
 // ---- | -----------
 //
-//	  0 | Password. Must contain the "password" or be empty. Can not be omitted.
+//	  0 | Password. Must contain the "password" or be empty. Cannot be omitted.
 //	1-n | Key-Value pairs, e.g. "key: value". Can be omitted but the secret
 //	    | might get parsed as a "Plain" secret if zero key-value pairs are found.
 //	n+1 | Body. Can contain any number of characters that will be parsed as

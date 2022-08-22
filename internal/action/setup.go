@@ -69,7 +69,7 @@ func (s *Action) Setup(c *cli.Context) error {
 
 	crypto := s.getCryptoFor(ctx, team)
 	if crypto == nil {
-		return fmt.Errorf("can not continue without crypto")
+		return fmt.Errorf("cannot continue without crypto")
 	}
 	debug.Log("Crypto Backend initialized as: %s", crypto.Name())
 
@@ -195,7 +195,7 @@ type keyExporter interface {
 func (s *Action) initExportPublicKey(ctx context.Context, crypto backend.Crypto, key string) error {
 	exp, ok := crypto.(keyExporter)
 	if !ok {
-		debug.Log("crypto backend %T can not export public keys", crypto)
+		debug.Log("crypto backend %T cannot export public keys", crypto)
 
 		return nil
 	}
