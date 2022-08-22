@@ -333,7 +333,7 @@ func generatePassword(ctx context.Context, hostname, charset string) (string, er
 		return pwgen.GeneratePasswordCharset(length, charset), nil
 	}
 	if _, found := pwrules.LookupRule(hostname); found {
-		out.Noticef(ctx, "Using password rules for %s ...", hostname)
+		out.Noticef(ctx, "Using password rules for %s...", hostname)
 		length, err := termio.AskForInt(ctx, fmtfn(4, "b", "How long?"), defaultLength)
 		if err != nil {
 			return "", err

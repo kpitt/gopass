@@ -52,7 +52,7 @@ func (s *Action) Init(c *cli.Context) error {
 	alias := c.String("store")
 
 	ctx = initParseContext(ctx, c)
-	out.Printf(ctx, "- Initializing a new password store ...")
+	out.Printf(ctx, "- Initializing a new password store...")
 
 	if name := termio.DetectName(c.Context, c); name != "" {
 		ctx = ctxutil.WithUsername(ctx, name)
@@ -145,14 +145,14 @@ func (s *Action) init(ctx context.Context, alias, path string, keys ...string) e
 
 	if backend.HasStorageBackend(ctx) {
 		bn := backend.StorageBackendName(backend.GetStorageBackend(ctx))
-		debug.Log("Initializing RCS (%s) ...", bn)
+		debug.Log("Initializing RCS (%s)...", bn)
 		if err := s.rcsInit(ctx, alias, ctxutil.GetUsername(ctx), ctxutil.GetEmail(ctx)); err != nil {
 			debug.Log("Stacktrace: %+v\n", err)
 			out.Errorf(ctx, "✗ Failed to init Version Control (%s): %s", bn, err)
 		}
 		debug.Log("RCS initialized as %s", s.Store.Storage(ctx, alias).Name())
 	} else {
-		debug.Log("not initializing RCS backend ...")
+		debug.Log("not initializing RCS backend")
 	}
 
 	// write config.

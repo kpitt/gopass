@@ -269,7 +269,7 @@ func clamp(min, max, value int) int {
 }
 
 func (s *Action) generatePasswordForRule(ctx context.Context, c *cli.Context, length, name, domain string, rule pwrules.Rule) (string, error) {
-	out.Noticef(ctx, "Using password rules for %s ...", domain)
+	out.Noticef(ctx, "Using password rules for %s...", domain)
 	wl := 16
 	if iv, err := strconv.Atoi(length); err == nil {
 		wl = clamp(rule.Minlen, rule.Maxlen, iv)

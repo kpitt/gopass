@@ -44,7 +44,7 @@ func (s *Store) ImportMissingPublicKeys(ctx context.Context, newrs ...string) er
 
 	rs = append(rs, newrs...)
 	for _, r := range rs {
-		debug.Log("Checking recipients %s ...", r)
+		debug.Log("Checking recipients %s...", r)
 		// check if this recipient is missing
 		// we could list all keys outside the loop and just do the lookup here
 		// but this way we ensure to use the exact same lookup logic as

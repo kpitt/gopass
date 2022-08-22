@@ -138,7 +138,7 @@ func (s *Action) syncMount(ctx context.Context, mp string) error {
 		out.Errorf(ctx, "Failed to list store: %s", err)
 	}
 
-	out.Printf(ctxno, "\n   "+color.GreenString("%s pull and push ... ", sub.Storage().Name()))
+	out.Printf(ctxno, "\n   "+color.GreenString("%s pull and push... ", sub.Storage().Name()))
 	err = sub.Storage().Push(ctx, "", "")
 
 	switch {
@@ -182,7 +182,7 @@ func (s *Action) syncMount(ctx context.Context, mp string) error {
 
 func syncImportKeys(ctx context.Context, sub *leaf.Store, name string) error {
 	// import keys.
-	out.Printf(ctx, "\n   "+color.GreenString("importing missing keys ... "))
+	out.Printf(ctx, "\n   "+color.GreenString("importing missing keys... "))
 	if err := sub.ImportMissingPublicKeys(ctx); err != nil {
 		out.Errorf(ctx, "Failed to import missing public keys for %q: %s", name, err)
 
@@ -195,7 +195,7 @@ func syncImportKeys(ctx context.Context, sub *leaf.Store, name string) error {
 
 func syncExportKeys(ctx context.Context, sub *leaf.Store, name string) error {
 	// export keys.
-	out.Printf(ctx, "\n   "+color.GreenString("exporting missing keys ... "))
+	out.Printf(ctx, "\n   "+color.GreenString("exporting missing keys... "))
 	rs, err := sub.GetRecipients(ctx, "")
 	if err != nil {
 		out.Errorf(ctx, "Failed to load recipients for %q: %s", name, err)

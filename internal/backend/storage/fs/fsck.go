@@ -161,7 +161,7 @@ func fsckRemoveEmptyDir(fp string) error {
 		return nil
 	}
 
-	debug.Log("removing %q ...", fp)
+	debug.Log("removing %q...", fp)
 
 	return os.Remove(fp)
 }

@@ -38,7 +38,7 @@ func (s *Action) Cat(c *cli.Context) error {
 
 	// if content is piped to stdin, read and save it.
 	if info.Mode()&os.ModeCharDevice == 0 {
-		debug.Log("Reading from STDIN ...")
+		debug.Log("Reading from STDIN...")
 		content := &bytes.Buffer{}
 
 		if written, err := io.Copy(content, binstdin); err != nil {

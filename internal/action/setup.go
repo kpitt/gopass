@@ -276,7 +276,7 @@ func (s *Action) initLocal(ctx context.Context) error {
 	if backend.GetStorageBackend(ctx) == backend.GitFS {
 		debug.Log("configuring git remotes")
 		if want, err := termio.AskForBool(ctx, "? Do you want to add a git remote?", false); err == nil && want {
-			out.Printf(ctx, "Configuring the git remote ...")
+			out.Printf(ctx, "Configuring the git remote...")
 			if err := s.initSetupGitRemote(ctx, "", ""); err != nil {
 				return fmt.Errorf("failed to setup git remote: %w", err)
 			}
@@ -298,7 +298,7 @@ func (s *Action) initLocal(ctx context.Context) error {
 func (s *Action) initCreateTeam(ctx context.Context, team, remote string) error {
 	var err error
 
-	out.Printf(ctx, "Creating a new team ...")
+	out.Printf(ctx, "Creating a new team...")
 	if err := s.initLocal(ctx); err != nil {
 		return fmt.Errorf("failed to create local store: %w", err)
 	}
@@ -310,13 +310,13 @@ func (s *Action) initCreateTeam(ctx context.Context, team, remote string) error 
 	}
 	ctx = out.AddPrefix(ctx, "["+team+"] ")
 
-	out.Printf(ctx, "Initializing your shared store ...")
+	out.Printf(ctx, "Initializing your shared store...")
 	if err := s.init(ctxutil.WithHidden(ctx, true), team, ""); err != nil {
 		return fmt.Errorf("failed to init shared store: %w", err)
 	}
 	out.OKf(ctx, "Done. Initialized the store.")
 
-	out.Printf(ctx, "Configuring the git remote ...")
+	out.Printf(ctx, "Configuring the git remote...")
 	if err := s.initSetupGitRemote(ctx, team, remote); err != nil {
 		return fmt.Errorf("failed to setup git remote: %w", err)
 	}
@@ -330,7 +330,7 @@ func (s *Action) initCreateTeam(ctx context.Context, team, remote string) error 
 func (s *Action) initJoinTeam(ctx context.Context, team, remote string) error {
 	var err error
 
-	out.Printf(ctx, "Joining existing team ...")
+	out.Printf(ctx, "Joining existing team...")
 	if err := s.initLocal(ctx); err != nil {
 		return fmt.Errorf("failed to create local store: %w", err)
 	}
@@ -342,13 +342,13 @@ func (s *Action) initJoinTeam(ctx context.Context, team, remote string) error {
 	}
 	ctx = out.AddPrefix(ctx, "["+team+"]")
 
-	out.Printf(ctx, "Configuring git remote ...")
+	out.Printf(ctx, "Configuring git remote...")
 	remote, err = termio.AskForString(ctx, out.Prefix(ctx)+"Please enter the git remote for your shared store", remote)
 	if err != nil {
 		return err
 	}
 
-	out.Printf(ctx, "Cloning from the git remote ...")
+	out.Printf(ctx, "Cloning from the git remote...")
 	if err := s.clone(ctxutil.WithHidden(ctx, true), remote, team, ""); err != nil {
 		return fmt.Errorf("failed to clone repo: %w", err)
 	}

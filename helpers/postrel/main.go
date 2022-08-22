@@ -76,7 +76,7 @@ func main() {
 	fmt.Scanln()
 
 	// create a new GitHub milestone
-	fmt.Println("- Creating new GitHub Milestone(s) ...")
+	fmt.Println("- Creating new GitHub Milestone(s)...")
 	if err := ghCl.createMilestones(ctx, nextVer); err != nil {
 		fmt.Printf("Failed to create GitHub milestones: %s\n", err)
 	}

@@ -82,7 +82,7 @@ func (s *Store) AddRecipient(ctx context.Context, id string) error {
 		return fmt.Errorf("failed to save recipients: %w", err)
 	}
 
-	out.Printf(ctx, "Reencrypting existing secrets. This may take some time ...")
+	out.Printf(ctx, "Reencrypting existing secrets. This may take some time...")
 
 	return s.reencrypt(ctxutil.WithCommitMessage(ctx, "Added Recipient "+id))
 }

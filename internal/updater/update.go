@@ -46,21 +46,21 @@ func Update(ctx context.Context, currentVersion semver.Version) error {
 		}
 	}
 
-	debug.Log("downloading SHA256SUMS ...")
+	debug.Log("downloading SHA256SUMS...")
 
 	_, sha256sums, err := downloadAsset(ctx, rel.Assets, "SHA256SUMS")
 	if err != nil {
 		return err
 	}
 
-	debug.Log("downloading SHA256SUMS.sig ...")
+	debug.Log("downloading SHA256SUMS.sig...")
 
 	_, sig, err := downloadAsset(ctx, rel.Assets, "SHA256SUMS.sig")
 	if err != nil {
 		return err
 	}
 
-	debug.Log("verifying GPG signature ...")
+	debug.Log("verifying GPG signature...")
 
 	ok, err := gpgVerify(sha256sums, sig)
 	if err != nil {
@@ -79,7 +79,7 @@ func Update(ctx context.Context, currentVersion semver.Version) error {
 	}
 
 	suffix := fmt.Sprintf("%s-%s.%s", runtime.GOOS, runtime.GOARCH, ext)
-	debug.Log("downloading tarball %q ...", suffix)
+	debug.Log("downloading tarball %q...", suffix)
 
 	dlFilename, buf, err := downloadAsset(ctx, rel.Assets, suffix)
 	if err != nil {
@@ -93,7 +93,7 @@ func Update(ctx context.Context, currentVersion semver.Version) error {
 		return err
 	}
 
-	debug.Log("calculating hashsum of downloaded archive ...")
+	debug.Log("calculating hashsum of downloaded archive...")
 
 	gotHash := sha256.Sum256(buf)
 	if !bytes.Equal(wantHash, gotHash[:]) {
@@ -101,7 +101,7 @@ func Update(ctx context.Context, currentVersion semver.Version) error {
 	}
 
 	debug.Log("hashsums match!")
-	debug.Log("extracting binary from tarball ...")
+	debug.Log("extracting binary from tarball...")
 
 	if err := extractFile(buf, dlFilename, dest); err != nil {
 		return err
