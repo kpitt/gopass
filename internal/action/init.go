@@ -38,8 +38,7 @@ func (s *Action) IsInitialized(c *cli.Context) error {
 		return exit.Error(exit.NotInitialized, nil, "password-store is not initialized. Try '%s init'", s.Name)
 	}
 
-	out.Printf(ctx, "🌟 Welcome to gopass!")
-	out.Noticef(ctx, "No existing configuration found.")
+	out.Errorf(ctx, "No existing configuration found.")
 	out.Printf(ctx, "- Please run 'gopass setup'")
 
 	return exit.Error(exit.NotInitialized, err, "not initialized")
@@ -52,7 +51,7 @@ func (s *Action) Init(c *cli.Context) error {
 	alias := c.String("store")
 
 	ctx = initParseContext(ctx, c)
-	out.Printf(ctx, "- Initializing a new password store...")
+	out.Printf(ctx, "Initializing a new password store:\n")
 
 	if name := termio.DetectName(c.Context, c); name != "" {
 		ctx = ctxutil.WithUsername(ctx, name)

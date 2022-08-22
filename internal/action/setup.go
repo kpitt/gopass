@@ -29,8 +29,7 @@ func (s *Action) Setup(c *cli.Context) error {
 
 	ctx = initParseContext(ctx, c)
 
-	out.Printf(ctx, "🌟 Welcome to gopass!")
-	out.Printf(ctx, "- Initializing a new password store...")
+	out.Printf(ctx, "Initializing a new password store:\n")
 
 	if name := termio.DetectName(ctx, c); name != "" {
 		ctx = ctxutil.WithUsername(ctx, name)
