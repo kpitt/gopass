@@ -55,7 +55,7 @@ func main() {
 
 	// only update gopasspw
 	if len(os.Args) > 1 && os.Args[1] == "render" {
-		fmt.Println("💎🙌 Done (render gopasspw only) 🚀🚀🚀🚀🚀🚀")
+		fmt.Println("✓ Done (render gopasspw only)")
 
 		return
 	}
@@ -89,7 +89,7 @@ func main() {
 		upd.update(ctx)
 	}
 
-	fmt.Println("💎🙌 Done 🚀🚀🚀🚀🚀🚀")
+	fmt.Println("✓ Done")
 }
 
 func mustCheckEnv() {

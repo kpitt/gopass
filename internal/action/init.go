@@ -26,14 +26,14 @@ func (s *Action) IsInitialized(c *cli.Context) error {
 	}
 
 	if inited {
-		debug.Log("Store is fully initialized and ready to go\n\nAll systems go. 🚀\n")
+		debug.Log("Store is fully initialized and ready to go.\n")
 		s.printReminder(ctx)
 		_ = s.autoSync(ctx)
 
 		return nil
 	}
 
-	debug.Log("Store needs to be initialized.\n\nAbort. Abort. Abort. 🚫\n")
+	debug.Log("Store needs to be initialized.\n")
 	if !ctxutil.IsInteractive(ctx) {
 		return exit.Error(exit.NotInitialized, nil, "password-store is not initialized. Try '%s init'", s.Name)
 	}

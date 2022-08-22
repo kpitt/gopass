@@ -113,7 +113,7 @@ func main() {
 	time.Sleep(sleep)
 	fmt.Println()
 
-	fmt.Println("💎🙌 Done 🚀🚀🚀🚀🚀🚀")
+	fmt.Println("✓ Done")
 }
 
 func getVersions() (semver.Version, semver.Version) {
