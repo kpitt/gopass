@@ -300,6 +300,5 @@ complete -c $PROG -f -n '__fish_gopass_uses_command templates remove -l chars -d
 complete -c $PROG -f -n '__fish_gopass_uses_command templates remove -l help -d "show help"'
 complete -c $PROG -f -n '__fish_gopass_uses_command templates remove -l version -d "print the version"'
 complete -c $PROG -f -n '__fish_gopass_needs_command' -a unclip -d 'Command: Internal command to clear clipboard'
-complete -c $PROG -f -n '__fish_gopass_needs_command' -a update -d 'Command: Check for updates'
 complete -c $PROG -f -n '__fish_gopass_needs_command' -a version -d 'Command: Display version'
 complete -c $PROG -f -n '__fish_gopass_needs_command' -a help -d 'Command: Shows a list of commands or help for one command'

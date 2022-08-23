@@ -249,11 +249,6 @@ WARNING: This will update the secret content to the latest format. This might be
 	      
 	      
 	      ;;
-	  update)
-	      
-	      
-	      
-	      ;;
 	  version)
 	      
 	      
@@ -310,7 +305,6 @@ WARNING: This will update the secret content to the latest format. This might be
 	  "sync:Sync all local stores with their remotes"
 	  "templates:Edit templates"
 	  "unclip:Internal command to clear clipboard"
-	  "update:Check for updates"
 	  "version:Display version"
 	  "help:Shows a list of commands or help for one command"
 	)
