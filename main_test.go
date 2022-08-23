@@ -119,7 +119,7 @@ func TestGetCommands(t *testing.T) { //nolint:paralleltest
 	c.Context = ctx
 
 	commands := getCommands(act, app)
-	assert.Equal(t, 41, len(commands))
+	assert.Equal(t, 40, len(commands))
 
 	prefix := ""
 	testCommands(t, c, commands, prefix)
@@ -129,10 +129,6 @@ func testCommands(t *testing.T, c *cli.Context, commands []*cli.Command, prefix 
 	t.Helper()
 
 	for _, cmd := range commands {
-		if cmd.Name == "update" {
-			continue
-		}
-
 		if len(cmd.Subcommands) > 0 {
 			testCommands(t, c, cmd.Subcommands, prefix+"."+cmd.Name)
 		}
