@@ -18,7 +18,6 @@ Some configuration options are only available through setting environment variab
 | `GOPASS_CHARACTER_SET`       | `bool`   | Set to any non-empty value to restrict the characters used in generated passwords                                |
 | `GOPASS_CONFIG`              | `string` | Set this to the absolute path to the configuration file                                                          |
 | `GOPASS_HOMEDIR`             | `string` | Set this to the absolute path of the directory containing the `.config/` tree                                    |
-| `GOPASS_FORCE_UPDATE`        | `bool`   | Set to any non-empty value to force an update (if available)                                                     |
 | `GOPASS_NO_NOTIFY`           | `bool`   | Set to any non-empty value to prevent notifications                                                              |
 | `GOPASS_NO_REMINDER`         | `bool`   | Set to any non-empty value to prevent reminders                                                                  |
 | `GOPASS_CLIPBOARD_COPY_CMD`  | `string` | Use an external command to copy a password to the clipboard. See [GPaste](usecases/gpaste.md) for an example     |

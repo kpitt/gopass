@@ -176,19 +176,6 @@ similar to the output of the Unix tool `tree`. It does support different
 `gopass` specific properties (like mounts or templates) not easily implemented
 with other tree packages.
 
-### `internal/updater`
-
-The `updater` package implements a secure and anonymous self updater.
-
-Note: The self updater contacts GitHub. If this is a concern one should use
-other sources, e.g. distro packages.
-
-It retrieves the latest stable release from GitHub, fetches its metadata
-and verifies the signature against the built-in release signing keyring.
-
-It tries to avoid conflicting with any `gopass` binary managed by the OS
-and refuse to update these.
-
 ### `pkg/`
 
 The package `pkg/` contains our public API surface, i.e. packages we want or
