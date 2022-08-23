@@ -72,23 +72,16 @@ Either initialize a new git repository or clone an existing one.
 ```
 $ gopass setup
 
-   __     _    _ _      _ _   ___   ___
- /'_ '\ /'_'\ ( '_'\  /'_' )/',__)/',__)
-( (_) |( (_) )| (_) )( (_| |\__, \\__, \
-'\__  |'\___/'| ,__/''\__,_)(____/(____/
-( )_) |       | |
- \___/'       (_)
+Initializing a new password store:
 
-🌟 Welcome to gopass!
-🌟 Initializing a new password store ...
-🌟 Configuring your password store ...
-🎮 Please select a private key for encrypting secrets:
+- Configuring your password store...
+? Please select a private key for encrypting secrets:
 [0] gpg - 0xFEEDBEEF - John Doe <john.doe@example.org>
 Please enter the number of a key (0-12, [q]uit) (q to abort) [0]: 0
-❓ Do you want to add a git remote? [y/N/q]: y
-Configuring the git remote ...
+? Do you want to add a git remote? [y/N/q]: y
+Configuring the git remote...
 Please enter the git remote for your shared store []: git@gitlab.example.org:john/passwords.git
-✅ Configured
+✓ Configured
 ```
 
 Hint: `gopass setup` will use `gpg` encryption and `git` storage by default.
@@ -98,20 +91,13 @@ Hint: `gopass setup` will use `gpg` encryption and `git` storage by default.
 ```
 $ gopass clone git@gitlab.example.org:john/passwords.git
 
-   __     _    _ _      _ _   ___   ___
- /'_ '\ /'_'\ ( '_'\  /'_' )/',__)/',__)
-( (_) |( (_) )| (_) )( (_| |\__, \\__, \
-'\__  |'\___/'| ,__/''\__,_)(____/(____/
-( )_) |       | |
- \___/'       (_)
+Cloning existing password store from "git@gitlab.example.org:john/passwords.git"...
 
-🌟 Welcome to gopass!
-🌟 Cloning an existing password store from "git@gitlab.example.org:john/passwords.git" ...
-⚠ Cloning git repository "git@gitlab.example.org:john/passwords.git" to "/home/john/.local/share/gopass/stores/root" ...
-⚠ Configuring git repository ...
-🎩 Gathering information for the git repository ...
-🚶 What is your name? [John Doe]:
-📧 What is your email? [john.doe@example.org]:
+! Cloning git repository "git@gitlab.example.org:john/passwords.git" to "/home/john/.local/share/gopass/stores/root"...
+! Configuring git repository...
+- Gathering information for the git repository...
+? What is your name? [John Doe]:
+? What is your email? [john.doe@example.org]:
 Your password store is ready to use! Have a look around: `gopass list`
 ```
 
@@ -173,7 +159,7 @@ gopass is developed in the open. Here are some of the channels we use to communi
 
 - [pass](https://www.passwordstore.org) - The inspiration for this project, by Jason A. Donenfeld. `gopass` is a drop-in replacement for `pass` and can be used interchangeably (mostly!).
 - [passage](https://github.com/FiloSottile/passage) - passage is a fork of [password-store](https://www.passwordstore.org) that uses
-[age](https://age-encryption.org) as a backend instead of GnuPG. `gopass` has some amount of support for `passage` but can not be used fully interchangeably as of today. This might change in the future.
+[age](https://age-encryption.org) as a backend instead of GnuPG. `gopass` has some amount of support for `passage` but cannot be used fully interchangeably as of today. This might change in the future.
 
 ## Contributing
 

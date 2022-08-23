@@ -12,13 +12,12 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"regexp"
 	"runtime"
-	rdebug "runtime/debug"
 	"runtime/pprof"
 	"sort"
-	"time"
+	"strings"
 
-	"github.com/blang/semver/v4"
 	"github.com/fatih/color"
 	ap "github.com/kpitt/gopass/internal/action"
 	"github.com/kpitt/gopass/internal/action/exit"
@@ -26,6 +25,7 @@ import (
 	_ "github.com/kpitt/gopass/internal/backend/crypto"
 	"github.com/kpitt/gopass/internal/backend/crypto/gpg"
 	_ "github.com/kpitt/gopass/internal/backend/storage"
+	"github.com/kpitt/gopass/internal/build"
 	"github.com/kpitt/gopass/internal/config"
 	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/internal/queue"
@@ -42,9 +42,6 @@ import (
 const (
 	name = "gopass"
 )
-
-// Version is the released version of gopass.
-var version string
 
 func main() {
 	// important: execute the func now but the returned func only on defer!
@@ -78,13 +75,15 @@ func main() {
 	cli.ErrWriter = errorWriter{
 		out: colorable.NewColorableStderr(),
 	}
-	sv := getVersion()
-	cli.VersionPrinter = makeVersionPrinter(os.Stdout, sv)
+
+	buildDate := build.Date
+	buildVersion := build.Version
+	cli.VersionPrinter = makeVersionPrinter(os.Stdout, buildVersion, buildDate)
 
 	// run the app
 	q := queue.New(ctx)
 	ctx = queue.WithQueue(ctx, q)
-	ctx, app := setupApp(ctx, sv)
+	ctx, app := setupApp(ctx, buildVersion, buildDate)
 
 	if err := app.RunContext(ctx, os.Args); err != nil {
 		log.Fatal(err)
@@ -97,7 +96,7 @@ func main() {
 }
 
 //nolint:wrapcheck
-func setupApp(ctx context.Context, sv semver.Version) (context.Context, *cli.App) {
+func setupApp(ctx context.Context, buildVersion, buildDate string) (context.Context, *cli.App) {
 	// try to read config (if it exists)
 	cfg := config.LoadWithFallback()
 
@@ -105,7 +104,7 @@ func setupApp(ctx context.Context, sv semver.Version) (context.Context, *cli.App
 	ctx = initContext(ctx, cfg)
 
 	// initialize action handlers
-	action, err := ap.New(cfg, sv)
+	action, err := ap.New(cfg, buildVersion)
 	if err != nil {
 		out.Errorf(ctx, "failed to initialize gopass: %s", err)
 		os.Exit(exit.Unknown)
@@ -121,7 +120,7 @@ func setupApp(ctx context.Context, sv semver.Version) (context.Context, *cli.App
 	app := cli.NewApp()
 
 	app.Name = name
-	app.Version = sv.String()
+	app.Version = FormatVersion(buildVersion, buildDate)
 	app.Usage = "The standard unix password manager - rewritten in Go"
 	app.EnableBashCompletion = true
 	app.BashComplete = func(c *cli.Context) {
@@ -187,68 +186,23 @@ func getCommands(action *ap.Action, app *cli.App) []*cli.Command {
 	return cmds
 }
 
-func parseBuildInfo() (string, string, string) {
-	bi, ok := rdebug.ReadBuildInfo()
-	if !ok {
-		return "HEAD", "", ""
+func makeVersionPrinter(out io.Writer, version, buildDate string) func(c *cli.Context) {
+	return func(c *cli.Context) {
+		versionString := FormatVersion(version, buildDate)
+		fmt.Fprintf(out, "gopass version %s\n%s\n", versionString, changelogURL(version))
 	}
-
-	var (
-		commit string
-		date   string
-		dirty  string
-	)
-
-	for _, v := range bi.Settings {
-		switch v.Key {
-		case "gitrevision":
-			commit = v.Value[len(v.Value)-8:]
-		case "gitcommittime":
-			if bt, err := time.Parse("2006-01-02T15:04:05Z", date); err == nil {
-				date = bt.Format("2006-01-02 15:04:05")
-			}
-		case "gituncommitted":
-			if v.Value == "true" {
-				dirty = " (dirty)"
-			}
-		}
-	}
-
-	return commit, date, dirty
 }
 
-func makeVersionPrinter(out io.Writer, sv semver.Version) func(c *cli.Context) {
-	return func(c *cli.Context) {
-		commit, buildtime, dirty := parseBuildInfo()
-		buildInfo := ""
-
-		if commit != "" {
-			buildInfo = commit + dirty
-		}
-
-		if buildtime != "" {
-			if buildInfo != "" {
-				buildInfo += " "
-			}
-
-			buildInfo += buildtime
-		}
-
-		if buildInfo != "" {
-			buildInfo = "(" + buildInfo + ") "
-		}
-
-		fmt.Fprintf(
-			out,
-			"%s %s %s%s %s %s\n",
-			name,
-			sv.String(),
-			buildInfo,
-			runtime.Version(),
-			runtime.GOOS,
-			runtime.GOARCH,
-		)
+func changelogURL(version string) string {
+	path := "https://github.com/kpitt/gopass"
+	r := regexp.MustCompile(`^v?\d+\.\d+\.\d+(-[\w.]+)?$`)
+	if !r.MatchString(version) {
+		return fmt.Sprintf("%s/releases/latest", path)
 	}
+
+	url := fmt.Sprintf("%s/releases/tag/v%s", path, strings.TrimPrefix(version, "v"))
+
+	return url
 }
 
 type errorWriter struct {

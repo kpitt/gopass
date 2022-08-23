@@ -57,7 +57,7 @@ func (s *Action) Generate(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 	ctx = WithClip(ctx, c.Bool("clip"))
 	force := c.Bool("force")
-	edit := c.Bool("edit") // nolint:ifshort
+	edit := c.Bool("edit") //nolint:ifshort
 
 	args, kvps := parseArgs(c)
 	name := args.Get(0)
@@ -165,7 +165,7 @@ func (s *Action) generateCopyOrPrint(ctx context.Context, c *cli.Context, name, 
 
 	out.Printf(
 		ctx,
-		"⚠ The generated password is:\n\n%s\n",
+		"- The generated password is:\n\n%s\n",
 		out.Secret(password),
 	)
 
@@ -269,7 +269,7 @@ func clamp(min, max, value int) int {
 }
 
 func (s *Action) generatePasswordForRule(ctx context.Context, c *cli.Context, length, name, domain string, rule pwrules.Rule) (string, error) {
-	out.Noticef(ctx, "Using password rules for %s ...", domain)
+	out.Noticef(ctx, "Using password rules for %s...", domain)
 	wl := 16
 	if iv, err := strconv.Atoi(length); err == nil {
 		wl = clamp(rule.Minlen, rule.Maxlen, iv)
@@ -413,7 +413,7 @@ func (s *Action) CompleteGenerate(c *cli.Context) {
 	if c.Args().Len() < 1 {
 		return
 	}
-	needle := c.Args().Get(0) // nolint:ifshort
+	needle := c.Args().Get(0) //nolint:ifshort
 
 	_, err := s.Store.IsInitialized(ctx) // important to make sure the structs are not nil.
 	if err != nil {

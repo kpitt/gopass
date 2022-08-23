@@ -41,28 +41,28 @@ func TestFsck(t *testing.T) { //nolint:paralleltest
 	// fsck
 	assert.NoError(t, act.Fsck(gptest.CliCtx(ctx, t)))
 	output := strings.TrimSpace(buf.String())
-	assert.Contains(t, output, "Checking password store integrity ...")
+	assert.Contains(t, output, "Checking password store integrity...")
 	assert.Contains(t, output, "Extra recipients on foo: [0xFEEDBEEF]")
 	buf.Reset()
 
 	// fsck (hidden)
 	assert.NoError(t, act.Fsck(gptest.CliCtx(ctxutil.WithHidden(ctx, true), t)))
 	output = strings.TrimSpace(buf.String())
-	assert.NotContains(t, output, "Checking password store integrity ...")
+	assert.NotContains(t, output, "Checking password store integrity...")
 	assert.NotContains(t, output, "Extra recipients on foo: [0xFEEDBEEF]")
 	buf.Reset()
 
 	// fsck --decrypt
 	assert.NoError(t, act.Fsck(gptest.CliCtxWithFlags(ctx, t, map[string]string{"decrypt": "true"})))
 	output = strings.TrimSpace(buf.String())
-	assert.Contains(t, output, "Checking password store integrity ...")
+	assert.Contains(t, output, "Checking password store integrity...")
 	assert.Contains(t, output, "Extra recipients on foo: [0xFEEDBEEF]")
 	buf.Reset()
 
 	// fsck fo
 	assert.NoError(t, act.Fsck(gptest.CliCtx(ctx, t, "fo")))
 	output = strings.TrimSpace(buf.String())
-	assert.Contains(t, output, "Checking password store integrity ...")
+	assert.Contains(t, output, "Checking password store integrity...")
 	assert.Contains(t, output, "Extra recipients on foo: [0xFEEDBEEF]")
 	buf.Reset()
 }
@@ -106,25 +106,25 @@ func TestFsckGpg(t *testing.T) { //nolint:paralleltest
 	// fsck
 	assert.NoError(t, act.Fsck(gptest.CliCtx(ctx, t)))
 	output := strings.TrimSpace(buf.String())
-	assert.Contains(t, output, "Checking password store integrity ...")
+	assert.Contains(t, output, "Checking password store integrity...")
 	buf.Reset()
 
 	// fsck (hidden)
 	assert.NoError(t, act.Fsck(gptest.CliCtx(ctxutil.WithHidden(ctx, true), t)))
 	output = strings.TrimSpace(buf.String())
-	assert.NotContains(t, output, "Checking password store integrity ...")
+	assert.NotContains(t, output, "Checking password store integrity...")
 	assert.NotContains(t, output, "Extra recipients on foo: [0xFEEDBEEF]")
 	buf.Reset()
 
 	// fsck --decrypt
 	assert.NoError(t, act.Fsck(gptest.CliCtxWithFlags(ctx, t, map[string]string{"decrypt": "true"})))
 	output = strings.TrimSpace(buf.String())
-	assert.Contains(t, output, "Checking password store integrity ...")
+	assert.Contains(t, output, "Checking password store integrity...")
 	buf.Reset()
 
 	// fsck fo
 	assert.NoError(t, act.Fsck(gptest.CliCtx(ctx, t, "fo")))
 	output = strings.TrimSpace(buf.String())
-	assert.Contains(t, output, "Checking password store integrity ...")
+	assert.Contains(t, output, "Checking password store integrity...")
 	buf.Reset()
 }

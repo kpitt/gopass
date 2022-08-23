@@ -87,7 +87,7 @@ func waitForKeyPress(ctx context.Context, cancel context.CancelFunc) {
 	}
 }
 
-// nolint: cyclop
+//nolint:cyclop
 func (s *Action) otp(ctx context.Context, name, qrf string, clip, pw, recurse bool) error {
 	sec, err := s.Store.Get(ctx, name)
 	if err != nil {
@@ -100,6 +100,7 @@ func (s *Action) otp(ctx context.Context, name, qrf string, clip, pw, recurse bo
 	skip := ctxutil.IsHidden(ctx) || pw || qrf != "" || !ctxutil.IsTerminal(ctx) || !ctxutil.IsInteractive(ctx) || clip
 	if !skip {
 		// let us monitor key presses for cancellation:.
+		out.Warningf(ctx, "%s", "[q] to stop. -o flag to avoid.")
 		go waitForKeyPress(ctx, cancel)
 	}
 
@@ -153,7 +154,7 @@ func (s *Action) otp(ctx context.Context, name, qrf string, clip, pw, recurse bo
 		now := time.Now()
 		expiresAt := now.Add(time.Duration(two.Period()) * time.Second).Truncate(time.Duration(two.Period()) * time.Second)
 		secondsLeft := int(time.Until(expiresAt).Seconds())
-		bar := termio.NewProgressBar(int64(secondsLeft))
+		bar := termio.NewProgressBar(token, int64(secondsLeft))
 		bar.Hidden = skip
 
 		debug.Log("OTP period: %ds", two.Period())
@@ -171,9 +172,6 @@ func (s *Action) otp(ctx context.Context, name, qrf string, clip, pw, recurse bo
 			out.Printf(ctx, "%s", token)
 			cancel()
 		} else { // if not then we want to print a progress bar with the expiry time.
-			out.Printf(ctx, "%s", token)
-			out.Warningf(ctx, "([q] to stop. -o flag to avoid.) This OTP password still lasts for:", nil)
-
 			if bar.Hidden {
 				cancel()
 			} else {

@@ -35,7 +35,7 @@ prefix: "aws"
 name_from:
   - "org"
   - "user"
-welcome: "🧪 Creating AWS credentials"
+welcome: "- Creating AWS credentials"
 attributes:
   - name: "org"
     type: "string"

@@ -54,8 +54,8 @@ func CopyTo(ctx context.Context, name string, content []byte, timeout int) error
 		return fmt.Errorf("failed to clear clipboard: %w", err)
 	}
 
-	out.Printf(ctx, "✔ Copied %s to clipboard. Will clear in %d seconds.", color.YellowString(name), timeout)
-	_ = notify.Notify(ctx, "gopass - clipboard", fmt.Sprintf("✔ Copied %s to clipboard. Will clear in %d seconds.", name, timeout))
+	out.Printf(ctx, "✓ Copied %s to clipboard. Will clear in %d seconds.", color.YellowString(name), timeout)
+	_ = notify.Notify(ctx, "gopass - clipboard", fmt.Sprintf("✓ Copied %s to clipboard. Will clear in %d seconds.", name, timeout))
 
 	return nil
 }

@@ -26,7 +26,7 @@ func (s *Store) Fsck(ctx context.Context) error {
 
 	dirs := make(map[string]struct{}, len(entries))
 	for _, entry := range entries {
-		pcb()
+		pcb("Checking storage entries")
 		debug.Log("checking entry %q", entry)
 
 		filename := filepath.Join(s.path, entry)
@@ -161,7 +161,7 @@ func fsckRemoveEmptyDir(fp string) error {
 		return nil
 	}
 
-	debug.Log("removing %q ...", fp)
+	debug.Log("removing %q...", fp)
 
 	return os.Remove(fp)
 }

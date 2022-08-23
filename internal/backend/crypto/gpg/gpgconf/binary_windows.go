@@ -22,7 +22,7 @@ func detectBinary(ctx context.Context, bin string) (string, error) {
 
 	bv := make(byVersion, 0, len(bins))
 	for _, b := range bins {
-		debug.Log("Looking for %q ...", b)
+		debug.Log("Looking for %q...", b)
 		if p, err := exec.LookPath(b); err == nil {
 			gb := gpgBin{
 				path: p,

@@ -230,7 +230,7 @@ Copied golang.org/gopher to clipboard. Will clear in 45 seconds.
 $ gopass rm golang.org/gopher
 ```
 
-`rm` will remove a secret from the store. Use `-r` to delete a whole folder. Please note that you **can not** remove a folder containing a mounted sub store. You have to unmount any mounted sub stores first.
+`rm` will remove a secret from the store. Use `-r` to delete a whole folder. Please note that you **cannot** remove a folder containing a mounted sub store. You have to unmount any mounted sub stores first.
 
 ### Moving a secret
 

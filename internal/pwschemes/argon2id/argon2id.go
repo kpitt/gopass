@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	// ErrInvalidHash is returned if the required parameters can not be obtained
+	// ErrInvalidHash is returned if the required parameters cannot be obtained
 	// from the hash.
 	ErrInvalidHash = fmt.Errorf("argon2id: invalid hash format")
 

@@ -6,7 +6,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/blang/semver/v4"
 	"github.com/kpitt/gopass/internal/backend"
 	"github.com/kpitt/gopass/internal/config"
 	"github.com/kpitt/gopass/internal/out"
@@ -35,7 +34,7 @@ func TestHistory(t *testing.T) { //nolint:paralleltest
 
 	cfg := config.New()
 	cfg.Path = u.StoreDir("")
-	act, err := newAction(cfg, semver.Version{}, false)
+	act, err := newAction(cfg, "1.0.0", false)
 	require.NoError(t, err)
 	require.NotNil(t, act)
 

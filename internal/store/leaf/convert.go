@@ -11,7 +11,6 @@ import (
 
 	"github.com/kpitt/gopass/internal/backend"
 	"github.com/kpitt/gopass/internal/cui"
-	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/internal/queue"
 	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/kpitt/gopass/pkg/debug"
@@ -80,8 +79,7 @@ func (s *Store) Convert(ctx context.Context, cryptoBe backend.CryptoBackend, sto
 		return err
 	}
 
-	out.Printf(ctx, "Converting store ...")
-	bar := termio.NewProgressBar(int64(len(entries)))
+	bar := termio.NewProgressBar("Converting store", int64(len(entries)))
 	bar.Hidden = ctxutil.IsHidden(ctx)
 	if !ctxutil.IsTerminal(ctx) || ctxutil.IsHidden(ctx) {
 		bar = nil

@@ -18,7 +18,7 @@ func (s *Action) Create(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 
 	out.Printf(ctx, "🌟 Welcome to the secret creation wizard (gopass create)!")
-	out.Printf(ctx, "🧪 Hint: Use 'gopass edit -c' for more control!")
+	out.Printf(ctx, "- Hint: Use 'gopass edit -c' for more control!")
 
 	wiz, err := create.New(ctx, s.Store.Storage(ctx, c.String("store")))
 	if err != nil {

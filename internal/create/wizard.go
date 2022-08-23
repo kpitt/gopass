@@ -66,7 +66,7 @@ func New(ctx context.Context, s backend.Storage) (*Wizard, error) {
 				Priority: 0,
 				Prefix:   "websites",
 				NameFrom: []string{"url", "username"},
-				Welcome:  "🧪 Creating Website login",
+				Welcome:  "- Creating Website login",
 				Attributes: []Attribute{
 					{
 						Name:   "url",
@@ -96,7 +96,7 @@ func New(ctx context.Context, s backend.Storage) (*Wizard, error) {
 					"authority",
 					"application",
 				},
-				Welcome: "🔑 Creating PIN Code",
+				Welcome: "- Creating PIN Code",
 				Attributes: []Attribute{
 					{
 						Name:   "authority",
@@ -239,7 +239,7 @@ func mkActFunc(tpl Template, s *root.Store, cb ActionCallback) func(context.Cont
 				}
 				hostname = extractHostname(sv)
 				if hostname == "" {
-					return fmt.Errorf("can not parse URL %s", sv)
+					return fmt.Errorf("cannot parse URL %s", sv)
 				}
 				if wantForName[k] {
 					nameParts = append(nameParts, hostname)
@@ -255,6 +255,7 @@ func mkActFunc(tpl Template, s *root.Store, cb ActionCallback) func(context.Cont
 					return err
 				}
 
+				//nolint:nestif  // This should be refactored, but not now.
 				if genPw {
 					password, err = generatePassword(ctx, hostname, v.Charset)
 					if err != nil {
@@ -333,7 +334,7 @@ func generatePassword(ctx context.Context, hostname, charset string) (string, er
 		return pwgen.GeneratePasswordCharset(length, charset), nil
 	}
 	if _, found := pwrules.LookupRule(hostname); found {
-		out.Noticef(ctx, "Using password rules for %s ...", hostname)
+		out.Noticef(ctx, "Using password rules for %s...", hostname)
 		length, err := termio.AskForInt(ctx, fmtfn(4, "b", "How long?"), defaultLength)
 		if err != nil {
 			return "", err

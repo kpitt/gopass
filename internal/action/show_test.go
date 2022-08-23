@@ -225,11 +225,9 @@ func TestShowAutoClip(t *testing.T) { //nolint:paralleltest
 	out.Stdout = stdoutBuf
 	stdout = stdoutBuf
 	out.Stderr = stderrBuf
-	stderr = stderrBuf
 	defer func() {
 		stdout = os.Stdout
 		out.Stdout = os.Stdout
-		stderr = os.Stderr
 		out.Stderr = os.Stderr
 	}()
 

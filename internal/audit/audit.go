@@ -48,8 +48,6 @@ var DefaultExpiration = time.Hour * 24 * 365
 
 // Batch runs a password strength audit on multiple secrets. Expiration is in days.
 func Batch(ctx context.Context, secrets []string, secStore secretGetter, expiration int) error {
-	out.Printf(ctx, "Checking %d secrets. This may take some time ...\n", len(secrets))
-
 	// Secrets that still need auditing.
 	pending := make(chan string, 100)
 
@@ -124,7 +122,7 @@ func Batch(ctx context.Context, secrets []string, secStore secretGetter, expirat
 	messages := make(map[string][]string)
 	errors := make(map[string][]string)
 
-	bar := termio.NewProgressBar(int64(len(secrets)))
+	bar := termio.NewProgressBar("Checking secrets", int64(len(secrets)))
 	bar.Hidden = ctxutil.IsHidden(ctx)
 
 	i := 0

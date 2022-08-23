@@ -16,6 +16,8 @@ linters-settings:
   funlen:
     lines: -1
     statements: 100
+  nlreturn:
+    block-size: 2
 
 linters:
   enable-all: true

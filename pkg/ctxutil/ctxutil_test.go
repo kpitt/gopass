@@ -104,12 +104,12 @@ func TestProgressCallback(t *testing.T) {
 
 	ctx := context.Background()
 
-	var foo bool
+	var foo string
 
-	pc := func() { foo = true }
+	pc := func(msg string) { foo = msg }
 
-	GetProgressCallback(WithProgressCallback(ctx, pc))()
-	assert.Equal(t, true, foo)
+	GetProgressCallback(WithProgressCallback(ctx, pc))("test")
+	assert.Equal(t, "test", foo)
 }
 
 func TestAlias(t *testing.T) {

@@ -21,7 +21,7 @@ prefix: "pin"
 name_from:
   - "authority"
   - "application"
-welcome: "🧪 Creating numerical PIN"
+welcome: "- Creating numerical PIN"
 attributes:
   - name: "authority"
     type: "string"
@@ -46,7 +46,7 @@ attributes:
 	require.Len(t, w.Templates, 3, "wrong number of templates")
 
 	assert.Equal(t, "websites", w.Templates[0].Prefix, "wrong prefix")
-	assert.Equal(t, "🧪 Creating Website login", w.Templates[0].Welcome, "wrong welcome")
+	assert.Equal(t, "- Creating Website login", w.Templates[0].Welcome, "wrong welcome")
 	assert.Equal(t, 3, len(w.Templates[0].Attributes), "wrong number of attributes")
 	assert.Equal(t, "hostname", w.Templates[0].Attributes[0].Type, "wrong type")
 	assert.Equal(t, "Website URL", w.Templates[0].Attributes[0].Prompt, "wrong prompt")

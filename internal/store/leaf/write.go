@@ -83,7 +83,7 @@ func (s *Store) gitCommitAndPush(ctx context.Context, name string) error {
 		}
 	}
 
-	debug.Log("syncing with remote ...")
+	debug.Log("syncing with remote...")
 
 	if err := s.storage.Push(ctx, "", ""); err != nil {
 		if errors.Is(err, store.ErrGitNotInit) {

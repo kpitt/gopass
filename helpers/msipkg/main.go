@@ -49,22 +49,11 @@ var (
 	source      = "dist/gopass_windows_amd64_v1/gopass.exe"
 )
 
-const logo = `
-   __     _    _ _      _ _   ___   ___
- /'_ '\ /'_'\ ( '_'\  /'_' )/',__)/',__)
-( (_) |( (_) )| (_) )( (_| |\__, \\__, \
-'\__  |'\___/'| ,__/''\__,_)(____/(____/
-( )_) |       | |
- \___/'       (_)
-`
-
 func main() {
 	// render template to temp dir
 	// run: wixl /tmp/file.xml -o gopass-ARCH.msi --arch x86|x64
 	ctx := context.Background()
 
-	fmt.Print(logo)
-	fmt.Println()
 	fmt.Println("🌟 Creating gopass Windows MSI package.")
 
 	curVer, err := versionFile()
@@ -73,7 +62,7 @@ func main() {
 	}
 
 	fmt.Println()
-	fmt.Printf("✅ Current version is: %s\n", curVer.String())
+	fmt.Printf("- Current version is: %s\n", curVer.String())
 
 	td, err := os.MkdirTemp("", "gopass-")
 	if err != nil {
@@ -106,7 +95,7 @@ func main() {
 	}
 	fh.Close()
 
-	fmt.Printf("✅ Wrote Wix XML config to: %s\n", wCfg)
+	fmt.Printf("✓ Wrote Wix XML config to: %s\n", wCfg)
 
 	msiPkg := fmt.Sprintf("dist/gopass-%s-windows-%s.msi", "x64", curVer.String())
 	cmd := exec.CommandContext(ctx, "wixl", wCfg, "-o", msiPkg, "--arch", "x64")
@@ -118,7 +107,7 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Printf("✅ Created MSI package at: %s\n", msiPkg)
+	fmt.Printf("✓ Created MSI package at: %s\n", msiPkg)
 	fmt.Println()
 }
 

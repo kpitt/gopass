@@ -18,7 +18,6 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/blang/semver/v4"
 	ap "github.com/kpitt/gopass/internal/action"
 	"github.com/kpitt/gopass/internal/action/pwgen"
 	_ "github.com/kpitt/gopass/internal/backend/crypto"
@@ -52,7 +51,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	version := semver.MustParse(strings.TrimSpace(string(vs)))
+	version := strings.TrimSpace(string(vs))
 
 	action, err := ap.New(&config.Config{}, version)
 	if err != nil {
@@ -66,7 +65,7 @@ func main() {
 	data := &payload{
 		SectionNumber: 1,
 		DatePretty:    time.Now().UTC().Format("January 2006"),
-		Version:       version.String(),
+		Version:       version,
 		SectionName:   "User Commands",
 		Commands:      cmds,
 		Flags:         getFlags(ap.ShowFlags()),

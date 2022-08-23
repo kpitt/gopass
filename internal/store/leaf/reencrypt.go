@@ -9,15 +9,15 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/internal/store"
 	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/kpitt/gopass/pkg/debug"
 	"github.com/kpitt/gopass/pkg/termio"
 )
 
-// nolint:ifshort
 // reencrypt will re-encrypt all entries for the current recipients.
+//
+//nolint:ifshort
 func (s *Store) reencrypt(ctx context.Context) error {
 	entries, err := s.List(ctx, "")
 	if err != nil {
@@ -34,14 +34,13 @@ func (s *Store) reencrypt(ctx context.Context) error {
 		ctx := ctxutil.WithGitCommit(ctx, false)
 
 		// progress bar
-		bar := termio.NewProgressBar(int64(len(entries)))
+		bar := termio.NewProgressBar("Re-encrypting secrets", int64(len(entries)))
 		bar.Hidden = !ctxutil.IsTerminal(ctx) || ctxutil.IsHidden(ctx)
 
 		var wg sync.WaitGroup
 		jobs := make(chan string)
 		// We use a logger to write without race condition on stdout
 		logger := log.New(os.Stdout, "", 0)
-		out.Printf(ctx, "Starting reencrypt")
 
 		for i := 0; i < conc; i++ {
 			wg.Add(1) // we start a new job

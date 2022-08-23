@@ -8,7 +8,6 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/blang/semver/v4"
 	"github.com/kpitt/gopass/internal/backend"
 	"github.com/kpitt/gopass/internal/backend/crypto/plain"
 	"github.com/kpitt/gopass/internal/config"
@@ -27,7 +26,7 @@ func newMock(ctx context.Context, path string) (*Action, error) {
 		ctx = backend.WithCryptoBackend(ctx, backend.Plain)
 	}
 	ctx = backend.WithStorageBackend(ctx, backend.GitFS)
-	act, err := newAction(cfg, semver.Version{}, false)
+	act, err := newAction(cfg, "1.0.0", false)
 	if err != nil {
 		return nil, err
 	}
@@ -77,10 +76,10 @@ func TestNew(t *testing.T) {
 	}()
 
 	cfg := config.New()
-	sv := semver.Version{}
+	ver := "1.0.0"
 
 	t.Run("init a new store", func(t *testing.T) { //nolint:paralleltest
-		_, err = New(cfg, sv)
+		_, err = New(cfg, ver)
 		require.NoError(t, err)
 	})
 
@@ -88,7 +87,7 @@ func TestNew(t *testing.T) {
 		cfg.Path = filepath.Join(td, "store")
 		assert.NoError(t, os.MkdirAll(cfg.Path, 0o700))
 		assert.NoError(t, os.WriteFile(filepath.Join(cfg.Path, plain.IDFile), []byte("foobar"), 0o600))
-		_, err = New(cfg, sv)
+		_, err = New(cfg, ver)
 		assert.NoError(t, err)
 	})
 }

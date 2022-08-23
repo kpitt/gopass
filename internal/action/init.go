@@ -16,15 +16,6 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-const logo = `
-   __     _    _ _      _ _   ___   ___
- /'_ '\ /'_'\ ( '_'\  /'_' )/',__)/',__)
-( (_) |( (_) )| (_) )( (_| |\__, \\__, \
-'\__  |'\___/'| ,__/''\__,_)(____/(____/
-( )_) |       | |
- \___/'       (_)
-`
-
 // IsInitialized returns an error if the store is not properly
 // prepared.
 func (s *Action) IsInitialized(c *cli.Context) error {
@@ -35,22 +26,20 @@ func (s *Action) IsInitialized(c *cli.Context) error {
 	}
 
 	if inited {
-		debug.Log("Store is fully initialized and ready to go\n\nAll systems go. 🚀\n")
+		debug.Log("Store is fully initialized and ready to go.\n")
 		s.printReminder(ctx)
 		_ = s.autoSync(ctx)
 
 		return nil
 	}
 
-	debug.Log("Store needs to be initialized.\n\nAbort. Abort. Abort. 🚫\n")
+	debug.Log("Store needs to be initialized.\n")
 	if !ctxutil.IsInteractive(ctx) {
 		return exit.Error(exit.NotInitialized, nil, "password-store is not initialized. Try '%s init'", s.Name)
 	}
 
-	out.Printf(ctx, logo)
-	out.Printf(ctx, "🌟 Welcome to gopass!")
-	out.Noticef(ctx, "No existing configuration found.")
-	out.Printf(ctx, "☝ Please run 'gopass setup'")
+	out.Errorf(ctx, "No existing configuration found.")
+	out.Printf(ctx, "- Please run 'gopass setup'")
 
 	return exit.Error(exit.NotInitialized, err, "not initialized")
 }
@@ -62,7 +51,7 @@ func (s *Action) Init(c *cli.Context) error {
 	alias := c.String("store")
 
 	ctx = initParseContext(ctx, c)
-	out.Printf(ctx, "🍭 Initializing a new password store ...")
+	out.Printf(ctx, "Initializing a new password store:\n")
 
 	if name := termio.DetectName(c.Context, c); name != "" {
 		ctx = ctxutil.WithUsername(ctx, name)
@@ -122,7 +111,7 @@ func (s *Action) init(ctx context.Context, alias, path string, keys ...string) e
 
 	debug.Log("Initializing Store %q in %q for %+v", alias, path, keys)
 
-	out.Printf(ctx, "🔑 Searching for usable private Keys ...")
+	out.Printf(ctx, "- Searching for usable private keys...")
 	debug.Log("Checking private keys for: %+v", keys)
 	crypto := s.getCryptoFor(ctx, alias)
 
@@ -134,7 +123,7 @@ func (s *Action) init(ctx context.Context, alias, path string, keys ...string) e
 
 	if len(keys) < 1 {
 		out.Notice(ctx, "Hint: Use 'gopass init <subkey> to use subkeys!'")
-		nk, err := cui.AskForPrivateKey(ctx, crypto, "🎮 Please select a private key for encrypting secrets:")
+		nk, err := cui.AskForPrivateKey(ctx, crypto, "? Please select a private key for encrypting secrets:")
 		if err != nil {
 			return fmt.Errorf("failed to read user input: %w", err)
 		}
@@ -155,14 +144,14 @@ func (s *Action) init(ctx context.Context, alias, path string, keys ...string) e
 
 	if backend.HasStorageBackend(ctx) {
 		bn := backend.StorageBackendName(backend.GetStorageBackend(ctx))
-		debug.Log("Initializing RCS (%s) ...", bn)
+		debug.Log("Initializing RCS (%s)...", bn)
 		if err := s.rcsInit(ctx, alias, ctxutil.GetUsername(ctx), ctxutil.GetEmail(ctx)); err != nil {
 			debug.Log("Stacktrace: %+v\n", err)
-			out.Errorf(ctx, "❌ Failed to init Version Control (%s): %s", bn, err)
+			out.Errorf(ctx, "✗ Failed to init Version Control (%s): %s", bn, err)
 		}
 		debug.Log("RCS initialized as %s", s.Store.Storage(ctx, alias).Name())
 	} else {
-		debug.Log("not initializing RCS backend ...")
+		debug.Log("not initializing RCS backend")
 	}
 
 	// write config.
@@ -171,7 +160,7 @@ func (s *Action) init(ctx context.Context, alias, path string, keys ...string) e
 		return exit.Error(exit.Config, err, "failed to write config: %s", err)
 	}
 
-	out.Printf(ctx, "🏁 Password store %s initialized for:", path)
+	out.Printf(ctx, "✓ Password store %s initialized for:", path)
 	s.printRecipients(ctx, alias)
 
 	return nil
@@ -184,7 +173,7 @@ func (s *Action) printRecipients(ctx context.Context, alias string) {
 		if kl, err := crypto.FindRecipients(ctx, recipient); err == nil && len(kl) > 0 {
 			r = crypto.FormatKey(ctx, kl[0], "")
 		}
-		out.Printf(ctx, "📩 "+r)
+		out.Printf(ctx, "- "+r)
 	}
 }
 

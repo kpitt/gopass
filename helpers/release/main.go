@@ -17,7 +17,6 @@ import (
 	"regexp"
 	"sort"
 	"strings"
-	"text/template"
 	"time"
 
 	"github.com/blang/semver/v4"
@@ -26,109 +25,66 @@ import (
 var (
 	sleep   = time.Second
 	issueRE = regexp.MustCompile(`#(\d+)\b`)
-	verTmpl = `package main
-
-import (
-	"strings"
-
-	"github.com/blang/semver/v4"
 )
-
-func getVersion() semver.Version {
-	sv, err := semver.Parse(strings.TrimPrefix(version, "v"))
-	if err == nil {
-		return sv
-	}
-
-	return semver.Version{
-		Major: {{ .Major }},
-		Minor: {{ .Minor }},
-		Patch: {{ .Patch }},
-		Pre: []semver.PRVersion{
-			{VersionStr: "git"},
-		},
-		Build: []string{"HEAD"},
-	}
-}
-`
-)
-
-const logo = `
-   __     _    _ _      _ _   ___   ___
- /'_ '\ /'_'\ ( '_'\  /'_' )/',__)/',__)
-( (_) |( (_) )| (_) )( (_| |\__, \\__, \
-'\__  |'\___/'| ,__/''\__,_)(____/(____/
-( )_) |       | |
- \___/'       (_)
-
- `
 
 func main() {
-	fmt.Println(logo)
-	fmt.Println()
 	fmt.Println("🌟 Preparing a new gopass release.")
-	fmt.Println("☝  Checking pre-conditions ...")
+	fmt.Println("- Checking pre-conditions...")
 	// - check that workdir is clean
 	if !isGitClean() {
-		panic("❌ git is dirty")
+		panic("✗ git is dirty")
 	}
-	fmt.Println("✅ git is clean")
+	fmt.Println("✓ git is clean")
 
 	if sv := os.Getenv("PATCH_RELEASE"); sv == "" {
 		// - check out master
 		if err := gitCoMaster(); err != nil {
 			panic(err)
 		}
-		fmt.Println("✅ Switched to master branch")
+		fmt.Println("✓ Switched to master branch")
 		// - pull from origin
 		if err := gitPom(); err != nil {
 			panic(err)
 		}
-		fmt.Println("✅ Fetched changes for master")
+		fmt.Println("✓ Fetched changes for master")
 	}
 	// - check that workdir is clean
 	if !isGitClean() {
 		panic("git is dirty")
 	}
-	fmt.Println("✅ git is still clean")
+	fmt.Println("✓ git is still clean")
 
 	prevVer, nextVer := getVersions()
 
 	fmt.Println()
-	fmt.Printf("✅ New version will be: %s\n", nextVer.String())
+	fmt.Printf("✓ New version will be: %s\n", nextVer.String())
 	fmt.Println()
-	fmt.Println("❓ Do you want to continue? (press any key to continue or Ctrl+C to abort)")
+	fmt.Println("? Do you want to continue? (press any key to continue or Ctrl+C to abort)")
 	fmt.Scanln()
 
 	// - update VERSION
 	if err := writeVersion(nextVer); err != nil {
 		panic(err)
 	}
-	fmt.Println("✅ Wrote VERSION")
-	time.Sleep(sleep)
-	// - update version.go
-	if err := writeVersionGo(nextVer); err != nil {
-		panic(err)
-	}
-	fmt.Println("✅ Wrote version.go")
+	fmt.Println("✓ Wrote VERSION")
 	time.Sleep(sleep)
 	// - update CHANGELOG.md
 	if err := writeChangelog(prevVer, nextVer); err != nil {
 		panic(err)
 	}
-	fmt.Println("✅ Updated CHANGELOG.md")
+	fmt.Println("✓ Updated CHANGELOG.md")
 	time.Sleep(sleep)
 	// - update shell completions
 	if err := updateCompletion(); err != nil {
 		panic(err)
 	}
-	fmt.Println("✅ Updated shell completions")
+	fmt.Println("✓ Updated shell completions")
 	time.Sleep(sleep)
 	// - update man page
 	if err := updateManpage(); err != nil {
 		panic(err)
 	}
-	fmt.Println("✅ Updated man page")
+	fmt.Println("✓ Updated man page")
 	time.Sleep(sleep)
 
 	// - create PR
@@ -136,30 +92,28 @@ func main() {
 	if err := gitCoRel(nextVer); err != nil {
 		panic(err)
 	}
-	fmt.Printf("✅ Created branch release/v%s\n", nextVer.String())
+	fmt.Printf("✓ Created branch release/v%s\n", nextVer.String())
 	time.Sleep(sleep)
 
 	// commit changes
 	if err := gitCommit(nextVer); err != nil {
 		panic(err)
 	}
-	fmt.Printf("✅ Committed changes to release/v%s\n", nextVer.String())
+	fmt.Printf("✓ Committed changes to release/v%s\n", nextVer.String())
 	time.Sleep(sleep)
 
-	fmt.Println("🏁 Preparation finished")
+	fmt.Println()
+	fmt.Printf("✓ Prepared release of gopass %s.\n", nextVer.String())
 	time.Sleep(sleep)
 
-	fmt.Printf("⚠ Prepared release of gopass %s.\n", nextVer.String())
+	fmt.Printf("! Run 'git push <remote> release/v%s' to push this branch and open a PR against gopasspw/gopass master.\n", nextVer.String())
 	time.Sleep(sleep)
 
-	fmt.Printf("⚠ Run 'git push <remote> release/v%s' to push this branch and open a PR against gopasspw/gopass master.\n", nextVer.String())
-	time.Sleep(sleep)
-
-	fmt.Printf("⚠ Get the PR merged and run 'git tag -s v%s && git push origin v%s' to kick off the release process.\n", nextVer.String(), nextVer.String())
+	fmt.Printf("! Get the PR merged and run 'git tag -s v%s && git push origin v%s' to kick off the release process.\n", nextVer.String(), nextVer.String())
 	time.Sleep(sleep)
 	fmt.Println()
 
-	fmt.Println("💎🙌 Done 🚀🚀🚀🚀🚀🚀")
+	fmt.Println("✓ Done")
 }
 
 func getVersions() (semver.Version, semver.Version) {
@@ -212,7 +166,7 @@ func getVersions() (semver.Version, semver.Version) {
 		}
 	}
 
-	fmt.Printf(`☝ Version overview
+	fmt.Printf(`Version overview:
   Git (latest tag):  %q
   VERSION:           %q
   Next version flag: %q
@@ -251,7 +205,7 @@ func gitCoRel(v semver.Version) error {
 }
 
 func gitCommit(v semver.Version) error {
-	cmd := exec.Command("git", "add", "CHANGELOG.md", "VERSION", "version.go", "gopass.1", "*.completion")
+	cmd := exec.Command("git", "add", "CHANGELOG.md", "VERSION", "gopass.1", "*.completion")
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
 		return err
@@ -311,29 +265,6 @@ func updateManpage() error {
 
 func writeVersion(v semver.Version) error {
 	return os.WriteFile("VERSION", []byte(v.String()+"\n"), 0o644)
-}
-
-type tplPayload struct {
-	Major uint64
-	Minor uint64
-	Patch uint64
-}
-
-func writeVersionGo(v semver.Version) error {
-	tmpl, err := template.New("version").Parse(verTmpl)
-	if err != nil {
-		return err
-	}
-	fh, err := os.Create("version.go")
-	if err != nil {
-		return err
-	}
-	defer fh.Close()
-	return tmpl.Execute(fh, tplPayload{
-		Major: v.Major,
-		Minor: v.Minor,
-		Patch: v.Patch,
-	})
 }
 
 func isGitClean() bool {
