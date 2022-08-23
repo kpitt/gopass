@@ -255,6 +255,7 @@ func mkActFunc(tpl Template, s *root.Store, cb ActionCallback) func(context.Cont
 					return err
 				}
 
+				//nolint:nestif  // This should be refactored, but not now.
 				if genPw {
 					password, err = generatePassword(ctx, hostname, v.Charset)
 					if err != nil {

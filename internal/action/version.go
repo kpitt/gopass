@@ -93,6 +93,7 @@ func (s *Action) getSemver() (semver.Version, error) {
 	// Treat "git describe" dev version as a pre-release of the next patch
 	baseVer.Patch++
 	version = fmt.Sprintf("%s-DEV.%s+%s", baseVer.String(), parts[1], parts[2])
+
 	return semver.Parse(version)
 }
 

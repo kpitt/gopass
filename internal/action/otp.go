@@ -100,7 +100,7 @@ func (s *Action) otp(ctx context.Context, name, qrf string, clip, pw, recurse bo
 	skip := ctxutil.IsHidden(ctx) || pw || qrf != "" || !ctxutil.IsTerminal(ctx) || !ctxutil.IsInteractive(ctx) || clip
 	if !skip {
 		// let us monitor key presses for cancellation:.
-        out.Warningf(ctx, "%s", "[q] to stop. -o flag to avoid.")
+		out.Warningf(ctx, "%s", "[q] to stop. -o flag to avoid.")
 		go waitForKeyPress(ctx, cancel)
 	}
 

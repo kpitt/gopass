@@ -201,6 +201,7 @@ func changelogURL(version string) string {
 	}
 
 	url := fmt.Sprintf("%s/releases/tag/v%s", path, strings.TrimPrefix(version, "v"))
+
 	return url
 }
 

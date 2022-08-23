@@ -18,11 +18,11 @@ import (
 
 // Fsck checks all entries matching the given prefix.
 func (s *Store) Fsck(ctx context.Context, path string) error {
-    prefix := ""
-    if s.alias != "" {
-        prefix = "[" + s.alias + "] "
-        ctx = out.AddPrefix(ctx, prefix)
-    }
+	prefix := ""
+	if s.alias != "" {
+		prefix = "[" + s.alias + "] "
+		ctx = out.AddPrefix(ctx, prefix)
+	}
 
 	debug.Log("Checking %s", path)
 
@@ -34,7 +34,7 @@ func (s *Store) Fsck(ctx context.Context, path string) error {
 	pcb := ctxutil.GetProgressCallback(ctx)
 
 	// then try to compact storage / rcs
-    pcb(prefix + "Compacting storage")
+	pcb(prefix + "Compacting storage")
 	if err := s.storage.Compact(ctx); err != nil {
 		return fmt.Errorf("storage backend compaction failed: %w", err)
 	}

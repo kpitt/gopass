@@ -23,7 +23,7 @@ func NewProgressBar(text string, total int64) *ProgressBar {
 		Bar: &goprogressbar.ProgressBar{
 			Total:   total,
 			Current: 0,
-            Text:    text,
+			Text:    text,
 			Width:   60,
 			PrependTextFunc: func(p *goprogressbar.ProgressBar) string {
 				cur := p.Current
@@ -33,6 +33,7 @@ func NewProgressBar(text string, total int64) *ProgressBar {
 				if max < 1 {
 					digits = 1
 				}
+
 				return fmt.Sprintf(fmt.Sprintf(" %%%dd / %%%dd ", digits, digits), cur, max)
 			},
 		},
@@ -64,7 +65,7 @@ func (p *ProgressBar) Set(v int64) {
 // Does not display the updated progress bar, so set the status
 // text before calling an update function such as `Inc`.
 func (p *ProgressBar) SetText(text string) {
-    p.Bar.Text = text
+	p.Bar.Text = text
 }
 
 // Done finalizes the progress bar.
@@ -83,14 +84,14 @@ func (p *ProgressBar) Clear() {
 
 // print will print the progress bar, if necessary.
 func (p *ProgressBar) print() {
-	if ! p.Hidden {
-        p.Bar.LazyPrint()
+	if !p.Hidden {
+		p.Bar.LazyPrint()
 	}
 }
 
-// `current` gets the current progress value (mostly for testing)
+// current gets the current progress value (mostly for testing).
 func (p *ProgressBar) current() int64 {
-    return p.Bar.Current
+	return p.Bar.Current
 }
 
 func min(a, b int64) int64 {
