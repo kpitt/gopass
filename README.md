@@ -103,17 +103,12 @@ Your password store is ready to use! Have a look around: `gopass list`
 
 ## Upgrade
 
-To use the self-updater run:
-```bash
-gopass update
-```
-
-or to upgrade with Go installed, run:
+To upgrade with Go installed, run:
 ```bash
 go install github.com/kpitt/gopass@latest
 ```
 
-Otherwise, use the setup docs mentioned in the installation section to reinstall the latest version.
+Otherwise, use your package manager to upgrade or use the setup docs mentioned in the installation section to reinstall the latest version.
 
 ## Development
 

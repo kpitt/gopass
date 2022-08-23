@@ -959,14 +959,6 @@ func (s *Action) GetCommands() []*cli.Command {
 			},
 		},
 		{
-			Name:  "update",
-			Usage: "Check for updates",
-			Description: "" +
-				"This command checks for gopass updates at GitHub and automatically " +
-				"downloads and installs any missing update.",
-			Action: s.Update,
-		},
-		{
 			Name:  "version",
 			Usage: "Display version",
 			Description: "" +

@@ -37,12 +37,6 @@ func (s *Action) printReminder(ctx context.Context) {
 	// Note: We only want to print one reminder per day (at most).
 	// So we intentionally return after printing one, leaving the others
 	// for the following days.
-	if s.rem.Overdue("update") {
-		out.Notice(ctx, "You haven't checked for updates in a while. Run 'gopass version' or 'gopass update' to check.")
-
-		return
-	}
-
 	if s.rem.Overdue("fsck") {
 		out.Notice(ctx, "You haven't run 'gopass fsck' in a while.")
 
