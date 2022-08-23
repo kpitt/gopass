@@ -55,23 +55,3 @@ func versionInfo(ctx context.Context, v versioner) string {
 
 	return fmt.Sprintf("%s %s", v.Name(), v.Version(ctx))
 }
-
-func (s *Action) getSemver() (semver.Version, error) {
-	version := strings.TrimPrefix(s.version, "v")
-	parts := strings.SplitN(version, "-", 3)
-	if len(parts) != 3 {
-		// doesn't look like a "git describe" version, so parse as-is
-		return semver.Parse(version)
-	}
-
-	baseVer, err := semver.Parse(parts[0])
-	if err != nil {
-		return baseVer, err
-	}
-
-	// Treat "git describe" dev version as a pre-release of the next patch
-	baseVer.Patch++
-	version = fmt.Sprintf("%s-DEV.%s+%s", baseVer.String(), parts[1], parts[2])
-
-	return semver.Parse(version)
-}
