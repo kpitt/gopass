@@ -281,7 +281,6 @@ func (s *Action) initLocal(ctx context.Context) error {
 			}
 		}
 	}
-	// TODO remotes for fossil, etc.
 
 	// save config.
 	if err := s.cfg.Save(); err != nil {
