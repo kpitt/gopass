@@ -24,7 +24,6 @@ func (s *Action) RCSInit(c *cli.Context) error {
 	store := c.String("store")
 	un := termio.DetectName(c.Context, c)
 	ue := termio.DetectEmail(c.Context, c)
-	ctx = backend.WithStorageBackendString(ctx, c.String("storage"))
 
 	// default to git.
 	if !backend.HasStorageBackend(ctx) {
@@ -32,7 +31,7 @@ func (s *Action) RCSInit(c *cli.Context) error {
 	}
 
 	if err := s.rcsInit(ctx, store, un, ue); err != nil {
-		return exit.Error(exit.Git, err, "failed to initialize %s: %s", backend.StorageBackendName(backend.GetStorageBackend(ctx)), err)
+		return exit.Error(exit.Git, err, "failed to initialize git: %s", err)
 	}
 
 	return nil
@@ -58,10 +57,10 @@ func (s *Action) rcsInit(ctx context.Context, store, un, ue string) error {
 			out.Printf(ctx, "Git initialization failed. You may want to try to 'export GPG_TTY=$(tty)' and start over.")
 		}
 
-		return fmt.Errorf("failed to run RCS init: %w", err)
+		return fmt.Errorf("failed to run git init: %w", err)
 	}
 
-	out.Printf(ctx, "Initialized %s repository (%s) for %s / %s...", be, bn, un, ue)
+	out.Printf(ctx, "Initialized git repository for %q <%s>...", un, ue)
 
 	return nil
 }

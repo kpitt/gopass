@@ -30,10 +30,6 @@ func (s *Action) Clone(c *cli.Context) error {
 		ctx = backend.WithCryptoBackendString(ctx, c.String("crypto"))
 	}
 
-	if c.IsSet("storage") {
-		ctx = backend.WithStorageBackendString(ctx, c.String("storage"))
-	}
-
 	path := c.String("path")
 
 	if c.Args().Len() < 1 {
