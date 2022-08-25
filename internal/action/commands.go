@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/kpitt/gopass/internal/backend"
-	"github.com/kpitt/gopass/internal/set"
 	"github.com/kpitt/gopass/pkg/debug"
 	"github.com/urfave/cli/v2"
 )
@@ -142,10 +141,6 @@ func (s *Action) GetCommands() []*cli.Command {
 				&cli.StringFlag{
 					Name:  "crypto",
 					Usage: fmt.Sprintf("Select crypto backend %v", backend.CryptoRegistry.BackendNames()),
-				},
-				&cli.StringFlag{
-					Name:  "storage",
-					Usage: fmt.Sprintf("Select storage backend %v", set.Filter(backend.StorageRegistry.BackendNames(), "fs")),
 				},
 				&cli.BoolFlag{
 					Name:  "check-keys",
@@ -739,11 +734,6 @@ func (s *Action) GetCommands() []*cli.Command {
 							Name:    "email",
 							Aliases: []string{"useremail"},
 							Usage:   "Git Author Email",
-						},
-						&cli.StringFlag{
-							Name:  "storage",
-							Usage: fmt.Sprintf("Select storage backend %v", set.Filter(backend.StorageRegistry.BackendNames(), "fs")),
-							Value: "gitfs",
 						},
 					},
 				},
