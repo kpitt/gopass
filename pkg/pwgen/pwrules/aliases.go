@@ -12,10 +12,15 @@ import (
 	"github.com/kpitt/gopass/pkg/fsutil"
 )
 
-var customAliases = map[string][]string{}
+var (
+	customAliases = map[string][]string{}
+	aliasesLoaded = false
+)
 
 // LookupAliases looks up known aliases for the given domain.
 func LookupAliases(domain string) []string {
+	ensureCustomAliases()
+
 	aliases := make([]string, 0, len(genAliases[domain])+len(customAliases[domain]))
 	aliases = append(aliases, genAliases[domain]...)
 	aliases = append(aliases, customAliases[domain]...)
@@ -26,6 +31,8 @@ func LookupAliases(domain string) []string {
 
 // AllAliases returns all aliases.
 func AllAliases() map[string][]string {
+	ensureCustomAliases()
+
 	all := make(map[string][]string, len(genAliases)+len(customAliases))
 	for k, v := range genAliases {
 		all[k] = append(all[k], v...)
@@ -38,17 +45,25 @@ func AllAliases() map[string][]string {
 	return all
 }
 
-func init() {
+func filename() string {
+	return filepath.Join(appdir.UserConfig(), "domain-aliases.json")
+}
+
+func ensureCustomAliases() {
+	if aliasesLoaded || len(customAliases) > 0 {
+		return
+	}
+
 	if err := loadCustomAliases(); err != nil {
 		debug.Log("failed to load custom aliases: %s", err)
 	}
 }
 
-func filename() string {
-	return filepath.Join(appdir.UserConfig(), "domain-aliases.json")
-}
-
 func loadCustomAliases() error {
+	// If `loadCustomAliases` has been called, then aliases are considered to
+	// be loaded even if the file could not be read.
+	aliasesLoaded = true
+
 	fn := filename()
 
 	if !fsutil.IsFile(fn) {
@@ -99,9 +114,7 @@ func saveCustomAliases() error {
 
 // AddCustomAlias adds a custom alias.
 func AddCustomAlias(domain, alias string) error {
-	if len(customAliases) < 1 {
-		_ = loadCustomAliases()
-	}
+	ensureCustomAliases()
 
 	v := make([]string, 0, 1)
 
@@ -124,9 +137,7 @@ func AddCustomAlias(domain, alias string) error {
 
 // RemoveCustomAlias removes a custom alias.
 func RemoveCustomAlias(domain, alias string) error {
-	if len(customAliases) < 1 {
-		_ = loadCustomAliases()
-	}
+	ensureCustomAliases()
 
 	ev, found := customAliases[domain]
 	if !found {
@@ -150,9 +161,7 @@ func RemoveCustomAlias(domain, alias string) error {
 
 // DeleteCustomAlias removes a whole domain.
 func DeleteCustomAlias(domain string) error {
-	if len(customAliases) < 1 {
-		_ = loadCustomAliases()
-	}
+	ensureCustomAliases()
 
 	delete(customAliases, domain)
 
