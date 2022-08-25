@@ -75,7 +75,6 @@ var commandsWithError = set.Map([]string{
 	".move",
 	".otp",
 	".process",
-	".rcs.status",
 	".recipients.add",
 	".recipients.remove",
 	".show",
