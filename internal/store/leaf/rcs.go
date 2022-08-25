@@ -14,7 +14,8 @@ import (
 
 // GitInit initializes the git storage.
 func (s *Store) GitInit(ctx context.Context) error {
-	storage, err := backend.InitStorage(ctx, backend.GetStorageBackend(ctx), s.path)
+	// The desired storage type for `GitInit` is always GitFS.
+	storage, err := backend.InitStorage(ctx, backend.GitFS, s.path)
 	if err != nil {
 		return err
 	}

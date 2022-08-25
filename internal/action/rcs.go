@@ -38,17 +38,10 @@ func (s *Action) RCSInit(c *cli.Context) error {
 }
 
 func (s *Action) rcsInit(ctx context.Context, store, un, ue string) error {
-	be := backend.GetStorageBackend(ctx)
-	// TODO this should rather ask s.Store if it HasRCSInit or something.
-	if be == backend.FS {
-		return nil
-	}
-
-	bn := backend.StorageBackendName(be)
 	userName, userEmail := s.getUserData(ctx, store, un, ue)
 	if err := s.Store.RCSInit(ctx, store, userName, userEmail); err != nil {
 		if errors.Is(err, backend.ErrNotSupported) {
-			debug.Log("RCSInit not supported for backend %s in %q", bn, store)
+			debug.Log("RCSInit not supported for storage backend in %q", store)
 
 			return nil
 		}
@@ -60,7 +53,7 @@ func (s *Action) rcsInit(ctx context.Context, store, un, ue string) error {
 		return fmt.Errorf("failed to run git init: %w", err)
 	}
 
-	out.Printf(ctx, "Initialized git repository for %q <%s>...", un, ue)
+	out.Printf(ctx, "Initialized git repository for %q <%s>...", userName, userEmail)
 
 	return nil
 }

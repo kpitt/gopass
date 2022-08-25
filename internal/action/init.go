@@ -142,12 +142,12 @@ func (s *Action) init(ctx context.Context, alias, path string, keys ...string) e
 		}
 	}
 
-	if backend.HasStorageBackend(ctx) {
-		bn := backend.StorageBackendName(backend.GetStorageBackend(ctx))
-		debug.Log("Initializing RCS (%s)...", bn)
+	be := backend.GetStorageBackend(ctx)
+	if be == backend.GitFS {
+		debug.Log("Initializing git repository...")
 		if err := s.rcsInit(ctx, alias, ctxutil.GetUsername(ctx), ctxutil.GetEmail(ctx)); err != nil {
 			debug.Log("Stacktrace: %+v\n", err)
-			out.Errorf(ctx, "✗ Failed to init Version Control (%s): %s", bn, err)
+			out.Errorf(ctx, "✗ Failed to initialize git repository: %s", err)
 		}
 		debug.Log("RCS initialized as %s", s.Store.Storage(ctx, alias).Name())
 	} else {
