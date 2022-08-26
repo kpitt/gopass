@@ -11,7 +11,7 @@ All backends are in their own packages below `backend/`. They need to implement 
 interfaces defined in the backend package and have their identification added to
 the context handlers in the same package.
 
-## Storage and RCS Backends (storage)
+## Storage Backends (storage)
 
 * [fs](backends/fs.md) - Filesystem storage without RCS support
 * [gitfs](backends/gitfs.md) - Filesystem storage with Git RCS

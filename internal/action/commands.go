@@ -609,7 +609,7 @@ Use the "git init" command if the store does not yet have a git repository.`,
 		{
 			Name:      "otp",
 			Usage:     "Generate time- or hmac-based tokens",
-			ArgsUsage: "[secret]",
+			ArgsUsage: "<secret>",
 			Aliases:   []string{"totp", "hotp"},
 			Description: "" +
 				"Tries to parse an OTP URL (otpauth://). URL can be TOTP or HOTP. " +
@@ -747,7 +747,7 @@ Use the "git init" command if the store does not yet have a git repository.`,
 		{
 			Name:      "show",
 			Usage:     "Display the content of a secret",
-			ArgsUsage: "[secret]",
+			ArgsUsage: "<secret>",
 			Description: "" +
 				"Show an existing secret and optionally put its first line on the clipboard. " +
 				"If put on the clipboard, it will be cleared after 45 seconds.",
@@ -759,7 +759,7 @@ Use the "git init" command if the store does not yet have a git repository.`,
 		{
 			Name:      "sum",
 			Usage:     "Compute the SHA256 checksum",
-			ArgsUsage: "[secret]",
+			ArgsUsage: "<secret>",
 			Description: "" +
 				"This command decodes an Base64 encoded secret and computes the SHA256 checksum " +
 				"over the decoded data. This is useful to verify the integrity of an " +

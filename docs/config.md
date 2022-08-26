@@ -27,13 +27,13 @@ Some configuration options are only available through setting environment variab
 Variables not exclusively used by gopass
 
 | **Option**             | **Type** | **Description**                                                                                        |
-| ---------------------- | -------- | ------------------------------------------------------------------------------------------------------ |
+| ---------------------- | -------- |--------------------------------------------------------------------------------------------------------|
 | `PASSWORD_STORE_DIR`   | `string` | absolute path containing the password store (a directory). Only supported during initialization!       |
 | `PASSWORD_STORE_UMASK` | `string` | Set to any valid umask to mask bits of files created by gopass (GOPASS_UMASK has precedence over this) |
 | `EDITOR`               | `string` | command name to execute for editing password entries                                                   |
 | `PAGER`                | `string` | the pager program used for `gopass list`. See [Features](features.md#auto-pager) for details           |
-| `GIT_AUTHOR_NAME`      | `string` | name of the author, used by the rcs backend to create a commit                                         |
-| `GIT_AUTHOR_EMAIL`     | `string` | email of the author, used by the rcs backend to create a commit                                        |
+| `GIT_AUTHOR_NAME`      | `string` | name of the author, used by the git backend to create a commit                                         |
+| `GIT_AUTHOR_EMAIL`     | `string` | email of the author, used by the git backend to create a commit                                        |
 | `NO_COLOR`             | `bool`   | disable color output. See [no-color.org](https://no-color.org) for more information.                   |
 
 ## Configuration Options
