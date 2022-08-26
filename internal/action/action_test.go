@@ -69,6 +69,9 @@ func TestAction(t *testing.T) {
 func TestNew(t *testing.T) {
 	t.Parallel()
 
+	u := gptest.NewUnitTester(t)
+	defer u.Remove()
+
 	td, err := os.MkdirTemp("", "gopass-")
 	require.NoError(t, err)
 	defer func() {

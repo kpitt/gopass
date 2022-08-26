@@ -33,6 +33,9 @@ func TestVersionPrinter(t *testing.T) {
 func TestSetupApp(t *testing.T) {
 	t.Parallel()
 
+	u := gptest.NewUnitTester(t)
+	defer u.Remove()
+
 	ctx := context.Background()
 	_, app := setupApp(ctx, "1.9.0", "2022-08-17")
 	assert.NotNil(t, app)
@@ -158,6 +161,9 @@ func testCommands(t *testing.T, c *cli.Context, commands []*cli.Command, prefix 
 
 func TestInitContext(t *testing.T) {
 	t.Parallel()
+
+	u := gptest.NewUnitTester(t)
+	defer u.Remove()
 
 	ctx := context.Background()
 	cfg := config.New()

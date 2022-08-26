@@ -1,13 +1,12 @@
 package config_test
 
 import (
-	"os"
-	"path/filepath"
 	"testing"
 
 	_ "github.com/kpitt/gopass/internal/backend/crypto"
 	_ "github.com/kpitt/gopass/internal/backend/storage"
 	"github.com/kpitt/gopass/internal/config"
+	"github.com/kpitt/gopass/tests/gptest"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -16,7 +15,8 @@ func TestHomedir(t *testing.T) { //nolint:paralleltest
 }
 
 func TestNewConfig(t *testing.T) { //nolint:paralleltest
-	assert.NoError(t, os.Setenv("GOPASS_CONFIG", filepath.Join(os.TempDir(), ".gopass.yml")))
+	u := gptest.NewUnitTester(t)
+	defer u.Remove()
 
 	cfg := config.New()
 	cs := cfg.String()
@@ -35,7 +35,8 @@ func TestNewConfig(t *testing.T) { //nolint:paralleltest
 }
 
 func TestSetConfigValue(t *testing.T) { //nolint:paralleltest
-	assert.NoError(t, os.Setenv("GOPASS_CONFIG", filepath.Join(os.TempDir(), ".gopass.yml")))
+	u := gptest.NewUnitTester(t)
+	defer u.Remove()
 
 	cfg := config.New()
 	assert.NoError(t, cfg.SetConfigValue("autoclip", "true"))
