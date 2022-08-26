@@ -25,6 +25,11 @@ func AllPathsToSlash(paths []string) []string {
 }
 
 func setupEnv(em map[string]string) error {
+	// Make sure there are no left-over Git environment variables that could
+	// interfere with the expected test results.
+	_ = os.Unsetenv("GIT_AUTHOR_NAME")
+	_ = os.Unsetenv("GIT_AUTHOR_EMAIL")
+
 	for k, v := range em {
 		if err := os.Setenv(k, v); err != nil {
 			return fmt.Errorf("failed to set env %s to %s: %w", k, v, err)
