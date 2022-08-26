@@ -56,6 +56,7 @@ func TestGit(t *testing.T) { //nolint:paralleltest
 	buf.Reset()
 
 	// GitPush
-	assert.Error(t, act.RCSPush(c))
+	assert.NoError(t, act.RCSPush(c))
+	assert.Contains(t, buf.String(), "No Git remote.")
 	buf.Reset()
 }
