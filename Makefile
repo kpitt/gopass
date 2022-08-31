@@ -142,7 +142,7 @@ gen:
 	@$(GO) generate ./...
 
 fmt:
-	@gofumpt -s -l -w $(GOFILES_NOVENDOR)
+	@gofumpt -l -w $(GOFILES_NOVENDOR)
 	@gci write $(GOFILES_NOVENDOR)
 	@$(GO) mod tidy
 

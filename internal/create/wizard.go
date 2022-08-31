@@ -244,9 +244,6 @@ func mkActFunc(tpl Template, s *root.Store, cb ActionCallback) func(context.Cont
 				if wantForName[k] {
 					nameParts = append(nameParts, hostname)
 				}
-				if u := pwrules.LookupChangeURL(hostname); u != "" {
-					_ = sec.Set("password-change-url", u)
-				}
 				_ = sec.Set(k, sv)
 			case "password":
 				var err error

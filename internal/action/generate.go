@@ -338,9 +338,6 @@ func (s *Action) generateSetPassword(ctx context.Context, name, key, password st
 	var sec gopass.Secret
 	sec = secrets.New()
 	sec.SetPassword(password)
-	if u := hasChangeURL(name); u != "" {
-		_ = sec.Set("password-change-url", u)
-	}
 
 	if content, found := s.renderTemplate(ctx, name, []byte(password)); found {
 		nSec := &secrets.Plain{}
@@ -356,17 +353,6 @@ func (s *Action) generateSetPassword(ctx context.Context, name, key, password st
 	}
 
 	return ctx, nil
-}
-
-func hasChangeURL(name string) string {
-	p := strings.Split(name, "/")
-	for i := len(p) - 1; i > 0; i-- {
-		if u := pwrules.LookupChangeURL(p[i]); u != "" {
-			return u
-		}
-	}
-
-	return ""
 }
 
 func (s *Action) generateReplaceExisting(ctx context.Context, name, key, password string, kvps map[string]string) (context.Context, error) {

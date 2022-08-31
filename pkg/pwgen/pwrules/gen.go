@@ -22,17 +22,12 @@ import (
 )
 
 const (
-	aliasURL  = "https://raw.githubusercontent.com/apple/password-manager-resources/main/quirks/websites-with-shared-credential-backends.json"
-	changeURL = "https://raw.githubusercontent.com/apple/password-manager-resources/main/quirks/change-password-URLs.json"
-	rulesURL  = "https://raw.githubusercontent.com/apple/password-manager-resources/main/quirks/password-rules.json"
+	aliasURL = "https://raw.githubusercontent.com/apple/password-manager-resources/main/quirks/websites-with-shared-credential-backends.json"
+	rulesURL = "https://raw.githubusercontent.com/apple/password-manager-resources/main/quirks/password-rules.json"
 )
 
 func main() {
 	aliases, err := fetchAliases()
-	if err != nil {
-		panic(err)
-	}
-	changes, err := fetchChangeURLs()
 	if err != nil {
 		panic(err)
 	}
@@ -53,17 +48,14 @@ func main() {
 		Timestamp time.Time
 		URLs      []string
 		Aliases   map[string][]string
-		Changes   map[string]string
 		Rules     map[string]pwrules.Rule
 	}{
 		Timestamp: time.Now().UTC(),
 		URLs: []string{
 			aliasURL,
-			changeURL,
 			rulesURL,
 		},
 		Aliases: aliases,
-		Changes: changes,
 		Rules:   rules,
 	})
 }
@@ -84,18 +76,6 @@ func fetchAliases() (map[string][]string, error) {
 		}
 	}
 	return aliases, nil
-}
-
-func fetchChangeURLs() (map[string]string, error) {
-	resp, err := http.Get(changeURL)
-	if err != nil {
-		return nil, err
-	}
-	var change map[string]string
-	if err := json.NewDecoder(resp.Body).Decode(&change); err != nil {
-		return nil, err
-	}
-	return change, nil
 }
 
 type jsonRule struct {
@@ -209,12 +189,6 @@ var genAliases = map[string][]string{
     "{{ . }}",
   {{- end }}
   },
-{{- end }}
-}
-
-var genChange = map[string]string{
-{{- range $key, $value := .Changes }}
-	"{{ $key }}": "{{ $value }}",
 {{- end }}
 }
 
