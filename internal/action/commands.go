@@ -438,6 +438,23 @@ func (s *Action) GetCommands() []*cli.Command {
 			},
 		},
 		{
+			Name:  "git",
+			Usage: "Run a git command inside a password store",
+			Description: "" +
+				"If the password store is a git repository, execute a git command " +
+				"specified by <git-command-args>.",
+			ArgsUsage: "<git-command-args>",
+			Hidden:    true,
+			Before:    s.IsInitialized,
+			Action:    s.Git,
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name:  "store",
+					Usage: "Store to operate on",
+				},
+			},
+		},
+		{
 			Name:      "grep",
 			Usage:     "Search for secrets files containing search-string when decrypted.",
 			ArgsUsage: "[needle]",
@@ -972,32 +989,9 @@ func (s *Action) GetCommands() []*cli.Command {
 		cmds = append(cmds, nc...)
 	}
 
-	for _, be := range backend.StorageRegistry.Backends() {
-		bc, ok := be.(storeCommander)
-		if !ok {
-			debug.Log("Backend %s does not implement commander interface\n", be)
-
-			continue
-		}
-		nc := bc.Commands(s.IsInitialized, func(alias string) (string, error) {
-			sub, err := s.Store.GetSubStore(alias)
-			if err != nil || sub == nil {
-				return "", fmt.Errorf("failed to get sub store for %s: %w", alias, err)
-			}
-
-			return sub.Path(), nil
-		})
-		debug.Log("Backend %s added %d commands", be, len(nc))
-		cmds = append(cmds, nc...)
-	}
-
 	return cmds
 }
 
 type commander interface {
 	Commands() []*cli.Command
-}
-
-type storeCommander interface {
-	Commands(func(*cli.Context) error, func(string) (string, error)) []*cli.Command
 }
