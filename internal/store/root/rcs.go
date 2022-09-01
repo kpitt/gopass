@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/kpitt/gopass/internal/backend"
-	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/kpitt/gopass/pkg/gopass"
 )
@@ -30,13 +29,6 @@ func (r *Store) RCSAddRemote(ctx context.Context, name, remote, url string) erro
 	store, _ := r.getStore(name)
 
 	return store.Storage().AddRemote(ctx, remote, url)
-}
-
-// RCSRemoveRemote removes a git remote.
-func (r *Store) RCSRemoveRemote(ctx context.Context, name, remote string) error {
-	store, _ := r.getStore(name)
-
-	return store.Storage().RemoveRemote(ctx, remote)
 }
 
 // RCSPull performs a git pull.
@@ -66,13 +58,4 @@ func (r *Store) GetRevision(ctx context.Context, name, revision string) (context
 	sec, err := store.GetRevision(ctx, name, revision)
 
 	return ctx, sec, err
-}
-
-// RCSStatus show the git status.
-// TODO this should likely iterate over all stores.
-func (r *Store) RCSStatus(ctx context.Context, name string) error {
-	store, name := r.getStore(name)
-	out.Printf(ctx, "Store: %s", store.Path())
-
-	return store.GitStatus(ctx, name)
 }

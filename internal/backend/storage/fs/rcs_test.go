@@ -34,5 +34,4 @@ func TestRCS(t *testing.T) {
 	body, err := g.GetRevision(ctx, "foo", "latest")
 	require.Error(t, err)
 	assert.Equal(t, "", string(body))
-	assert.Error(t, g.RemoveRemote(ctx, "foo"))
 }

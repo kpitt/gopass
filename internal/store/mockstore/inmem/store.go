@@ -207,11 +207,6 @@ func (m *InMem) GetRevision(context.Context, string, string) ([]byte, error) {
 	return []byte("foo\nbar"), nil
 }
 
-// Status is not implemented.
-func (m *InMem) Status(context.Context) ([]byte, error) {
-	return []byte(""), nil
-}
-
 // Compact is not implemented.
 func (m *InMem) Compact(context.Context) error {
 	return nil
