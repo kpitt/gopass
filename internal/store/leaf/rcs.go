@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/kpitt/gopass/internal/backend"
-	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/internal/store"
 	"github.com/kpitt/gopass/pkg/debug"
 	"github.com/kpitt/gopass/pkg/gopass"
@@ -52,19 +51,4 @@ func (s *Store) GetRevision(ctx context.Context, name, revision string) (gopass.
 	}
 
 	return sec, nil
-}
-
-// GitStatus shows the git status output.
-func (s *Store) GitStatus(ctx context.Context, _ string) error {
-	debug.Log("RCS status for %s", s.path)
-	buf, err := s.storage.Status(ctx)
-	if err != nil {
-		debug.Log("RCS status failed for %s: %s", s.path, err)
-
-		return fmt.Errorf("failed to get RCS status for %s: %w", s.path, err)
-	}
-
-	out.Printf(ctx, string(buf))
-
-	return nil
 }

@@ -72,11 +72,6 @@ func (s *Store) GetRevision(ctx context.Context, name string, revision string) (
 	return []byte(""), backend.ErrNotSupported
 }
 
-// Status is not implemented.
-func (s *Store) Status(context.Context) ([]byte, error) {
-	return []byte(""), backend.ErrNotSupported
-}
-
 // Compact is not implemented.
 func (s *Store) Compact(context.Context) error {
 	return nil

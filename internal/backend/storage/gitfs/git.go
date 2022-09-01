@@ -428,18 +428,6 @@ func (g *Git) GetRevision(ctx context.Context, name, revision string) ([]byte, e
 	return stdout, nil
 }
 
-// Status return the git status output.
-func (g *Git) Status(ctx context.Context) ([]byte, error) {
-	stdout, stderr, err := g.captureCmd(ctx, "GitStatus", "status")
-	if err != nil {
-		debug.Log("Command failed: %s\n%s", string(stdout), string(stderr))
-
-		return nil, err
-	}
-
-	return stdout, nil
-}
-
 // Compact will run git gc.
 func (g *Git) Compact(ctx context.Context) error {
 	return g.Cmd(ctx, "gitGC", "gc", "--aggressive")

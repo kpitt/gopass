@@ -754,19 +754,6 @@ func (s *Action) GetCommands() []*cli.Command {
 						},
 					},
 				},
-				{
-					Name:        "status",
-					Usage:       "RCS status",
-					Description: "Show the RCS status",
-					Before:      s.IsInitialized,
-					Action:      s.RCSStatus,
-					Flags: []cli.Flag{
-						&cli.StringFlag{
-							Name:  "store",
-							Usage: "Store to operate on",
-						},
-					},
-				},
 			},
 		},
 		{

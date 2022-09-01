@@ -11,7 +11,6 @@ import (
 	"github.com/kpitt/gopass/internal/backend"
 	"github.com/kpitt/gopass/internal/cui"
 	"github.com/kpitt/gopass/internal/out"
-	si "github.com/kpitt/gopass/internal/store"
 	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/kpitt/gopass/pkg/debug"
 	"github.com/kpitt/gopass/pkg/termio"
@@ -96,70 +95,4 @@ func (s *Action) getUserData(ctx context.Context, store, name, email string) (st
 	debug.Log("Username: %s, Email: %s (detected)", name, email)
 
 	return name, email
-}
-
-// RCSAddRemote adds a new git remote.
-func (s *Action) RCSAddRemote(c *cli.Context) error {
-	ctx := ctxutil.WithGlobalFlags(c)
-	store := c.String("store")
-	remote := c.Args().Get(0)
-	url := c.Args().Get(1)
-
-	if remote == "" || url == "" {
-		return exit.Error(exit.Usage, nil, "Usage: %s git remote add <REMOTE> <URL>", s.Name)
-	}
-
-	return s.Store.RCSAddRemote(ctx, store, remote, url)
-}
-
-// RCSRemoveRemote removes a git remote.
-func (s *Action) RCSRemoveRemote(c *cli.Context) error {
-	ctx := ctxutil.WithGlobalFlags(c)
-	store := c.String("store")
-	remote := c.Args().Get(0)
-
-	if remote == "" {
-		return exit.Error(exit.Usage, nil, "Usage: %s git remote rm <REMOTE>", s.Name)
-	}
-
-	return s.Store.RCSRemoveRemote(ctx, store, remote)
-}
-
-// RCSPull pulls from a git remote.
-func (s *Action) RCSPull(c *cli.Context) error {
-	ctx := ctxutil.WithGlobalFlags(c)
-	store := c.String("store")
-	origin := c.Args().Get(0)
-	branch := c.Args().Get(1)
-
-	return s.Store.RCSPull(ctx, store, origin, branch)
-}
-
-// RCSPush pushes to a git remote.
-func (s *Action) RCSPush(c *cli.Context) error {
-	ctx := ctxutil.WithGlobalFlags(c)
-	store := c.String("store")
-	origin := c.Args().Get(0)
-	branch := c.Args().Get(1)
-
-	if err := s.Store.RCSPush(ctx, store, origin, branch); err != nil {
-		if errors.Is(err, si.ErrGitNoRemote) {
-			out.Noticef(ctx, "No Git remote. Not pushing")
-
-			return nil
-		}
-
-		return exit.Error(exit.Git, err, "Failed to push to remote")
-	}
-	out.OKf(ctx, "Pushed to git remote")
-
-	return nil
-}
-
-// RCSStatus prints the rcs status.
-func (s *Action) RCSStatus(c *cli.Context) error {
-	ctx := ctxutil.WithGlobalFlags(c)
-	store := c.String("store")
-
-	return s.Store.RCSStatus(ctx, store)
 }
