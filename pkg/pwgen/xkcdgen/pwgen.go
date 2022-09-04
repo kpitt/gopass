@@ -1,35 +1,28 @@
 package xkcdgen
 
 import (
-	"fmt"
-
 	"github.com/martinhoefling/goxkcdpwgen/xkcdpwgen"
 )
 
 // Random returns a random passphrase combined from four words.
 func Random() string {
-	password, _ := RandomLength(4, "en")
-
-	return password
+	return RandomLength(4)
 }
 
-// RandomLength returns a random passphrase combined from the desired number.
+// RandomLength returns a random passphrase combined from the desired number
 // of words. Words are drawn from lang.
-func RandomLength(length int, lang string) (string, error) {
-	return RandomLengthDelim(length, " ", lang)
+func RandomLength(length int) string {
+	return RandomLengthDelim(length, " ")
 }
 
 // RandomLengthDelim returns a random passphrase combined from the desired number
 // of words and the given delimiter. Words are drawn from lang.
-func RandomLengthDelim(length int, delim, lang string) (string, error) {
+func RandomLengthDelim(length int, delim string) string {
 	g := xkcdpwgen.NewGenerator()
 	g.SetNumWords(length)
 	g.SetDelimiter(delim)
 	g.SetCapitalize(delim == "")
+	g.UseWordlistEFFLarge()
 
-	if err := g.UseLangWordlist(lang); err != nil {
-		return "", fmt.Errorf("failed to use wordlist for lang %s: %w", lang, err)
-	}
-
-	return string(g.GeneratePassword()), nil
+	return string(g.GeneratePassword())
 }
