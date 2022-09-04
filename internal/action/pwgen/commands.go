@@ -49,12 +49,6 @@ func GetCommands() []*cli.Command {
 					Usage:   "Word separator for generated xkcd style password. If no separator is specified, the words are combined without spaces/separator and the first character of words is capitalised. This flag implies -xkcd",
 					Value:   " ",
 				},
-				&cli.StringFlag{
-					Name:    "lang",
-					Aliases: []string{"xkcdlang", "xl"},
-					Usage:   "Language to generate password from, currently only en (english, default) is supported",
-					Value:   "en",
-				},
 			},
 		},
 	}

@@ -303,7 +303,7 @@ func (s *Action) generatePasswordXKCD(ctx context.Context, c *cli.Context, lengt
 		return "", exit.Error(exit.Usage, nil, "password length must not be zero")
 	}
 
-	return xkcdgen.RandomLengthDelim(pwlen, xkcdSeparator, c.String("lang"))
+	return xkcdgen.RandomLengthDelim(pwlen, xkcdSeparator), nil
 }
 
 // generateSetPassword will update or create a secret.

@@ -23,6 +23,8 @@ func TestRandom(t *testing.T) {
 func TestRandomLengthDelim(t *testing.T) {
 	t.Parallel()
 
-	_, err := RandomLengthDelim(10, " ", "cn_ZH")
-	assert.Error(t, err)
+	sep := "-"
+	pw := RandomLengthDelim(10, sep)
+	words := strings.Split(pw, sep)
+	assert.Len(t, words, 10, "wrong number of words")
 }

@@ -48,10 +48,7 @@ func Pwgen(c *cli.Context) error {
 
 func xkcdGen(c *cli.Context, num int) error {
 	for i := 0; i < num; i++ {
-		s, err := xkcdgen.RandomLengthDelim(4, c.String("sep"), c.String("lang"))
-		if err != nil {
-			return err
-		}
+		s := xkcdgen.RandomLengthDelim(4, c.String("sep"))
 		fmt.Println(s)
 	}
 
