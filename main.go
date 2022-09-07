@@ -136,9 +136,9 @@ func setupApp(ctx context.Context, buildVersion, buildDate string) (context.Cont
 
 		if c.Args().Present() {
 			return action.Show(c)
+		} else {
+			return action.List(c)
 		}
-
-		return action.REPL(c)
 	}
 
 	app.Commands = getCommands(action, app)

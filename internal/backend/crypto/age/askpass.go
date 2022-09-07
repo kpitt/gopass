@@ -100,8 +100,3 @@ func (a *askPass) getPassphrase(reason string, repeat bool) (string, error) {
 func (a *askPass) Remove(key string) {
 	a.cache.Remove(key)
 }
-
-// Lock flushes the password cache.
-func (a *Age) Lock() {
-	a.askPass.cache.Purge()
-}

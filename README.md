@@ -35,7 +35,6 @@ Please see [docs/features.md](https://github.com/kpitt/gopass/blob/master/docs/f
 | JSON API                    | *integration* | Allow gopass to be used as a native extension for browser plugins |
 | Automatic fuzzy search      | *stable*      | Automatically search for matching store entries if a literal entry was not found |
 | gopass sync                 | *stable*      | Easy to use syncing of remote repos and GPG keys                  |
-| REPL                        | *beta*        | Integrated Read-Eval-Print-Loop shell with autocompletion by running `gopass`. |
 | OTP support                 | *stable*      | Generate TOTP/(HOTP) tokens based on the stored secret            |
 | Extensions                  |               | Extend gopass with custom commands using our API                  |
 | Fully open source!          |               | No need to trust it, check our code and/or improve it!            |
