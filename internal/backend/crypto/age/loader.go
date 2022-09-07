@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/kpitt/gopass/internal/backend"
-	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/pkg/debug"
 )
 
@@ -26,14 +25,6 @@ func (l loader) New(ctx context.Context) (backend.Crypto, error) {
 }
 
 func (l loader) Handles(ctx context.Context, s backend.Storage) error {
-	if s.Exists(ctx, OldIDFile) || s.Exists(ctx, OldKeyring) {
-		if err := migrate(ctx, s); err != nil {
-			out.Errorf(ctx, "Failed to migrate age backend: %s", err)
-		}
-		out.OKf(ctx, "Migrated age backend to new format")
-
-		return nil
-	}
 	if s.Exists(ctx, IDFile) {
 		return nil
 	}
