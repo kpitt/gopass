@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"regexp"
 	"runtime"
-	"strings"
 
 	fishcomp "github.com/kpitt/gopass/internal/completion/fish"
 	zshcomp "github.com/kpitt/gopass/internal/completion/zsh"
@@ -52,30 +51,6 @@ func (s *Action) Complete(c *cli.Context) {
 	for _, v := range list {
 		fmt.Fprintln(stdout, bashEscape(v))
 	}
-}
-
-// CompletionOpenBSDKsh returns an OpenBSD ksh script used for auto completion.
-func (s *Action) CompletionOpenBSDKsh(a *cli.App) error {
-	out := `
-PASS_LIST=$(gopass ls -f)
-set -A complete_gopass -- $PASS_LIST %s
-`
-
-	if a == nil {
-		return fmt.Errorf("cannot parse command options")
-	}
-
-	opts := make([]string, 0, len(a.Commands))
-	for _, opt := range a.Commands {
-		opts = append(opts, opt.Name)
-		if len(opt.Aliases) > 0 {
-			opts = append(opts, strings.Join(opt.Aliases, " "))
-		}
-	}
-
-	fmt.Fprintf(stdout, out, strings.Join(opts, " "))
-
-	return nil
 }
 
 // CompletionBash returns a bash script used for auto completion.

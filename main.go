@@ -169,12 +169,6 @@ func getCommands(action *ap.Action, app *cli.App) []*cli.Command {
 				Action: func(c *cli.Context) error {
 					return action.CompletionFish(app) //nolint:wrapcheck
 				},
-			}, {
-				Name:  "openbsdksh",
-				Usage: "Source for auto completion in OpenBSD's ksh",
-				Action: func(c *cli.Context) error {
-					return action.CompletionOpenBSDKsh(app) //nolint:wrapcheck
-				},
 			}},
 		},
 	}
