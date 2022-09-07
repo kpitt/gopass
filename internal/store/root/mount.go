@@ -142,18 +142,6 @@ func (r *Store) MountPoint(name string) string {
 	return ""
 }
 
-// Lock drops all cached credentials, if any. Mostly only useful
-// for the gopass REPL.
-func (r *Store) Lock() error {
-	for _, sub := range r.mounts {
-		if err := sub.Lock(); err != nil {
-			return err
-		}
-	}
-
-	return r.store.Lock()
-}
-
 // getStore returns the Store object at the most-specific mount point for the
 // given key. returns sub store reference, truncated path to secret.
 func (r *Store) getStore(name string) (*leaf.Store, string) {

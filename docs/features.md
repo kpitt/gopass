@@ -5,11 +5,6 @@ gopass supports.
 
 ## Standard Features
 
-Note: Running `gopass` without any arguments opens up an interactive mode where
-all commands explained below are available without the need to prefix them with
-`gopass`. Also this mode offers tab completion without the need to configure
-the shell.
-
 ### Data Organization
 
 Before you start using gopass, you should know a little bit about how it stores your data.
