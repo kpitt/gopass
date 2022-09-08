@@ -1,16 +1,11 @@
 package action
 
 import (
-	"os"
-	"path/filepath"
-
 	"github.com/kpitt/gopass/internal/action/exit"
-	"github.com/kpitt/gopass/internal/config"
 	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/internal/store/leaf"
 	"github.com/kpitt/gopass/internal/tree"
 	"github.com/kpitt/gopass/pkg/ctxutil"
-	"github.com/kpitt/gopass/pkg/fsutil"
 	"github.com/kpitt/gopass/pkg/termio"
 	"github.com/urfave/cli/v2"
 )
@@ -29,14 +24,6 @@ func (s *Action) Fsck(c *cli.Context) error {
 	// we may have loaded it from one of the fallback locations.
 	if err := s.cfg.Save(); err != nil {
 		return exit.Error(exit.Config, err, "failed to save config: %s", err)
-	}
-
-	// clean up any previous config locations.
-	oldCfg := filepath.Join(config.Homedir(), ".gopass.yml")
-	if fsutil.IsFile(oldCfg) {
-		if err := os.Remove(oldCfg); err != nil {
-			out.Errorf(ctx, "Failed to remove old gopass config %s: %s", oldCfg, err)
-		}
 	}
 
 	// display progress bar.
