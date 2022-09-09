@@ -33,9 +33,6 @@ Yes, there is a gopass-based [Terraform provider](https://github.com/camptocamp/
 ## How can I fix `"gpg: decryption failed: No secret key"` errors?
 Set the `auto-expand-secmem` option in your gpg-agent.conf, if your version of GnuPG supports it.
 
-## I'm getting `Path too long for Unix domain socket` errors, usually on MacOS.
-This can be fixed by setting `export TMPDIR=/tmp` (or any other suiteable location with a path shorter than 80 characters).
-
 ## Empty secret?
 Old version of `gpg` may fail to decode message encrypted with newer version without any message. The encrypted secret in such case is just empty and gopass will warn you about this. One case of such behaviour we have seen so far is when the encryption key generated with `gpg` version 2.3.x encrypt a password that is then decrypted on `gpg` version 2.2.x (default on Ubuntu 18.04). In this particular case old `gpg` does not understand `AEAD` encryption extension, and it fails without any error.  If it is your case then follw the instructions in listed in #2283.
 
