@@ -56,7 +56,6 @@ var commandsWithError = set.Map([]string{
 	".create",
 	".delete",
 	".edit",
-	".env",
 	".find",
 	".fscopy",
 	".fsmove",
@@ -121,7 +120,7 @@ func TestGetCommands(t *testing.T) { //nolint:paralleltest
 	c.Context = ctx
 
 	commands := getCommands(act, app)
-	assert.Equal(t, 39, len(commands))
+	assert.Equal(t, 38, len(commands))
 
 	prefix := ""
 	testCommands(t, c, commands, prefix)
