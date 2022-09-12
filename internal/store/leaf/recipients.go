@@ -16,8 +16,7 @@ import (
 )
 
 const (
-	keyDir    = ".public-keys"
-	oldKeyDir = ".gpg-keys"
+	keyDir = ".public-keys"
 )
 
 // Recipients returns the list of recipients of this store.

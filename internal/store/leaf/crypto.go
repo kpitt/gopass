@@ -92,22 +92,18 @@ func (s *Store) ImportMissingPublicKeys(ctx context.Context, newrs ...string) er
 }
 
 func (s *Store) decodePublicKey(ctx context.Context, r string) ([]string, error) {
-	for _, kd := range []string{keyDir, oldKeyDir} {
-		filename := filepath.Join(kd, r)
-		if !s.storage.Exists(ctx, filename) {
-			debug.Log("Public Key %s not found at %s", r, filename)
-
-			continue
-		}
-		buf, err := s.storage.Get(ctx, filename)
-		if err != nil {
-			return nil, fmt.Errorf("unable to read Public Key %q %q: %w", r, filename, err)
-		}
-
-		return s.crypto.ReadNamesFromKey(ctx, buf)
+	filename := filepath.Join(keyDir, r)
+	if !s.storage.Exists(ctx, filename) {
+		debug.Log("Public Key %s not found at %s", r, filename)
+		return nil, fmt.Errorf("public key %q not found", r)
 	}
 
-	return nil, fmt.Errorf("public key %q not found", r)
+	buf, err := s.storage.Get(ctx, filename)
+	if err != nil {
+		return nil, fmt.Errorf("unable to read Public Key %q %q: %w", r, filename, err)
+	}
+
+	return s.crypto.ReadNamesFromKey(ctx, buf)
 }
 
 // export an ASCII armored public key.
@@ -149,20 +145,16 @@ func (s *Store) importPublicKey(ctx context.Context, r string) error {
 		return nil
 	}
 
-	for _, kd := range []string{keyDir, oldKeyDir} {
-		filename := filepath.Join(kd, r)
-		if !s.storage.Exists(ctx, filename) {
-			debug.Log("Public Key %s not found at %s", r, filename)
-
-			continue
-		}
-		pk, err := s.storage.Get(ctx, filename)
-		if err != nil {
-			return err
-		}
-
-		return im.ImportPublicKey(ctx, pk)
+	filename := filepath.Join(keyDir, r)
+	if !s.storage.Exists(ctx, filename) {
+		debug.Log("Public Key %s not found at %s", r, filename)
+		return fmt.Errorf("public key not found in store")
 	}
 
-	return fmt.Errorf("public key not found in store")
+	pk, err := s.storage.Get(ctx, filename)
+	if err != nil {
+		return err
+	}
+
+	return im.ImportPublicKey(ctx, pk)
 }
