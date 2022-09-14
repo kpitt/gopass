@@ -325,10 +325,9 @@ func (s *Action) GetCommands() []*cli.Command {
 					Usage: "Require strict character class rules",
 				},
 				&cli.StringFlag{
-					Name:    "sep",
-					Aliases: []string{"xkcdsep", "xs"},
-					Usage:   "Word separator for generated passwords. If no separator is specified, the words are combined without spaces/separator and the first character of words is capitalised.",
-					Value:   "",
+					Name:  "sep",
+					Usage: "Word separator for generated passwords. If no separator is specified, the words are combined without spaces/separator and the first character of words is capitalised.",
+					Value: "",
 				},
 			},
 		},
