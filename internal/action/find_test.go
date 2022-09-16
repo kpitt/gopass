@@ -62,29 +62,6 @@ func TestFind(t *testing.T) { //nolint:paralleltest
 	assert.Equal(t, strings.TrimSpace(buf.String()), "foo")
 	buf.Reset()
 
-	// testing the safecontent case
-	ctx = ctxutil.WithShowSafeContent(ctx, true)
-	c.Context = ctx
-	assert.NoError(t, act.Find(c))
-	buf.Reset()
-
-	// testing with the clip flag set
-	c = gptest.CliCtxWithFlags(ctx, t, map[string]string{"clip": "true"}, "fo")
-	assert.NoError(t, act.Find(c))
-	out := strings.TrimSpace(buf.String())
-	assert.Contains(t, out, "Found exact match in \"foo\"")
-	buf.Reset()
-
-	// safecontent case with force flag set
-	c = gptest.CliCtxWithFlags(ctx, t, map[string]string{"unsafe": "true"}, "fo")
-	assert.NoError(t, act.Find(c))
-	out = strings.TrimSpace(buf.String())
-	assert.Contains(t, out, "Found exact match in \"foo\"\nsecret")
-	buf.Reset()
-
-	// stopping with the safecontent tests
-	ctx = ctxutil.WithShowSafeContent(ctx, false)
-
 	// find yo
 	c = gptest.CliCtx(ctx, t, "yo")
 	assert.Error(t, act.Find(c))

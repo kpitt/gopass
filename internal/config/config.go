@@ -23,7 +23,6 @@ type Config struct {
 	NoPager     bool              `yaml:"nopager"`     // do not invoke a pager to display long lists.
 	Parsing     bool              `yaml:"parsing"`     // allows to switch off all output parsing.
 	Path        string            `yaml:"path"`
-	SafeContent bool              `yaml:"safecontent"` // avoid showing passwords in terminal.
 	Mounts      map[string]string `yaml:"mounts"`
 
 	ConfigPath string `yaml:"-"`

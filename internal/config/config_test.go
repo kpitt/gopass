@@ -21,7 +21,7 @@ func TestNewConfig(t *testing.T) { //nolint:paralleltest
 	cfg := config.New()
 	cs := cfg.String()
 	assert.Contains(t, cs, `&config.Config{AutoImport:false, ClipTimeout:45, ExportKeys:true, NoPager:false,`)
-	assert.Contains(t, cs, `SafeContent:false, Mounts:map[string]string{},`)
+	assert.Contains(t, cs, `Mounts:map[string]string{},`)
 
 	cfg = &config.Config{
 		Mounts: map[string]string{
@@ -31,7 +31,7 @@ func TestNewConfig(t *testing.T) { //nolint:paralleltest
 	}
 	cs = cfg.String()
 	assert.Contains(t, cs, `&config.Config{AutoImport:false, ClipTimeout:0, ExportKeys:false, NoPager:false,`)
-	assert.Contains(t, cs, `SafeContent:false, Mounts:map[string]string{"bar":"", "foo":""},`)
+	assert.Contains(t, cs, `Mounts:map[string]string{"bar":"", "foo":""},`)
 }
 
 func TestSetConfigValue(t *testing.T) { //nolint:paralleltest

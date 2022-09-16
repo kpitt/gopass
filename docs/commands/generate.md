@@ -43,10 +43,6 @@ Generator | Description
 `memorable` | Generate a memorable password. The length argument specifies the minimum lenght of characters. Please note that the password might be longer if not all necessary rules were satisfied by the minimum length solution.
 `external` | Use the external generator from `$GOPASS_EXTERNAL_PWGEN`
 
-## Relevant configuration options
-
-* `safecontent` will suppress printing of the password, unless `-p` is set. The password will not be copied unless `-c` is specified.
-
 ## Templates
 
 When creating a new entry gopass will look for the most specific template

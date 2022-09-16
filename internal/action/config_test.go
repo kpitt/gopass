@@ -44,8 +44,6 @@ nopager: false
 parsing: true
 `
 		want += "path: " + u.StoreDir("") + "\n"
-		want += `safecontent: false
-`
 		assert.Equal(t, want, buf.String())
 	})
 
@@ -81,8 +79,7 @@ exportkeys: true
 nopager: true
 parsing: true
 `
-		want += "path: " + u.StoreDir("") + "\n"
-		want += `safecontent: false`
+		want += "path: " + u.StoreDir("")
 		assert.Equal(t, want, strings.TrimSpace(buf.String()), "action.printConfigValues")
 
 		delete(act.cfg.Mounts, "foo")
@@ -115,7 +112,6 @@ nopager
 parsing
 path
 remote
-safecontent
 `
 		assert.Equal(t, want, buf.String())
 	})

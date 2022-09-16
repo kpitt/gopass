@@ -21,14 +21,12 @@ exportkeys: false
 nopager: false
 parsing: true
 `
-	wanted += "path: " + ts.storeDir("root") + "\n"
-	wanted += "safecontent: false"
+	wanted += "path: " + ts.storeDir("root")
 
 	assert.Equal(t, wanted, out)
 
 	invertables := []string{
 		"autoimport",
-		"safecontent",
 		"parsing",
 	}
 
@@ -73,8 +71,7 @@ nopager: false
 parsing: true
 path: `
 	wanted += ts.storeDir("root") + "\n"
-	wanted += `safecontent: false
-mount "mnt/m1" => "`
+	wanted += `mount "mnt/m1" => "`
 	wanted += ts.storeDir("m1") + "\"\n"
 
 	out, err := ts.run("config")

@@ -32,11 +32,6 @@ func ShowFlags() []cli.Flag {
 			Usage: "Print the password as a QR Code",
 		},
 		&cli.BoolFlag{
-			Name:    "unsafe",
-			Aliases: []string{"u", "force", "f"},
-			Usage:   "Display unsafe content (e.g. the password) even if safecontent is enabled",
-		},
-		&cli.BoolFlag{
 			Name:    "password",
 			Aliases: []string{"o"},
 			Usage:   "Display only the password. Takes precedence over all other flags.",
@@ -276,11 +271,6 @@ func (s *Action) GetCommands() []*cli.Command {
 					Name:    "clip",
 					Aliases: []string{"c"},
 					Usage:   "Copy the password into the clipboard",
-				},
-				&cli.BoolFlag{
-					Name:    "unsafe",
-					Aliases: []string{"u", "force", "f"},
-					Usage:   "In the case of an exact match, display the password even if safecontent is enabled",
 				},
 			},
 		},

@@ -16,14 +16,12 @@ const (
 	ctxKeyInteractive
 	ctxKeyStdin
 	ctxKeyNoPager
-	ctxKeyShowSafeContent
 	ctxKeyGitCommit
 	ctxKeyAlwaysYes
 	ctxKeyVerbose
 	ctxKeyProgressCallback
 	ctxKeyAlias
 	ctxKeyGitInit
-	ctxKeyForce
 	ctxKeyCommitMessage
 	ctxKeyNoNetwork
 	ctxKeyUsername
@@ -135,28 +133,6 @@ func HasNoPager(ctx context.Context) bool {
 // IsNoPager returns the value of pager or the default (false).
 func IsNoPager(ctx context.Context) bool {
 	bv, ok := ctx.Value(ctxKeyNoPager).(bool)
-	if !ok {
-		return false
-	}
-
-	return bv
-}
-
-// WithShowSafeContent returns a context with the value for ShowSafeContent set.
-func WithShowSafeContent(ctx context.Context, bv bool) context.Context {
-	return context.WithValue(ctx, ctxKeyShowSafeContent, bv)
-}
-
-// HasShowSafeContent returns true if a value for ShowSafeContent has been set in this context.
-func HasShowSafeContent(ctx context.Context) bool {
-	_, ok := ctx.Value(ctxKeyShowSafeContent).(bool)
-
-	return ok
-}
-
-// IsShowSafeContent returns the value of ShowSafeContent or the default (false).
-func IsShowSafeContent(ctx context.Context) bool {
-	bv, ok := ctx.Value(ctxKeyShowSafeContent).(bool)
 	if !ok {
 		return false
 	}
@@ -298,21 +274,6 @@ func HasGitInit(ctx context.Context) bool {
 // IsGitInit returns the value of the git init flag or ture if none was set.
 func IsGitInit(ctx context.Context) bool {
 	return is(ctx, ctxKeyGitInit, true)
-}
-
-// WithForce returns a context with the force flag set.
-func WithForce(ctx context.Context, bv bool) context.Context {
-	return context.WithValue(ctx, ctxKeyForce, bv)
-}
-
-// HasForce returns true if the context has the force flag set.
-func HasForce(ctx context.Context) bool {
-	return hasBool(ctx, ctxKeyForce)
-}
-
-// IsForce returns the force flag value of the default (false).
-func IsForce(ctx context.Context) bool {
-	return is(ctx, ctxKeyForce, false)
 }
 
 // WithCommitMessage returns a context with a commit message set.

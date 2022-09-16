@@ -25,7 +25,7 @@ used encoding (currently only Base64 supported).
 ### Example
 ```
 $ echo "234" | gopass cat test/new
-$ gopass show -f test/new
+$ gopass show test/new
 Secret: test/new
 
 
