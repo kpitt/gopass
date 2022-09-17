@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"path"
 	"strconv"
 	"strings"
 
@@ -16,7 +15,6 @@ import (
 	"github.com/kpitt/gopass/pkg/debug"
 	"github.com/kpitt/gopass/pkg/gopass"
 	"github.com/kpitt/gopass/pkg/gopass/secrets"
-	"github.com/kpitt/gopass/pkg/pwgen/pwrules"
 	"github.com/kpitt/gopass/pkg/qrcon"
 	"github.com/urfave/cli/v2"
 )
@@ -248,32 +246,10 @@ func (s *Action) showGetContent(ctx context.Context, sec gopass.Secret) (string,
 	return sec.Password(), fullBody, nil
 }
 
-func (s *Action) hasAliasDomain(ctx context.Context, name string) string {
-	p := strings.Split(name, "/")
-	for i := len(p) - 1; i > 0; i-- {
-		d := p[i]
-		for _, alias := range pwrules.LookupAliases(d) {
-			sn := append(p[0:i], alias)
-			sn = append(sn, p[i+1:]...)
-			aliasName := strings.Join(sn, "/")
-			if s.Store.Exists(ctx, aliasName) {
-				return aliasName
-			}
-		}
-		name = path.Dir(name)
-	}
-
-	return ""
-}
-
 // showHandleError handles errors retrieving secrets.
 func (s *Action) showHandleError(ctx context.Context, c *cli.Context, name string, recurse bool, err error) error {
 	if !errors.Is(err, store.ErrNotFound) || !recurse || !ctxutil.IsTerminal(ctx) {
 		return exit.Error(exit.Unknown, err, "failed to retrieve secret %q: %s", name, err)
-	}
-
-	if newName := s.hasAliasDomain(ctx, name); newName != "" {
-		return s.show(ctx, nil, newName, false)
 	}
 
 	out.Warningf(ctx, "Entry %q not found. Starting search...", name)
