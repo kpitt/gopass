@@ -52,36 +52,6 @@ func ShowFlags() []cli.Flag {
 func (s *Action) GetCommands() []*cli.Command {
 	cmds := []*cli.Command{
 		{
-			Name:        "alias",
-			Usage:       "Manage domain aliases",
-			Description: "Manages domain aliases. Note: this command might change or go away.",
-			Action:      s.AliasesPrint,
-			Hidden:      true,
-			Subcommands: []*cli.Command{
-				{
-					Name:        "add",
-					Action:      s.AliasesAdd,
-					Usage:       "Add a new alias",
-					ArgsUsage:   "[alias] [domain]",
-					Description: "Adds a new alias",
-				},
-				{
-					Name:        "remove",
-					Action:      s.AliasesRemove,
-					Usage:       "Remove an alias from a domain",
-					ArgsUsage:   "[alias] [domain]",
-					Description: "Remove an alias from a domain",
-				},
-				{
-					Name:        "delete",
-					Action:      s.AliasesDelete,
-					Usage:       "Delete an entire domain",
-					ArgsUsage:   "[alias]",
-					Description: "Delete an entire domain",
-				},
-			},
-		},
-		{
 			Name:      "audit",
 			Usage:     "Decrypt all secrets and scan for weak or leaked passwords",
 			ArgsUsage: "[filter]",

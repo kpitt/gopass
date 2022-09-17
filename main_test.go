@@ -46,9 +46,6 @@ func TestSetupApp(t *testing.T) {
 var commandsWithError = set.Map([]string{
 	".age.identities.add",
 	".age.identities.remove",
-	".alias.add",
-	".alias.remove",
-	".alias.delete",
 	".audit",
 	".cat",
 	".clone",
@@ -120,7 +117,7 @@ func TestGetCommands(t *testing.T) { //nolint:paralleltest
 	c.Context = ctx
 
 	commands := getCommands(act, app)
-	assert.Equal(t, 37, len(commands))
+	assert.Equal(t, 36, len(commands))
 
 	prefix := ""
 	testCommands(t, c, commands, prefix)
