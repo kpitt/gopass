@@ -5,8 +5,6 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"io"
-	"os"
 	"os/exec"
 	"path/filepath"
 	"strconv"
@@ -129,11 +127,6 @@ func (g *Git) captureCmd(ctx context.Context, name string, args ...string) ([]by
 	cmd.Stdout = bufOut
 	cmd.Stderr = bufErr
 
-	if debug.IsEnabled() && ctxutil.IsVerbose(ctx) {
-		cmd.Stdout = io.MultiWriter(bufOut, os.Stdout)
-		cmd.Stderr = io.MultiWriter(bufErr, os.Stderr)
-	}
-
 	debug.Log("store.%s: %s %+v (%s)", name, cmd.Path, cmd.Args, g.fs.Path())
 	err := cmd.Run()
 
@@ -241,7 +234,7 @@ func (g *Git) Commit(ctx context.Context, msg string) error {
 		return store.ErrGitNothingToCommit
 	}
 
-	return g.Cmd(ctx, "gitCommit", "commit", fmt.Sprintf("--date=%d +00:00", ctxutil.GetCommitTimestamp(ctx).UTC().Unix()), "-m", msg)
+	return g.Cmd(ctx, "gitCommit", "commit", "-m", msg)
 }
 
 func (g *Git) defaultRemote(ctx context.Context, branch string) string {

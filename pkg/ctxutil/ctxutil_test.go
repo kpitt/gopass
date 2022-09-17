@@ -69,16 +69,6 @@ func TestAlwaysYes(t *testing.T) {
 	assert.Equal(t, false, IsAlwaysYes(WithAlwaysYes(ctx, false)))
 }
 
-func TestVerbose(t *testing.T) {
-	t.Parallel()
-
-	ctx := context.Background()
-
-	assert.Equal(t, false, IsVerbose(ctx))
-	assert.Equal(t, true, IsVerbose(WithVerbose(ctx, true)))
-	assert.Equal(t, false, IsVerbose(WithVerbose(ctx, false)))
-}
-
 func TestProgressCallback(t *testing.T) {
 	t.Parallel()
 
@@ -131,7 +121,6 @@ func TestComposite(t *testing.T) {
 	ctx = WithNoPager(ctx, true)
 	ctx = WithGitCommit(ctx, false)
 	ctx = WithAlwaysYes(ctx, true)
-	ctx = WithVerbose(ctx, true)
 	ctx = WithExportKeys(ctx, false)
 	ctx = WithEmail(ctx, "foo@bar.com")
 	ctx = WithUsername(ctx, "foo")
@@ -156,9 +145,6 @@ func TestComposite(t *testing.T) {
 
 	assert.Equal(t, true, IsAlwaysYes(ctx))
 	assert.Equal(t, true, HasAlwaysYes(ctx))
-
-	assert.Equal(t, true, IsVerbose(ctx))
-	assert.Equal(t, true, HasVerbose(ctx))
 
 	assert.Equal(t, false, IsExportKeys(ctx))
 	assert.Equal(t, true, HasExportKeys(ctx))
