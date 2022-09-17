@@ -152,33 +152,6 @@ func (s *Action) GetCommands() []*cli.Command {
 			BashComplete: s.ConfigComplete,
 		},
 		{
-			Name:        "convert",
-			Usage:       "Convert a store to different backends",
-			Description: "Convert a store to a different set of backends",
-			Action:      s.Convert,
-			Before:      s.IsInitialized,
-			Hidden:      true,
-			Flags: []cli.Flag{
-				&cli.StringFlag{
-					Name:  "store",
-					Usage: "Specify which store to convert",
-				},
-				&cli.BoolFlag{
-					Name:  "move",
-					Value: true,
-					Usage: "Replace store?",
-				},
-				&cli.StringFlag{
-					Name:  "crypto",
-					Usage: fmt.Sprintf("Which crypto backend? %v", backend.CryptoRegistry.BackendNames()),
-				},
-				&cli.StringFlag{
-					Name:  "storage",
-					Usage: fmt.Sprintf("Which storage backend? %v", backend.StorageRegistry.BackendNames()),
-				},
-			},
-		},
-		{
 			Name:      "copy",
 			Aliases:   []string{"cp"},
 			Usage:     "Copy secrets from one location to another",
