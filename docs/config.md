@@ -13,7 +13,6 @@ Some configuration options are only available through setting environment variab
 | `GOPASS_DEBUG_FILES`         | `string` | Comma separated filter for console debug output (files)                                                          |
 | `GOPASS_UMASK`               | `octal`  | Set to any valid umask to mask bits of files created by gopass                                                   |
 | `GOPASS_GPG_OPTS`            | `string` | Add any extra arguments, e.g. `--armor` you want to pass to GPG on every invocation                              |
-| `GOPASS_EXTERNAL_PWGEN`      | `string` | Use an external password generator. See [Features](features.md#using-custom-password-generators) for details     |
 | `GOPASS_CHARACTER_SET`       | `bool`   | Set to any non-empty value to restrict the characters used in generated passwords                                |
 | `GOPASS_CONFIG`              | `string` | Set this to the absolute path to the configuration file                                                          |
 | `GOPASS_HOMEDIR`             | `string` | Set this to the absolute path of the directory containing the `.config/` tree                                    |

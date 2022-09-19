@@ -318,7 +318,7 @@ func (s *Action) GetCommands() []*cli.Command {
 				&cli.StringFlag{
 					Name:    "generator",
 					Aliases: []string{"g"},
-					Usage:   "Choose a password generator, use one of: cryptic, memorable, xkcd or external. Default: cryptic",
+					Usage:   "Choose a password generator, use one of: cryptic, memorable or xkcd. Default: cryptic",
 				},
 				&cli.BoolFlag{
 					Name:  "strict",
