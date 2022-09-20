@@ -42,7 +42,6 @@ autoimport: true
 cliptimeout: 45
 exportkeys: true
 nopager: false
-notifications: true
 parsing: true
 `
 		want += "path: " + u.StoreDir("") + "\n"
@@ -82,7 +81,6 @@ autoimport: true
 cliptimeout: 45
 exportkeys: true
 nopager: true
-notifications: true
 parsing: true
 `
 		want += "path: " + u.StoreDir("") + "\n"
@@ -117,7 +115,6 @@ autoimport
 cliptimeout
 exportkeys
 nopager
-notifications
 parsing
 path
 remote

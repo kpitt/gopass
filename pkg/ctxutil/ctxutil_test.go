@@ -89,16 +89,6 @@ func TestVerbose(t *testing.T) {
 	assert.Equal(t, false, IsVerbose(WithVerbose(ctx, false)))
 }
 
-func TestNotifications(t *testing.T) {
-	t.Parallel()
-
-	ctx := context.Background()
-
-	assert.Equal(t, true, IsNotifications(ctx))
-	assert.Equal(t, true, IsNotifications(WithNotifications(ctx, true)))
-	assert.Equal(t, false, IsNotifications(WithNotifications(ctx, false)))
-}
-
 func TestProgressCallback(t *testing.T) {
 	t.Parallel()
 
@@ -163,7 +153,6 @@ func TestComposite(t *testing.T) {
 	ctx = WithGitCommit(ctx, false)
 	ctx = WithAlwaysYes(ctx, true)
 	ctx = WithVerbose(ctx, true)
-	ctx = WithNotifications(ctx, true)
 	ctx = WithExportKeys(ctx, false)
 	ctx = WithEmail(ctx, "foo@bar.com")
 	ctx = WithUsername(ctx, "foo")
@@ -195,9 +184,6 @@ func TestComposite(t *testing.T) {
 
 	assert.Equal(t, true, IsVerbose(ctx))
 	assert.Equal(t, true, HasVerbose(ctx))
-
-	assert.Equal(t, true, IsNotifications(ctx))
-	assert.Equal(t, true, HasNotifications(ctx))
 
 	assert.Equal(t, false, IsExportKeys(ctx))
 	assert.Equal(t, true, HasExportKeys(ctx))

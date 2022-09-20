@@ -17,16 +17,15 @@ var (
 
 // Config is the current config struct.
 type Config struct {
-	AutoClip      bool              `yaml:"autoclip"`      // decide whether passwords are automatically copied or not.
-	AutoImport    bool              `yaml:"autoimport"`    // import missing public keys w/o asking.
-	ClipTimeout   int               `yaml:"cliptimeout"`   // clear clipboard after seconds.
-	ExportKeys    bool              `yaml:"exportkeys"`    // automatically export public keys of all recipients.
-	NoPager       bool              `yaml:"nopager"`       // do not invoke a pager to display long lists.
-	Notifications bool              `yaml:"notifications"` // enable desktop notifications.
-	Parsing       bool              `yaml:"parsing"`       // allows to switch off all output parsing.
-	Path          string            `yaml:"path"`
-	SafeContent   bool              `yaml:"safecontent"` // avoid showing passwords in terminal.
-	Mounts        map[string]string `yaml:"mounts"`
+	AutoClip    bool              `yaml:"autoclip"`    // decide whether passwords are automatically copied or not.
+	AutoImport  bool              `yaml:"autoimport"`  // import missing public keys w/o asking.
+	ClipTimeout int               `yaml:"cliptimeout"` // clear clipboard after seconds.
+	ExportKeys  bool              `yaml:"exportkeys"`  // automatically export public keys of all recipients.
+	NoPager     bool              `yaml:"nopager"`     // do not invoke a pager to display long lists.
+	Parsing     bool              `yaml:"parsing"`     // allows to switch off all output parsing.
+	Path        string            `yaml:"path"`
+	SafeContent bool              `yaml:"safecontent"` // avoid showing passwords in terminal.
+	Mounts      map[string]string `yaml:"mounts"`
 
 	ConfigPath string `yaml:"-"`
 
@@ -37,14 +36,13 @@ type Config struct {
 // New creates a new config with sane default values.
 func New() *Config {
 	return &Config{
-		AutoImport:    false,
-		ClipTimeout:   45,
-		ExportKeys:    true,
-		Mounts:        make(map[string]string),
-		Notifications: true,
-		Parsing:       true,
-		Path:          PwStoreDir(""),
-		ConfigPath:    configLocation(),
+		AutoImport:  false,
+		ClipTimeout: 45,
+		ExportKeys:  true,
+		Mounts:      make(map[string]string),
+		Parsing:     true,
+		Path:        PwStoreDir(""),
+		ConfigPath:  configLocation(),
 	}
 }
 

@@ -11,11 +11,9 @@ import (
 	"github.com/fatih/color"
 	"github.com/kpitt/gopass/internal/backend"
 	"github.com/kpitt/gopass/internal/diff"
-	"github.com/kpitt/gopass/internal/notify"
 	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/internal/store"
 	"github.com/kpitt/gopass/internal/store/leaf"
-	"github.com/kpitt/gopass/internal/tree"
 	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/kpitt/gopass/pkg/debug"
 	"github.com/urfave/cli/v2"
@@ -69,12 +67,6 @@ func (s *Action) autoSync(ctx context.Context) error {
 func (s *Action) sync(ctx context.Context, store string) error {
 	out.Printf(ctx, "- Syncing with all remotes...")
 
-	numEntries := 0
-	if l, err := s.Store.Tree(ctx); err == nil {
-		numEntries = len(l.List(tree.INF))
-	}
-	numMPs := 0
-
 	mps := s.Store.MountPoints()
 	mps = append([]string{""}, mps...)
 
@@ -89,24 +81,9 @@ func (s *Action) sync(ctx context.Context, store string) error {
 			}
 		}
 
-		numMPs++
 		_ = s.syncMount(ctx, mp)
 	}
 	out.OKf(ctx, "All done")
-
-	// Calculate number of changed entries.
-	// This is a rough estimate as additions and deletions.
-	// might cancel each other out.
-	if l, err := s.Store.Tree(ctx); err == nil {
-		numEntries = len(l.List(tree.INF)) - numEntries
-	}
-	diff := ""
-	if numEntries > 0 {
-		diff = fmt.Sprintf(" Added %d entries", numEntries)
-	} else if numEntries < 0 {
-		diff = fmt.Sprintf(" Removed %d entries", -1*numEntries)
-	}
-	_ = notify.Notify(ctx, "gopass - sync", fmt.Sprintf("Finished. Synced %d remotes.%s", numMPs, diff))
 
 	return nil
 }

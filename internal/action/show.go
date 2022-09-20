@@ -9,7 +9,6 @@ import (
 	"strings"
 
 	"github.com/kpitt/gopass/internal/action/exit"
-	"github.com/kpitt/gopass/internal/notify"
 	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/internal/store"
 	"github.com/kpitt/gopass/pkg/clipboard"
@@ -344,10 +343,6 @@ func (s *Action) hasAliasDomain(ctx context.Context, name string) string {
 // showHandleError handles errors retrieving secrets.
 func (s *Action) showHandleError(ctx context.Context, c *cli.Context, name string, recurse bool, err error) error {
 	if !errors.Is(err, store.ErrNotFound) || !recurse || !ctxutil.IsTerminal(ctx) {
-		if IsClip(ctx) {
-			_ = notify.Notify(ctx, "gopass - error", fmt.Sprintf("failed to retrieve secret %q: %s", name, err))
-		}
-
 		return exit.Error(exit.Unknown, err, "failed to retrieve secret %q: %s", name, err)
 	}
 
@@ -355,17 +350,9 @@ func (s *Action) showHandleError(ctx context.Context, c *cli.Context, name strin
 		return s.show(ctx, nil, newName, false)
 	}
 
-	if IsClip(ctx) {
-		_ = notify.Notify(ctx, "gopass - warning", fmt.Sprintf("Entry %q not found. Starting search...", name))
-	}
-
 	out.Warningf(ctx, "Entry %q not found. Starting search...", name)
 	c.Context = ctx
 	if err := s.Find(c); err != nil {
-		if IsClip(ctx) {
-			_ = notify.Notify(ctx, "gopass - error", fmt.Sprintf("%s", err))
-		}
-
 		return exit.Error(exit.NotFound, err, "%s", err)
 	}
 

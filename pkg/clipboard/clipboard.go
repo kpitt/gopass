@@ -8,7 +8,6 @@ import (
 
 	"github.com/atotto/clipboard"
 	"github.com/fatih/color"
-	"github.com/kpitt/gopass/internal/notify"
 	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/pkg/debug"
 )
@@ -29,18 +28,12 @@ func CopyTo(ctx context.Context, name string, content []byte, timeout int) error
 	clipboardCopyCMD := os.Getenv("GOPASS_CLIPBOARD_COPY_CMD")
 	if clipboardCopyCMD != "" {
 		if err := callCommand(ctx, clipboardCopyCMD, name, content); err != nil {
-			_ = notify.Notify(ctx, "gopass - clipboard", "failed to call clipboard copy command")
-
 			return fmt.Errorf("failed to call clipboard copy command: %w", err)
 		}
 	} else if clipboard.Unsupported {
 		out.Errorf(ctx, "%s", ErrNotSupported)
-		_ = notify.Notify(ctx, "gopass - clipboard", fmt.Sprintf("%s", ErrNotSupported))
-
 		return nil
 	} else if err := copyToClipboard(ctx, content); err != nil {
-		_ = notify.Notify(ctx, "gopass - clipboard", "failed to write to clipboard")
-
 		return fmt.Errorf("failed to write to clipboard: %w", err)
 	}
 
@@ -49,13 +42,10 @@ func CopyTo(ctx context.Context, name string, content []byte, timeout int) error
 	}
 
 	if err := clear(ctx, name, content, timeout); err != nil {
-		_ = notify.Notify(ctx, "gopass - clipboard", "failed to clear clipboard")
-
 		return fmt.Errorf("failed to clear clipboard: %w", err)
 	}
 
 	out.Printf(ctx, "✓ Copied %s to clipboard. Will clear in %d seconds.", color.YellowString(name), timeout)
-	_ = notify.Notify(ctx, "gopass - clipboard", fmt.Sprintf("✓ Copied %s to clipboard. Will clear in %d seconds.", name, timeout))
 
 	return nil
 }

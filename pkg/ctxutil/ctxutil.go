@@ -20,7 +20,6 @@ const (
 	ctxKeyGitCommit
 	ctxKeyAlwaysYes
 	ctxKeyVerbose
-	ctxKeyNotifications
 	ctxKeyProgressCallback
 	ctxKeyAlias
 	ctxKeyGitInit
@@ -241,21 +240,6 @@ func HasVerbose(ctx context.Context) bool {
 // IsVerbose returns the value of verbose or the default (false).
 func IsVerbose(ctx context.Context) bool {
 	return is(ctx, ctxKeyVerbose, false)
-}
-
-// WithNotifications returns a context with the value for Notifications set.
-func WithNotifications(ctx context.Context, verbose bool) context.Context {
-	return context.WithValue(ctx, ctxKeyNotifications, verbose)
-}
-
-// HasNotifications returns true if a value for Notifications has been set in this context.
-func HasNotifications(ctx context.Context) bool {
-	return hasBool(ctx, ctxKeyNotifications)
-}
-
-// IsNotifications returns the value of Notifications or the default (true).
-func IsNotifications(ctx context.Context) bool {
-	return is(ctx, ctxKeyNotifications, true)
 }
 
 // WithProgressCallback returns a context with the value of ProgressCallback set.

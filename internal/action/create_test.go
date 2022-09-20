@@ -22,7 +22,6 @@ func TestCreate(t *testing.T) { //nolint:paralleltest
 
 	ctx := context.Background()
 	ctx = ctxutil.WithAlwaysYes(ctx, true)
-	ctx = ctxutil.WithNotifications(ctx, false)
 
 	act, err := newMock(ctx, u.StoreDir(""))
 	require.NoError(t, err)

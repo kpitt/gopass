@@ -28,16 +28,15 @@ type Pre1127 struct {
 // Config converts the Pre1127 config to the current config struct.
 func (c *Pre1127) Config() *Config {
 	cfg := &Config{
-		AutoClip:      c.AutoClip,
-		AutoImport:    c.AutoImport,
-		ClipTimeout:   c.ClipTimeout,
-		ExportKeys:    c.ExportKeys,
-		NoPager:       c.NoPager,
-		Notifications: c.Notifications,
-		Parsing:       c.Parsing,
-		Path:          c.Path,
-		SafeContent:   c.SafeContent,
-		Mounts:        make(map[string]string, len(c.Mounts)),
+		AutoClip:    c.AutoClip,
+		AutoImport:  c.AutoImport,
+		ClipTimeout: c.ClipTimeout,
+		ExportKeys:  c.ExportKeys,
+		NoPager:     c.NoPager,
+		Parsing:     c.Parsing,
+		Path:        c.Path,
+		SafeContent: c.SafeContent,
+		Mounts:      make(map[string]string, len(c.Mounts)),
 	}
 
 	for k, v := range c.Mounts {
@@ -78,16 +77,15 @@ func (c *Pre1102) CheckOverflow() error {
 // Config converts the Pre1102 config to the current config struct.
 func (c *Pre1102) Config() *Config {
 	cfg := &Config{
-		AutoClip:      c.AutoClip,
-		AutoImport:    c.AutoImport,
-		ClipTimeout:   c.ClipTimeout,
-		ExportKeys:    c.ExportKeys,
-		NoPager:       c.NoPager,
-		Notifications: c.Notifications,
-		Parsing:       true,
-		Path:          c.Path,
-		SafeContent:   c.SafeContent,
-		Mounts:        make(map[string]string, len(c.Mounts)),
+		AutoClip:    c.AutoClip,
+		AutoImport:  c.AutoImport,
+		ClipTimeout: c.ClipTimeout,
+		ExportKeys:  c.ExportKeys,
+		NoPager:     c.NoPager,
+		Parsing:     true,
+		Path:        c.Path,
+		SafeContent: c.SafeContent,
+		Mounts:      make(map[string]string, len(c.Mounts)),
 	}
 
 	for k, v := range c.Mounts {
@@ -135,16 +133,15 @@ func (c *Pre193) CheckOverflow() error {
 // Config converts the Pre193 config to the current config struct.
 func (c *Pre193) Config() *Config {
 	cfg := &Config{
-		AutoClip:      c.Root.AutoClip,
-		AutoImport:    c.Root.AutoImport,
-		ClipTimeout:   c.Root.ClipTimeout,
-		ExportKeys:    c.Root.ExportKeys,
-		NoPager:       c.Root.NoPager,
-		Notifications: c.Root.Notifications,
-		Parsing:       true,
-		Path:          c.Root.Path,
-		SafeContent:   c.Root.SafeContent,
-		Mounts:        make(map[string]string, len(c.Mounts)),
+		AutoClip:    c.Root.AutoClip,
+		AutoImport:  c.Root.AutoImport,
+		ClipTimeout: c.Root.ClipTimeout,
+		ExportKeys:  c.Root.ExportKeys,
+		NoPager:     c.Root.NoPager,
+		Parsing:     true,
+		Path:        c.Root.Path,
+		SafeContent: c.Root.SafeContent,
+		Mounts:      make(map[string]string, len(c.Mounts)),
 	}
 
 	if p, err := pathFromURL(c.Root.Path); err == nil {
@@ -201,16 +198,15 @@ func (c *Pre182) CheckOverflow() error {
 // Config converts the Pre182 config to the current config struct.
 func (c *Pre182) Config() *Config {
 	cfg := &Config{
-		AutoClip:      c.Root.AutoClip,
-		AutoImport:    c.Root.AutoImport,
-		ClipTimeout:   c.Root.ClipTimeout,
-		ExportKeys:    true,
-		NoPager:       c.Root.NoPager,
-		Notifications: c.Root.Notifications,
-		Parsing:       true,
-		Path:          c.Root.Path,
-		SafeContent:   c.Root.SafeContent,
-		Mounts:        make(map[string]string, len(c.Mounts)),
+		AutoClip:    c.Root.AutoClip,
+		AutoImport:  c.Root.AutoImport,
+		ClipTimeout: c.Root.ClipTimeout,
+		ExportKeys:  true,
+		NoPager:     c.Root.NoPager,
+		Parsing:     true,
+		Path:        c.Root.Path,
+		SafeContent: c.Root.SafeContent,
+		Mounts:      make(map[string]string, len(c.Mounts)),
 	}
 
 	if p, err := pathFromURL(c.Root.Path); err == nil {

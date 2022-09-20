@@ -20,7 +20,6 @@ autoimport: true
 cliptimeout: 45
 exportkeys: false
 nopager: false
-notifications: true
 parsing: true
 `
 	wanted += "path: " + ts.storeDir("root") + "\n"
@@ -73,7 +72,6 @@ autoimport: true
 cliptimeout: 45
 exportkeys: false
 nopager: false
-notifications: true
 parsing: true
 path: `
 	wanted += ts.storeDir("root") + "\n"

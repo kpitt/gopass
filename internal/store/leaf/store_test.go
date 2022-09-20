@@ -41,10 +41,6 @@ func createSubStore(dir string) (*Store, error) {
 		return nil, err
 	}
 
-	if err := os.Setenv("GOPASS_NO_NOTIFY", "true"); err != nil {
-		return nil, err
-	}
-
 	if err := os.Setenv("GOPASS_DISABLE_ENCRYPTION", "true"); err != nil {
 		return nil, err
 	}
