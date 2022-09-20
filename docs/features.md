@@ -262,11 +262,6 @@ GPG keys.
 $ gopass sync
 ```
 
-### Desktop Notifications
-
-Certain long running operations, like `gopass sync` or `copy to clipboard` will
-try to show desktop notifications [Linux only].
-
 ### git auto-push and sync
 
 gopass always pushes changes to your default git remote server (origin).

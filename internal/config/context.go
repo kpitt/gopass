@@ -21,10 +21,6 @@ func (c *Config) WithContext(ctx context.Context) context.Context {
 		ctx = ctxutil.WithNoPager(ctx, c.NoPager)
 	}
 
-	if !ctxutil.HasNotifications(ctx) {
-		ctx = ctxutil.WithNotifications(ctx, c.Notifications)
-	}
-
 	if !ctxutil.HasShowSafeContent(ctx) {
 		ctx = ctxutil.WithShowSafeContent(ctx, c.SafeContent)
 	}

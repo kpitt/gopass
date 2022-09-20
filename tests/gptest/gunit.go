@@ -55,7 +55,6 @@ func NewGUnitTester(t *testing.T) *GUnit {
 		"GOPASS_CONFIG":      u.GPConfig(),
 		"GOPASS_HOMEDIR":     u.Dir,
 		"NO_COLOR":           "true",
-		"GOPASS_NO_NOTIFY":   "true",
 		"PAGER":              "",
 	}
 	assert.NoError(t, setupEnv(u.env))

@@ -13,7 +13,6 @@ import (
 	"syscall"
 
 	"github.com/kpitt/gopass/internal/pwschemes/argon2id"
-	"github.com/kpitt/gopass/pkg/ctxutil"
 )
 
 // clear will spawn a copy of gopass that waits in a detached background
@@ -37,10 +36,6 @@ func clear(ctx context.Context, name string, content []byte, timeout int) error 
 
 	cmd.Env = append(os.Environ(), "GOPASS_UNCLIP_NAME="+name)
 	cmd.Env = append(cmd.Env, "GOPASS_UNCLIP_CHECKSUM="+hash)
-
-	if !ctxutil.IsNotifications(ctx) {
-		cmd.Env = append(cmd.Env, "GOPASS_NO_NOTIFY=true")
-	}
 
 	if err := cmd.Start(); err != nil {
 		return fmt.Errorf("failed to invoke unclip: %w", err)

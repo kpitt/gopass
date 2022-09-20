@@ -40,5 +40,4 @@ ratings:
  
 exclude_patterns:
 - "vendor/"
-- "utils/notify/icon.go"
 - "**/*_test.go"

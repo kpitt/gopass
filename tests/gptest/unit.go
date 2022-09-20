@@ -14,7 +14,6 @@ import (
 const (
 	gopassConfig = `autoimport: true
 cliptimeout: 45
-notifications: true
 parsing: true`
 )
 
@@ -63,7 +62,6 @@ func NewUnitTester(t *testing.T) *Unit {
 		"GOPASS_DISABLE_ENCRYPTION": "true",
 		"GOPASS_HOMEDIR":            u.Dir,
 		"NO_COLOR":                  "true",
-		"GOPASS_NO_NOTIFY":          "true",
 		"PAGER":                     "",
 	}
 	assert.NoError(t, setupEnv(u.env))

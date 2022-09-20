@@ -41,7 +41,6 @@ func TestConfig(t *testing.T) { //nolint:paralleltest
 cliptimeout: 45
 exportkeys: true
 nopager: false
-notifications: true
 parsing: true
 `
 		want += "path: " + u.StoreDir("") + "\n"
@@ -80,7 +79,6 @@ parsing: true
 cliptimeout: 45
 exportkeys: true
 nopager: true
-notifications: true
 parsing: true
 `
 		want += "path: " + u.StoreDir("") + "\n"
@@ -114,7 +112,6 @@ parsing: true
 cliptimeout
 exportkeys
 nopager
-notifications
 parsing
 path
 remote

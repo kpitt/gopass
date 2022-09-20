@@ -18,7 +18,6 @@ Some configuration options are only available through setting environment variab
 | `GOPASS_CHARACTER_SET`       | `bool`   | Set to any non-empty value to restrict the characters used in generated passwords                                |
 | `GOPASS_CONFIG`              | `string` | Set this to the absolute path to the configuration file                                                          |
 | `GOPASS_HOMEDIR`             | `string` | Set this to the absolute path of the directory containing the `.config/` tree                                    |
-| `GOPASS_NO_NOTIFY`           | `bool`   | Set to any non-empty value to prevent notifications                                                              |
 | `GOPASS_NO_REMINDER`         | `bool`   | Set to any non-empty value to prevent reminders                                                                  |
 | `GOPASS_CLIPBOARD_COPY_CMD`  | `string` | Use an external command to copy a password to the clipboard. See [GPaste](usecases/gpaste.md) for an example     |
 | `GOPASS_CLIPBOARD_CLEAR_CMD` | `string` | Use an external command to remove a password from the clipboard. See [GPaste](usecases/gpaste.md) for an example |
@@ -64,7 +63,6 @@ This is a list of available options:
 | `usesymbols`     | `bool`   | If enabled - it will use symbols when generating passwords.  DEPRECATED in v1.9.3                                                                                                              |
 | `nocolor`        | `bool`   | Do not use color.                                                                                                                                                                              |
 | `nopager`        | `bool`   | Do not invoke a pager to display long lists.                                                                                                                                                   |
-| `notifications`  | `bool`   | Enable desktop notifications.                                                                                                                                                                  |
 | `parsing`        | `bool`   | Enable parsing of output to have key-value and yaml secrets.                                                                                                                                   |
 | `path`           | `string` | Path to the root store.                                                                                                                                                                        |
 | `safecontent`    | `bool`   | Only output _safe content_ (i.e. everything but the first line of a secret) to the terminal. Use _copy_ (`-c`) to retrieve the password in the clipboard, or _force_ (`-f`) to still print it. |

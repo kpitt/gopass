@@ -26,9 +26,6 @@ func clear(ctx context.Context, name string, content []byte, timeout int) error 
 	cmd := exec.CommandContext(ctx, os.Args[0], "unclip", "--timeout", strconv.Itoa(timeout))
 	cmd.Env = append(os.Environ(), "GOPASS_UNCLIP_NAME="+name)
 	cmd.Env = append(cmd.Env, "GOPASS_UNCLIP_CHECKSUM="+hash)
-	if !ctxutil.IsNotifications(ctx) {
-		cmd.Env = append(cmd.Env, "GOPASS_NO_NOTIFY=true")
-	}
 	return cmd.Start()
 }
 

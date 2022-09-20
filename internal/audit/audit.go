@@ -11,7 +11,6 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/kpitt/gopass/internal/backend"
-	"github.com/kpitt/gopass/internal/notify"
 	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/kpitt/gopass/pkg/debug"
@@ -275,12 +274,8 @@ func auditPrintResults(ctx context.Context, duplicates, messages, errors map[str
 	foundErrors := printAuditResults(errors, "%s:\n", color.RedString)
 
 	if foundWeakPasswords || foundDuplicates || foundErrors {
-		_ = notify.Notify(ctx, "gopass - audit", "Finished. Found weak passwords and/or duplicates")
-
 		return fmt.Errorf("found weak passwords or duplicates")
 	}
-
-	_ = notify.Notify(ctx, "gopass - audit", "Finished. No weak passwords or duplicates found!")
 
 	return nil
 }

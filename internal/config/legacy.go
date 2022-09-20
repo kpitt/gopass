@@ -23,15 +23,14 @@ type Pre1127 struct {
 // Config converts the Pre1127 config to the current config struct.
 func (c *Pre1127) Config() *Config {
 	cfg := &Config{
-		AutoImport:    c.AutoImport,
-		ClipTimeout:   c.ClipTimeout,
-		ExportKeys:    c.ExportKeys,
-		NoPager:       c.NoPager,
-		Notifications: c.Notifications,
-		Parsing:       c.Parsing,
-		Path:          c.Path,
-		SafeContent:   c.SafeContent,
-		Mounts:        make(map[string]string, len(c.Mounts)),
+		AutoImport:  c.AutoImport,
+		ClipTimeout: c.ClipTimeout,
+		ExportKeys:  c.ExportKeys,
+		NoPager:     c.NoPager,
+		Parsing:     c.Parsing,
+		Path:        c.Path,
+		SafeContent: c.SafeContent,
+		Mounts:      make(map[string]string, len(c.Mounts)),
 	}
 
 	for k, v := range c.Mounts {

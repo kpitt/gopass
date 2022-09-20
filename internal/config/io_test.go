@@ -30,7 +30,6 @@ autoimport: false
 cliptimeout: 45
 exportkeys: true
 nopager: false
-notifications: true
 parsing: true
 path: /home/johndoe/.password-store
 safecontent: false
@@ -38,14 +37,13 @@ mounts:
   foo/sub: /home/johndoe/.password-store-foo-sub
   work: /home/johndoe/.password-store-work`,
 			want: &Config{
-				AutoImport:    false,
-				ClipTimeout:   45,
-				ExportKeys:    true,
-				NoPager:       false,
-				Notifications: true,
-				Parsing:       true,
-				Path:          "/home/johndoe/.password-store",
-				SafeContent:   false,
+				AutoImport:  false,
+				ClipTimeout: 45,
+				ExportKeys:  true,
+				NoPager:     false,
+				Parsing:     true,
+				Path:        "/home/johndoe/.password-store",
+				SafeContent: false,
 				Mounts: map[string]string{
 					"foo/sub": "/home/johndoe/.password-store-foo-sub",
 					"work":    "/home/johndoe/.password-store-work",
@@ -65,14 +63,13 @@ mounts:
   foo/sub: /home/johndoe/.password-store-foo-sub
   work: /home/johndoe/.password-store-work`,
 			want: &Config{
-				AutoImport:    false,
-				ClipTimeout:   30,
-				ExportKeys:    true,
-				NoPager:       false,
-				Notifications: true,
-				Parsing:       true,
-				Path:          "/home/johndoe/.password-store",
-				SafeContent:   false,
+				AutoImport:  false,
+				ClipTimeout: 30,
+				ExportKeys:  true,
+				NoPager:     false,
+				Parsing:     true,
+				Path:        "/home/johndoe/.password-store",
+				SafeContent: false,
 				Mounts: map[string]string{
 					"foo/sub": "/home/johndoe/.password-store-foo-sub",
 					"work":    "/home/johndoe/.password-store-work",
@@ -83,7 +80,6 @@ mounts:
 			cfg: `autoimport: true
 exportkeys: true
 nopager: false
-notifications: false
 foo: bar
 path: /home/johndoe/.password-store
 safecontent: false
@@ -91,14 +87,13 @@ mounts:
   foo/sub: /home/johndoe/.password-store-foo-sub
   work: /home/johndoe/.password-store-work`,
 			want: &Config{
-				AutoImport:    true,
-				ClipTimeout:   45,
-				ExportKeys:    true,
-				NoPager:       false,
-				Notifications: false,
-				Parsing:       true,
-				Path:          "/home/johndoe/.password-store",
-				SafeContent:   false,
+				AutoImport:  true,
+				ClipTimeout: 45,
+				ExportKeys:  true,
+				NoPager:     false,
+				Parsing:     true,
+				Path:        "/home/johndoe/.password-store",
+				SafeContent: false,
 				Mounts: map[string]string{
 					"foo/sub": "/home/johndoe/.password-store-foo-sub",
 					"work":    "/home/johndoe/.password-store-work",

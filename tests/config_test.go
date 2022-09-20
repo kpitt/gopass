@@ -19,7 +19,6 @@ func TestBaseConfig(t *testing.T) { //nolint:paralleltest
 cliptimeout: 45
 exportkeys: false
 nopager: false
-notifications: true
 parsing: true
 `
 	wanted += "path: " + ts.storeDir("root") + "\n"
@@ -71,7 +70,6 @@ func TestMountConfig(t *testing.T) { //nolint:paralleltest
 cliptimeout: 45
 exportkeys: false
 nopager: false
-notifications: true
 parsing: true
 path: `
 	wanted += ts.storeDir("root") + "\n"
