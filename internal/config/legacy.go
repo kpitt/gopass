@@ -22,7 +22,6 @@ type Pre1150 struct {
 // Config converts the Pre1127 config to the current config struct.
 func (c *Pre1150) Config() *Config {
 	cfg := &Config{
-		AutoClip:    c.AutoClip,
 		AutoImport:  c.AutoImport,
 		ClipTimeout: c.ClipTimeout,
 		ExportKeys:  c.ExportKeys,

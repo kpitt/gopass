@@ -20,7 +20,7 @@ func TestNewConfig(t *testing.T) { //nolint:paralleltest
 
 	cfg := config.New()
 	cs := cfg.String()
-	assert.Contains(t, cs, `&config.Config{AutoClip:false, AutoImport:false, ClipTimeout:45, ExportKeys:true, NoPager:false,`)
+	assert.Contains(t, cs, `&config.Config{AutoImport:false, ClipTimeout:45, ExportKeys:true, NoPager:false,`)
 	assert.Contains(t, cs, `Mounts:map[string]string{},`)
 
 	cfg = &config.Config{
@@ -30,7 +30,7 @@ func TestNewConfig(t *testing.T) { //nolint:paralleltest
 		},
 	}
 	cs = cfg.String()
-	assert.Contains(t, cs, `&config.Config{AutoClip:false, AutoImport:false, ClipTimeout:0, ExportKeys:false, NoPager:false,`)
+	assert.Contains(t, cs, `&config.Config{AutoImport:false, ClipTimeout:0, ExportKeys:false, NoPager:false,`)
 	assert.Contains(t, cs, `Mounts:map[string]string{"bar":"", "foo":""},`)
 }
 
@@ -39,8 +39,8 @@ func TestSetConfigValue(t *testing.T) { //nolint:paralleltest
 	defer u.Remove()
 
 	cfg := config.New()
-	assert.NoError(t, cfg.SetConfigValue("autoclip", "true"))
+	assert.NoError(t, cfg.SetConfigValue("autoimport", "true"))
 	assert.NoError(t, cfg.SetConfigValue("cliptimeout", "900"))
 	assert.NoError(t, cfg.SetConfigValue("path", "/tmp"))
-	assert.Error(t, cfg.SetConfigValue("autoclip", "yo"))
+	assert.Error(t, cfg.SetConfigValue("autoimport", "yo"))
 }

@@ -22,7 +22,7 @@ $ gopass generate entry key [length]
 
 Flag | Aliases | Description
 ---- | ------- | -----------
-`--clip` | `-c` | Copy the generated password into the clipboard. Default: Value of `autoclip`
+`--clip` | `-c` | Copy the generated password into the clipboard. Default: false.
 `--print` | `-p` | Print the generated password to the terminal. Default: false.
 `--force` | `-f` | Force overwriting an existing entry.
 `--edit` | `-e` | Generate a password and open the entry for editing in `$EDITOR`.
@@ -42,10 +42,6 @@ Generator | Description
 `xkcd` | Use an [XKCD#936](https://xkcd.com/936/) style password. Use `--lang` and `--sep` to refine it's behaviour. The length argument specifies the number of words.
 `memorable` | Generate a memorable password. The length argument specifies the minimum lenght of characters. Please note that the password might be longer if not all necessary rules were satisfied by the minimum length solution.
 `external` | Use the external generator from `$GOPASS_EXTERNAL_PWGEN`
-
-## Relevant configuration options
-
-* `autoclip` only applies to `generate`. If set the generated password is automatically copied to the clipboard - unless `--clip` is explicitly set to `--clip=false`
 
 ## Templates
 
