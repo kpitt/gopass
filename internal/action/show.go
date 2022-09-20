@@ -64,6 +64,9 @@ func showParseArgs(c *cli.Context) context.Context {
 // Show the content of a secret file.
 func (s *Action) Show(c *cli.Context) error {
 	name := c.Args().First()
+	if name == "" {
+		return exit.Error(exit.Usage, nil, "Usage: %s show [name]", s.Name)
+	}
 
 	ctx := showParseArgs(c)
 
@@ -81,10 +84,6 @@ func (s *Action) Show(c *cli.Context) error {
 
 // show displays the given secret/key.
 func (s *Action) show(ctx context.Context, c *cli.Context, name string, recurse bool) error {
-	if name == "" {
-		return exit.Error(exit.Usage, nil, "Usage: %s show [name]", s.Name)
-	}
-
 	if s.Store.IsDir(ctx, name) && !s.Store.Exists(ctx, name) {
 		return s.List(c)
 	}
@@ -272,7 +271,7 @@ func (s *Action) showHandleError(ctx context.Context, c *cli.Context, name strin
 
 	out.Warningf(ctx, "Entry %q not found. Starting search...", name)
 	c.Context = ctx
-	if err := s.Find(c); err != nil {
+	if err := s.FindFuzzy(c, name); err != nil {
 		return exit.Error(exit.NotFound, err, "%s", err)
 	}
 
