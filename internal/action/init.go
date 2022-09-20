@@ -149,9 +149,9 @@ func (s *Action) init(ctx context.Context, alias, path string, keys ...string) e
 			debug.Log("Stacktrace: %+v\n", err)
 			out.Errorf(ctx, "✗ Failed to initialize git repository: %s", err)
 		}
-		debug.Log("RCS initialized as %s", s.Store.Storage(ctx, alias).Name())
+		debug.Log("Git initialized as %s", s.Store.Storage(ctx, alias).Name())
 	} else {
-		debug.Log("not initializing RCS backend")
+		debug.Log("not initializing git backend")
 	}
 
 	// write config.

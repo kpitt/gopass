@@ -440,17 +440,43 @@ func (s *Action) GetCommands() []*cli.Command {
 		{
 			Name:  "git",
 			Usage: "Run a git command inside a password store",
-			Description: "" +
-				"If the password store is a git repository, execute a git command " +
-				"specified by <git-command-args>.",
-			ArgsUsage: "<git-command-args>",
-			Hidden:    true,
+			Description: `If the password store is a git repository, execute a git command in the password store directory.
+
+Use the "git init" command if the store does not yet have a git repository.`,
+			ArgsUsage: "[git-command-args...]",
 			Before:    s.IsInitialized,
 			Action:    s.Git,
 			Flags: []cli.Flag{
 				&cli.StringFlag{
 					Name:  "store",
 					Usage: "Store to operate on",
+				},
+			},
+			Subcommands: []*cli.Command{
+				{
+					Name:        "init",
+					Usage:       "Initialize git repository",
+					Description: "Initialize and configure a git repository inside an existing password store.",
+					Before:      s.IsInitialized,
+					Action:      s.RCSInit,
+					Flags: []cli.Flag{
+						&cli.StringFlag{
+							Name:  "store",
+							Usage: "Store to operate on",
+						},
+						&cli.StringFlag{
+							Name:  "sign-key",
+							Usage: "GPG key to sign commits",
+						},
+						&cli.StringFlag{
+							Name:  "name",
+							Usage: "Git user name",
+						},
+						&cli.StringFlag{
+							Name:  "email",
+							Usage: "Git user email",
+						},
+					},
 				},
 			},
 		},
@@ -717,44 +743,6 @@ func (s *Action) GetCommands() []*cli.Command {
 				"and replace all variables with their values.",
 			Before: s.IsInitialized,
 			Action: s.Process,
-		},
-		{
-			Name:      "rcs",
-			Usage:     "Run a RCS command inside a password store",
-			ArgsUsage: "[init|push|pull]",
-			Description: "" +
-				"If the password store is a git repository, execute a git command " +
-				"specified by git-command-args.",
-			Hidden: true,
-			Subcommands: []*cli.Command{
-				{
-					Name:        "init",
-					Usage:       "Init RCS repo",
-					Description: "Create and initialize a new RCS repo in the store",
-					Before:      s.IsInitialized,
-					Action:      s.RCSInit,
-					Flags: []cli.Flag{
-						&cli.StringFlag{
-							Name:  "store",
-							Usage: "Store to operate on",
-						},
-						&cli.StringFlag{
-							Name:  "sign-key",
-							Usage: "GPG Key to sign commits",
-						},
-						&cli.StringFlag{
-							Name:    "name",
-							Aliases: []string{"username"},
-							Usage:   "Git Author Name",
-						},
-						&cli.StringFlag{
-							Name:    "email",
-							Aliases: []string{"useremail"},
-							Usage:   "Git Author Email",
-						},
-					},
-				},
-			},
 		},
 		{
 			Name:  "recipients",
