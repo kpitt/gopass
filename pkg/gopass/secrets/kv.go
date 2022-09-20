@@ -25,22 +25,6 @@ func NewKV() *KV {
 	}
 }
 
-// NewKVWithData returns a new KV secret populated with data.
-func NewKVWithData(pw string, kvps map[string][]string, body string, converted bool) *KV {
-	kv := &KV{
-		password: pw,
-		data:     make(map[string][]string, len(kvps)),
-		body:     body,
-		fromMime: converted,
-	}
-
-	for k, v := range kvps {
-		kv.data[k] = v
-	}
-
-	return kv
-}
-
 // KV is a secret that contains a password line (maybe empty), any number of
 // lines of key-value pairs (defined as: contains a colon) and any number of
 // free text lines. This is the default secret format gopass uses and encourages.
@@ -82,7 +66,6 @@ type KV struct {
 	password string
 	data     map[string][]string
 	body     string
-	fromMime bool
 }
 
 // Bytes serializes.
@@ -250,11 +233,6 @@ func (k *KV) Write(buf []byte) (int, error) {
 	k.body += string(buf)
 
 	return len(buf), nil
-}
-
-// FromMime returns whether this secret was converted from a Mime secret of not.
-func (k *KV) FromMime() bool {
-	return k.fromMime
 }
 
 // SafeStr always returnes "(elided)".

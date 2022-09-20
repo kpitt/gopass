@@ -15,7 +15,6 @@ import (
 	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/kpitt/gopass/pkg/debug"
 	"github.com/kpitt/gopass/pkg/gopass"
-	"github.com/kpitt/gopass/pkg/gopass/secrets"
 	"github.com/kpitt/gopass/pkg/pwgen/pwrules"
 	"github.com/kpitt/gopass/pkg/qrcon"
 	"github.com/urfave/cli/v2"
@@ -238,8 +237,7 @@ func (s *Action) showGetContent(ctx context.Context, sec gopass.Secret) (string,
 	}
 
 	pw := sec.Password()
-	// fallback for old MIME secrets.
-	fullBody := strings.TrimPrefix(string(sec.Bytes()), secrets.Ident+"\n")
+	fullBody := string(sec.Bytes())
 
 	// first line of the secret only.
 	if IsPrintQR(ctx) || IsOnlyClip(ctx) {

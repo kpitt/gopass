@@ -13,7 +13,6 @@ import (
 	"github.com/kpitt/gopass/internal/store"
 	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/kpitt/gopass/pkg/debug"
-	"github.com/kpitt/gopass/pkg/gopass"
 )
 
 // Fsck checks all entries matching the given prefix.
@@ -69,11 +68,6 @@ func (s *Store) Fsck(ctx context.Context, path string) error {
 	return nil
 }
 
-type convertedSecret interface {
-	gopass.Secret
-	FromMime() bool
-}
-
 func (s *Store) fsckCheckEntry(ctx context.Context, name string) error {
 	if err := s.fsckCheckRecipients(ctx, name); err != nil {
 		out.Warningf(ctx, "Checking recipients for %s failed: %s", name, err)
@@ -85,21 +79,11 @@ func (s *Store) fsckCheckEntry(ctx context.Context, name string) error {
 		return nil
 	}
 
-	// we need to make sure Parsing is enabled in order to parse old Mime secrets
-	ctx = ctxutil.WithShowParsing(ctx, true)
+	// make sure Parsing is disabled to prevent unexpected changes when re-encrypting
+	ctx = ctxutil.WithShowParsing(ctx, false)
 	sec, err := s.Get(ctx, name)
 	if err != nil {
 		return fmt.Errorf("failed to decode secret %s: %w", name, err)
-	}
-
-	// check if this is still an old MIME secret.
-	// Note: the secret was already converted when it was parsed during Get.
-	// This is just checking if it was converted from MIME or not.
-	// This branch is pretty much useless right now, but I'd like to add some
-	// reporting on how many secrets were converted from MIME to new format.
-	// TODO: report these stats
-	if cs, ok := sec.(convertedSecret); ok && cs.FromMime() {
-		debug.Log("leftover Mime secret: %s", name)
 	}
 
 	out.Printf(ctx, "Re-encrypting %s to fix recipients and storage format.", name)
