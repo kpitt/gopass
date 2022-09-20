@@ -23,7 +23,7 @@ import (
 func showParseArgs(c *cli.Context) context.Context {
 	ctx := ctxutil.WithGlobalFlags(c)
 	if c.IsSet("clip") {
-		ctx = WithOnlyClip(ctx, c.Bool("clip"))
+		ctx = WithClip(ctx, c.Bool("clip"))
 	}
 
 	if c.IsSet("qr") {
@@ -36,10 +36,6 @@ func showParseArgs(c *cli.Context) context.Context {
 
 	if c.IsSet("revision") {
 		ctx = WithRevision(ctx, c.String("revision"))
-	}
-
-	if c.IsSet("alsoclip") {
-		ctx = WithAlsoClip(ctx, c.Bool("alsoclip"))
 	}
 
 	if c.IsSet("noparsing") {
@@ -61,7 +57,6 @@ func showParseArgs(c *cli.Context) context.Context {
 		}
 		ctx = WithPrintChars(ctx, iv)
 	}
-	ctx = WithClip(ctx, IsOnlyClip(ctx) || IsAlsoClip(ctx))
 
 	return ctx
 }
@@ -232,7 +227,7 @@ func (s *Action) showGetContent(ctx context.Context, sec gopass.Secret) (string,
 	fullBody := string(sec.Bytes())
 
 	// first line of the secret only.
-	if IsPrintQR(ctx) || IsOnlyClip(ctx) {
+	if IsPrintQR(ctx) || IsClip(ctx) {
 		return pw, "", nil
 	}
 	if IsPasswordOnly(ctx) {

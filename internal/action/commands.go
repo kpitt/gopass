@@ -23,11 +23,6 @@ func ShowFlags() []cli.Flag {
 			Usage:   "Copy the password value into the clipboard",
 		},
 		&cli.BoolFlag{
-			Name:    "alsoclip",
-			Aliases: []string{"C"},
-			Usage:   "Copy the password and show everything",
-		},
-		&cli.BoolFlag{
 			Name:  "qr",
 			Usage: "Print the password as a QR Code",
 		},
