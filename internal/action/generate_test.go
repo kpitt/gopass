@@ -39,8 +39,6 @@ func TestGenerate(t *testing.T) { //nolint:paralleltest
 	require.NoError(t, err)
 	require.NotNil(t, act)
 
-	act.cfg.AutoClip = false
-
 	buf := &bytes.Buffer{}
 	out.Stdout = buf
 	out.Stderr = buf
@@ -150,32 +148,6 @@ func TestGenerate(t *testing.T) { //nolint:paralleltest
 	// generate --force --xkcd --print foobar baz
 	t.Run("generate --force --xkcd --print foobar baz", func(t *testing.T) { //nolint:paralleltest
 		assert.NoError(t, act.Generate(gptest.CliCtxWithFlags(ctx, t, map[string]string{"force": "true", "xkcd": "true", "print": "true", "lang": "en"}, "foobar", "baz")))
-		buf.Reset()
-	})
-
-	// generate --force foobar 24 w/ autoclip and output redirection
-	t.Run("generate --force foobar 24", func(t *testing.T) { //nolint:paralleltest
-		ov := act.cfg.AutoClip
-		defer func() {
-			act.cfg.AutoClip = ov
-		}()
-		act.cfg.AutoClip = true
-		ctx := ctxutil.WithTerminal(ctx, false)
-		assert.NoError(t, act.Generate(gptest.CliCtxWithFlags(ctx, t, map[string]string{"force": "true"}, "foobar", "24")))
-		assert.Contains(t, buf.String(), "Not printing secrets by default")
-		buf.Reset()
-	})
-
-	// generate --force foobar 24 w/ autoclip and no output redirection
-	t.Run("generate --force foobar 24", func(t *testing.T) { //nolint:paralleltest
-		ov := act.cfg.AutoClip
-		defer func() {
-			act.cfg.AutoClip = ov
-		}()
-		act.cfg.AutoClip = true
-		ctx := ctxutil.WithTerminal(ctx, true)
-		assert.NoError(t, act.Generate(gptest.CliCtxWithFlags(ctx, t, map[string]string{"force": "true"}, "foobar", "24")))
-		assert.Contains(t, buf.String(), "Copied to clipboard")
 		buf.Reset()
 	})
 

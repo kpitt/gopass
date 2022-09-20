@@ -12,8 +12,7 @@ import (
 )
 
 const (
-	gopassConfig = `autoclip: true
-autoimport: true
+	gopassConfig = `autoimport: true
 cliptimeout: 45
 notifications: true
 parsing: true`

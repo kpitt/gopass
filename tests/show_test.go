@@ -58,13 +58,6 @@ func TestShow(t *testing.T) { //nolint:paralleltest
 		assert.Equal(t, goldenQr, out)
 	})
 
-	t.Run("show w/o autoclip", func(t *testing.T) { //nolint:paralleltest
-		_, err = ts.run("config autoclip false")
-		assert.NoError(t, err)
-		_, err = ts.run("show fixed/secret")
-		assert.NoError(t, err)
-	})
-
 	t.Run("show with safecontent", func(t *testing.T) { //nolint:paralleltest
 		_, err = ts.run("config safecontent true")
 		assert.NoError(t, err)

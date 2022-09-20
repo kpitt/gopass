@@ -37,8 +37,7 @@ func TestConfig(t *testing.T) { //nolint:paralleltest
 
 		c := gptest.CliCtx(ctx, t)
 		assert.NoError(t, act.Config(c))
-		want := `autoclip: true
-autoimport: true
+		want := `autoimport: true
 cliptimeout: 45
 exportkeys: true
 nopager: false
@@ -77,8 +76,7 @@ parsing: true
 		defer buf.Reset()
 
 		act.printConfigValues(ctx)
-		want := `autoclip: true
-autoimport: true
+		want := `autoimport: true
 cliptimeout: 45
 exportkeys: true
 nopager: true
@@ -112,8 +110,7 @@ parsing: true
 		defer buf.Reset()
 
 		act.ConfigComplete(gptest.CliCtx(ctx, t))
-		want := `autoclip
-autoimport
+		want := `autoimport
 cliptimeout
 exportkeys
 nopager

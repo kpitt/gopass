@@ -27,8 +27,6 @@ func TestInsert(t *testing.T) { //nolint:paralleltest
 	require.NoError(t, err)
 	require.NotNil(t, act)
 
-	act.cfg.AutoClip = false
-
 	buf := &bytes.Buffer{}
 	out.Stdout = buf
 	color.NoColor = true
@@ -142,8 +140,6 @@ func TestInsertStdin(t *testing.T) { //nolint:paralleltest
 	act, err := newMock(ctx, u.StoreDir(""))
 	require.NoError(t, err)
 	require.NotNil(t, act)
-
-	act.cfg.AutoClip = false
 
 	buf := &bytes.Buffer{}
 	ibuf := &bytes.Buffer{}

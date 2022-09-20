@@ -15,8 +15,7 @@ func TestBaseConfig(t *testing.T) { //nolint:paralleltest
 	out, err := ts.run("config")
 	assert.NoError(t, err)
 
-	wanted := `autoclip: false
-autoimport: true
+	wanted := `autoimport: true
 cliptimeout: 45
 exportkeys: false
 nopager: false
@@ -68,8 +67,7 @@ func TestMountConfig(t *testing.T) { //nolint:paralleltest
 	_, err = ts.run("config")
 	assert.NoError(t, err)
 
-	wanted := `autoclip: false
-autoimport: true
+	wanted := `autoimport: true
 cliptimeout: 45
 exportkeys: false
 nopager: false

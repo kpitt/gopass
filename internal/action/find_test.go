@@ -30,8 +30,6 @@ func TestFind(t *testing.T) { //nolint:paralleltest
 	require.NoError(t, err)
 	require.NotNil(t, act)
 
-	act.cfg.AutoClip = false
-
 	buf := &bytes.Buffer{}
 	out.Stdout = buf
 	stdout = buf

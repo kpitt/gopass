@@ -17,7 +17,6 @@ var (
 
 // Config is the current config struct.
 type Config struct {
-	AutoClip      bool              `yaml:"autoclip"`      // decide whether passwords are automatically copied or not.
 	AutoImport    bool              `yaml:"autoimport"`    // import missing public keys w/o asking.
 	ClipTimeout   int               `yaml:"cliptimeout"`   // clear clipboard after seconds.
 	ExportKeys    bool              `yaml:"exportkeys"`    // automatically export public keys of all recipients.

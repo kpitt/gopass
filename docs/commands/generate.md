@@ -22,7 +22,7 @@ $ gopass generate entry key [length]
 
 Flag | Aliases | Description
 ---- | ------- | -----------
-`--clip` | `-c` | Copy the generated password into the clipboard. Default: Value of `autoclip`
+`--clip` | `-c` | Copy the generated password into the clipboard. Default: false.
 `--print` | `-p` | Print the generated password to the terminal. Default: false.
 `--force` | `-f` | Force overwriting an existing entry.
 `--edit` | `-e` | Generate a password and open the entry for editing in `$EDITOR`.
@@ -45,8 +45,7 @@ Generator | Description
 
 ## Relevant configuration options
 
-* `autoclip` only applies to `generate`. If set the generated password is automatically copied to the clipboard - unless `--clip` is explicitly set to `--clip=false`
-* `safecontent` will suppress printing of the password, unless `-p` is set. The password will not be copied, unless `-c` or the `autoclip` option are set.
+* `safecontent` will suppress printing of the password, unless `-p` is set. The password will not be copied unless `-c` is specified.
 
 ## Templates
 

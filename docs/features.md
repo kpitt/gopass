@@ -142,9 +142,7 @@ The generated password for golang.org/gopher is:
 Eech4ahRoy2oowi0ohl
 ```
 
-The `generate` command will ask for any missing arguments, like the name of the secret or the length. By default the password is copied to clipboard. If you don't want the password to be copied, but displayed instead, use the `-p` flag to print it.
-
-By default the password is copied to clipboard, but you can disable this using the `AutoClip` option, which, when set to`false`, will neither display, nor print the password. This is overridden by the `-p` or `-c` flags.
+The `generate` command will ask for any missing arguments, like the name of the secret or the length. Use the `-p` flag to print the generated password, or the `-c` flag to copy it to the clipboard.
 
 ### Edit a secret
 
@@ -420,7 +418,6 @@ gopass allows editing the config from the command-line. This is similar to how g
 ```bash
 $ gopass config
 askformore: false
-autoclip: true
 autoimport: false
 cliptimeout: 10
 noconfirm: false

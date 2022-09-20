@@ -38,7 +38,6 @@ mounts:
   foo/sub: /home/johndoe/.password-store-foo-sub
   work: /home/johndoe/.password-store-work`,
 			want: &Config{
-				AutoClip:      true,
 				AutoImport:    false,
 				ClipTimeout:   45,
 				ExportKeys:    true,
@@ -54,8 +53,7 @@ mounts:
 			},
 		}, {
 			name: "1.14.4",
-			cfg: `autoclip: false
-autoimport: false
+			cfg: `autoimport: false
 cliptimeout: 30
 exportkeys: true
 nopager: false
@@ -67,7 +65,6 @@ mounts:
   foo/sub: /home/johndoe/.password-store-foo-sub
   work: /home/johndoe/.password-store-work`,
 			want: &Config{
-				AutoClip:      false,
 				AutoImport:    false,
 				ClipTimeout:   30,
 				ExportKeys:    true,
@@ -83,8 +80,7 @@ mounts:
 			},
 		}, {
 			name: "N+1",
-			cfg: `autoclip: false
-autoimport: true
+			cfg: `autoimport: true
 exportkeys: true
 nopager: false
 notifications: false
@@ -95,7 +91,6 @@ mounts:
   foo/sub: /home/johndoe/.password-store-foo-sub
   work: /home/johndoe/.password-store-work`,
 			want: &Config{
-				AutoClip:      false,
 				AutoImport:    true,
 				ClipTimeout:   45,
 				ExportKeys:    true,
