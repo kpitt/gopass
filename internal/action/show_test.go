@@ -184,18 +184,6 @@ func TestShowAutoClip(t *testing.T) { //nolint:paralleltest
 		stderrBuf.Reset()
 	})
 
-	// gopass show -C foo
-	// -> Copy to clipboard AND print
-	t.Run("gopass show -C foo", func(t *testing.T) { //nolint:paralleltest
-		c := gptest.CliCtxWithFlags(ctx, t, map[string]string{"alsoclip": "true"}, "foo")
-		assert.NoError(t, act.Show(c))
-		assert.Contains(t, stderrBuf.String(), "WARNING")
-		assert.Contains(t, stdoutBuf.String(), "secret")
-		assert.Contains(t, stdoutBuf.String(), "second")
-		stdoutBuf.Reset()
-		stderrBuf.Reset()
-	})
-
 	// gopass show -f foo
 	// -> ONLY print
 	t.Run("gopass show -f foo", func(t *testing.T) { //nolint:paralleltest
@@ -226,18 +214,6 @@ func TestShowAutoClip(t *testing.T) { //nolint:paralleltest
 		assert.NoError(t, act.Show(c))
 		assert.Contains(t, stderrBuf.String(), "WARNING")
 		assert.NotContains(t, stdoutBuf.String(), "secret")
-		stdoutBuf.Reset()
-		stderrBuf.Reset()
-	})
-
-	// gopass show -C foo
-	// -> Copy to clipboard AND print
-	t.Run("gopass show -C foo", func(t *testing.T) { //nolint:paralleltest
-		c := gptest.CliCtxWithFlags(ctx, t, map[string]string{"alsoclip": "true"}, "foo")
-		assert.NoError(t, act.Show(c))
-		assert.Contains(t, stderrBuf.String(), "WARNING")
-		assert.Contains(t, stdoutBuf.String(), "secret")
-		assert.Contains(t, stdoutBuf.String(), "second")
 		stdoutBuf.Reset()
 		stderrBuf.Reset()
 	})

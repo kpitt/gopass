@@ -29,7 +29,6 @@ func (s *Action) Find(c *cli.Context) error {
 func (s *Action) findCmd(c *cli.Context, cb showFunc, fuzzy bool) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 	if c.IsSet("clip") {
-		ctx = WithOnlyClip(ctx, c.Bool("clip"))
 		ctx = WithClip(ctx, c.Bool("clip"))
 	}
 
