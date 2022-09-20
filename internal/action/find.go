@@ -16,27 +16,19 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-// FindNoFuzzy runs find without fuzzy search.
-func (s *Action) FindNoFuzzy(c *cli.Context) error {
-	return s.findCmd(c, nil, false)
-}
-
-// Find runs find.
+// Find runs the find command action, without fuzzy search.
 func (s *Action) Find(c *cli.Context) error {
-	return s.findCmd(c, s.show, true)
-}
-
-func (s *Action) findCmd(c *cli.Context, cb showFunc, fuzzy bool) error {
-	ctx := ctxutil.WithGlobalFlags(c)
-	if c.IsSet("clip") {
-		ctx = WithClip(ctx, c.Bool("clip"))
-	}
-
 	if !c.Args().Present() {
 		return exit.Error(exit.Usage, nil, "Usage: %s find <NEEDLE>", s.Name)
 	}
+	ctx := ctxutil.WithGlobalFlags(c)
 
-	return s.find(ctx, c, c.Args().First(), cb, fuzzy)
+	return s.find(ctx, c, c.Args().First(), nil, false)
+}
+
+// FindFuzzy runs a fuzzy find of the specified name and attempts to show the result.
+func (s *Action) FindFuzzy(c *cli.Context, name string) error {
+	return s.find(c.Context, c, name, s.show, true)
 }
 
 // see action.show - context, cli context, name, key, rescurse.

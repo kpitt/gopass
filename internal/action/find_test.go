@@ -50,21 +50,21 @@ func TestFind(t *testing.T) { //nolint:paralleltest
 		t.Errorf("Should fail: %s", err)
 	}
 
-	// find fo
+	// find fo (with fuzzy search)
 	c = gptest.CliCtxWithFlags(ctx, t, nil, "fo")
-	assert.NoError(t, act.Find(c))
+	assert.NoError(t, act.FindFuzzy(c, "fo"))
 	assert.Contains(t, strings.TrimSpace(buf.String()), "Found exact match in \"foo\"\nsecret")
 	buf.Reset()
 
 	// find fo (no fuzzy search)
 	c = gptest.CliCtxWithFlags(ctx, t, nil, "fo")
-	assert.NoError(t, act.FindNoFuzzy(c))
+	assert.NoError(t, act.Find(c))
 	assert.Equal(t, strings.TrimSpace(buf.String()), "foo")
 	buf.Reset()
 
 	// find yo
-	c = gptest.CliCtx(ctx, t, "yo")
-	assert.Error(t, act.Find(c))
+	c = gptest.CliCtx(ctx, t)
+	assert.Error(t, act.FindFuzzy(c, "yo"))
 	buf.Reset()
 
 	// add some secrets
@@ -76,8 +76,8 @@ func TestFind(t *testing.T) { //nolint:paralleltest
 	buf.Reset()
 
 	// find bar
-	c = gptest.CliCtx(ctx, t, "bar")
-	assert.NoError(t, act.Find(c))
+	c = gptest.CliCtx(ctx, t)
+	assert.NoError(t, act.FindFuzzy(c, "bar"))
 	assert.Equal(t, "bar/baz\nbar/zab", strings.TrimSpace(buf.String()))
 	buf.Reset()
 
