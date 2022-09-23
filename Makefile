@@ -138,9 +138,6 @@ codequality:
 
 	@printf '%s\n' '$(OK)'
 
-gen:
-	@$(GO) generate ./...
-
 fmt:
 	@gofumpt -l -w $(GOFILES_NOVENDOR)
 	@gci write $(GOFILES_NOVENDOR)
@@ -149,7 +146,7 @@ fmt:
 deps:
 	@$(GO) build -v ./...
 
-upgrade: gen fmt
+upgrade: fmt
 	@$(GO) get -u ./...
 	@$(GO) mod tidy
 

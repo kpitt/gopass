@@ -18,7 +18,6 @@ import (
 	"github.com/kpitt/gopass/pkg/fsutil"
 	"github.com/kpitt/gopass/pkg/gopass/secrets"
 	"github.com/kpitt/gopass/pkg/pwgen"
-	"github.com/kpitt/gopass/pkg/pwgen/pwrules"
 	"github.com/kpitt/gopass/pkg/termio"
 	"github.com/martinhoefling/goxkcdpwgen/xkcdpwgen"
 	"github.com/urfave/cli/v2"
@@ -254,7 +253,7 @@ func mkActFunc(tpl Template, s *root.Store, cb ActionCallback) func(context.Cont
 
 				//nolint:nestif  // This should be refactored, but not now.
 				if genPw {
-					password, err = generatePassword(ctx, hostname, v.Charset)
+					password, err = generatePassword(ctx, v.Charset)
 					if err != nil {
 						return err
 					}
@@ -321,7 +320,7 @@ func mkActFunc(tpl Template, s *root.Store, cb ActionCallback) func(context.Cont
 }
 
 // generatePasssword will walk through the password generation steps.
-func generatePassword(ctx context.Context, hostname, charset string) (string, error) {
+func generatePassword(ctx context.Context, charset string) (string, error) {
 	if charset != "" {
 		length, err := termio.AskForInt(ctx, fmtfn(4, "a", "How long?"), 4)
 		if err != nil {
@@ -329,15 +328,6 @@ func generatePassword(ctx context.Context, hostname, charset string) (string, er
 		}
 
 		return pwgen.GeneratePasswordCharset(length, charset), nil
-	}
-	if _, found := pwrules.LookupRule(hostname); found {
-		out.Noticef(ctx, "Using password rules for %s...", hostname)
-		length, err := termio.AskForInt(ctx, fmtfn(4, "b", "How long?"), defaultLength)
-		if err != nil {
-			return "", err
-		}
-
-		return pwgen.NewCrypticForDomain(length, hostname).Password(), nil
 	}
 	xkcd, err := termio.AskForBool(ctx, fmtfn(4, "a", "Human-pronounceable passphrase?"), false)
 	if err != nil {

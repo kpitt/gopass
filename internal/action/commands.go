@@ -52,13 +52,6 @@ func ShowFlags() []cli.Flag {
 func (s *Action) GetCommands() []*cli.Command {
 	cmds := []*cli.Command{
 		{
-			Name:        "aliases",
-			Usage:       "List domain aliases",
-			Description: "List all pre-generated domain aliases. Note: this command might go away.",
-			Action:      s.AliasesPrint,
-			Hidden:      true,
-		},
-		{
 			Name:      "audit",
 			Usage:     "Decrypt all secrets and scan for weak or leaked passwords",
 			ArgsUsage: "[filter]",

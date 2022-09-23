@@ -20,13 +20,6 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func TestRuleLookup(t *testing.T) {
-	t.Parallel()
-
-	domain, _ := hasPwRuleForSecret("foo/gopass.pw")
-	assert.Equal(t, "", domain)
-}
-
 func TestGenerate(t *testing.T) { //nolint:paralleltest
 	u := gptest.NewUnitTester(t)
 	defer u.Remove()

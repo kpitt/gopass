@@ -3,11 +3,8 @@ package pwgen
 import (
 	"bytes"
 	"fmt"
-	"sort"
-	"strings"
 
 	"github.com/kpitt/gopass/pkg/debug"
-	"github.com/kpitt/gopass/pkg/pwgen/pwrules"
 	"github.com/muesli/crunchy"
 )
 
@@ -40,106 +37,6 @@ func NewCryptic(length int, symbols bool) *Cryptic {
 		Length:   length,
 		MaxTries: 64,
 	}
-}
-
-// NewCrypticForDomain tries to look up password rules for the given domain
-// or uses the default generator.
-func NewCrypticForDomain(length int, domain string) *Cryptic {
-	c := NewCryptic(length, true)
-	r, found := pwrules.LookupRule(domain)
-
-	debug.Log("found rules for %s: %t", domain, found)
-
-	if !found {
-		return c
-	}
-
-	if r.Maxlen > 0 && c.Length > r.Maxlen {
-		c.Length = r.Maxlen
-	}
-
-	if c.Length < r.Minlen {
-		c.Length = r.Minlen
-	}
-
-	if chars := charsFromRule(append(r.Required, r.Allowed...)...); chars != "" {
-		c.Chars = chars
-	}
-
-	for _, req := range r.Required {
-		chars := charsFromRule(req)
-		if req == "" || strings.TrimSpace(chars) == "" {
-			continue
-		}
-
-		debug.Log("Adding validator for %s: Requires %q -> %q", domain, req, chars)
-
-		c.Validators = append(c.Validators, func(pw string) error {
-			wantChars := charsFromRule(req)
-			if wantChars == "" {
-				return nil
-			}
-			if containsAllClasses(pw, wantChars) {
-				return nil
-			}
-
-			return fmt.Errorf("password %s does not contain any of %s: %w", pw, chars, ErrCrypticInvalid)
-		})
-	}
-
-	if r.Maxconsec > 0 {
-		c.Validators = append(c.Validators, func(pw string) error {
-			if containsMaxConsecutive(pw, r.Maxconsec) {
-				return nil
-			}
-
-			return fmt.Errorf("password %s contains more than %d consecutive characters: %w", pw, r.Maxconsec, ErrCrypticInvalid)
-		})
-	}
-
-	debug.Log("initialized generator: %+v", c)
-
-	return c
-}
-
-func charsFromRule(rules ...string) string {
-	chars := ""
-
-	for _, req := range rules {
-		switch req {
-		case "lower":
-			chars += Lower
-		case "upper":
-			chars += Upper
-		case "digit":
-			chars += Digits
-		case "special":
-			chars += Syms
-		default:
-			if strings.HasPrefix(req, "[") && strings.HasSuffix(req, "]") {
-				chars += strings.Trim(req, "[]")
-			}
-		}
-	}
-
-	return uniqueChars(chars)
-}
-
-func uniqueChars(in string) string {
-	// a set of chars, not a charset
-	charSet := make(map[rune]struct{}, len(in))
-	for _, c := range in {
-		charSet[c] = struct{}{}
-	}
-
-	charSlice := make([]string, 0, len(charSet))
-	for k := range charSet {
-		charSlice = append(charSlice, string(k))
-	}
-
-	sort.Strings(charSlice)
-
-	return strings.Join(charSlice, "")
 }
 
 // NewCrypticWithAllClasses returns a password generator that generates passwords
