@@ -19,7 +19,6 @@ import (
 	"github.com/kpitt/gopass/pkg/gopass"
 	"github.com/kpitt/gopass/pkg/gopass/secrets"
 	"github.com/kpitt/gopass/pkg/pwgen"
-	"github.com/kpitt/gopass/pkg/pwgen/pwrules"
 	"github.com/kpitt/gopass/pkg/pwgen/xkcdgen"
 	"github.com/kpitt/gopass/pkg/termio"
 	"github.com/urfave/cli/v2"
@@ -56,7 +55,6 @@ var reNumber = regexp.MustCompile(`^\d+$`)
 func (s *Action) Generate(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 	ctx = WithClip(ctx, c.Bool("clip"))
-	force := c.Bool("force")
 	edit := c.Bool("edit")
 
 	args, kvps := parseArgs(c)
@@ -73,7 +71,7 @@ func (s *Action) Generate(c *cli.Context) error {
 	}
 
 	// ask for confirmation before overwriting existing entry.
-	if !force { // don't check if it's force anyway.
+	if force := c.Bool("force"); !force { // don't check if it's force anyway.
 		if s.Store.Exists(ctx, name) && key == "" && !termio.AskForConfirmation(ctx, fmt.Sprintf("An entry already exists for %s. Overwrite the current password?", name)) {
 			return exit.Error(exit.Aborted, nil, "user aborted. not overwriting your current password")
 		}
@@ -155,24 +153,8 @@ func (s *Action) generateCopyOrPrint(ctx context.Context, c *cli.Context, name, 
 	return nil
 }
 
-func hasPwRuleForSecret(name string) (string, pwrules.Rule) {
-	for name != "" && name != "." {
-		d := path.Base(name)
-		if r, found := pwrules.LookupRule(d); found {
-			return d, r
-		}
-		name = path.Dir(name)
-	}
-
-	return "", pwrules.Rule{}
-}
-
 // generatePassword will run through the password generation steps.
 func (s *Action) generatePassword(ctx context.Context, c *cli.Context, length, name string) (string, error) {
-	if domain, rule := hasPwRuleForSecret(name); domain != "" && !c.Bool("force") {
-		return s.generatePasswordForRule(ctx, c, length, name, domain, rule)
-	}
-
 	symbols := false
 	if c.IsSet("symbols") {
 		symbols = c.Bool("symbols")
@@ -247,29 +229,6 @@ func clamp(min, max, value int) int {
 	}
 
 	return value
-}
-
-func (s *Action) generatePasswordForRule(ctx context.Context, c *cli.Context, length, name, domain string, rule pwrules.Rule) (string, error) {
-	out.Noticef(ctx, "Using password rules for %s...", domain)
-	wl := 16
-	if iv, err := strconv.Atoi(length); err == nil {
-		wl = clamp(rule.Minlen, rule.Maxlen, iv)
-	}
-
-	question := fmt.Sprintf("How long should the password be? (min: %d, max: %d)", rule.Minlen, rule.Maxlen)
-	iv, err := termio.AskForInt(ctx, question, wl)
-	if err != nil {
-		return "", exit.Error(exit.Usage, err, "password length must be a number")
-	}
-
-	iv = clamp(rule.Minlen, rule.Maxlen, iv)
-
-	pw := pwgen.NewCrypticForDomain(iv, domain).Password()
-	if pw == "" {
-		return "", fmt.Errorf("failed to generate password for %s", domain)
-	}
-
-	return pw, nil
 }
 
 // generatePasswordXKCD walks through the steps necessary to create an XKCD-style
