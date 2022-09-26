@@ -15,7 +15,6 @@ the context handlers in the same package.
 
 * [fs](backends/fs.md) - Filesystem storage without RCS support
 * [gitfs](backends/gitfs.md) - Filesystem storage with Git RCS
-* [fossilfs] - Filesystem storage with Fossil RCS. **Highly experimental, likely broken**. Use only if you want to contributed to the backend.
 
 ## Crypto Backends (crypto)
 
