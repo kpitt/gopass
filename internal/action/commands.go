@@ -366,10 +366,6 @@ Use the "git init" command if the store does not yet have a git repository.`,
 							Usage: "Store to operate on",
 						},
 						&cli.StringFlag{
-							Name:  "sign-key",
-							Usage: "GPG key to sign commits",
-						},
-						&cli.StringFlag{
 							Name:  "name",
 							Usage: "Git user name",
 						},
