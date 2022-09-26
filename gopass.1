@@ -167,20 +167,13 @@ Force to overwrite existing password
 .TP
 \fB\-\-generator\fR,
 \fB\-g\fR,
-Choose a password generator, use one of: cryptic, memorable, xkcd or external. Default: cryptic
-.TP
-\fB\-\-lang\fR,
-\fB\-\-xkcdlang\fR,
-\fB\-\-xl\fR,
-Language to generate password from, currently only en (english, default) is supported
+Choose a password generator, use one of: cryptic, memorable or xkcd. Default: cryptic
 .TP
 \fB\-\-print\fR,
 \fB\-p\fR,
 Print the generated password to the terminal
 .TP
 \fB\-\-sep\fR,
-\fB\-\-xkcdsep\fR,
-\fB\-\-xs\fR,
 Word separator for generated passwords. If no separator is specified, the words are combined without spaces/separator and the first character of words is capitalised.
 .TP
 \fB\-\-strict\fR,
@@ -362,8 +355,6 @@ Do not include numerals in the generated passwords.
 Print one password per line
 .TP
 \fB\-\-sep\fR,
-\fB\-\-xkcdsep\fR,
-\fB\-\-xs\fR,
 Word separator for generated xkcd style password. If no separator is specified, the words are combined without spaces/separator and the first character of words is capitalised. This flag implies -xkcd
 .TP
 \fB\-\-symbols\fR,
