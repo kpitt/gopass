@@ -8,6 +8,7 @@ require (
 	github.com/ProtonMail/go-crypto v0.0.0-20220730123233-d6ffb7692adf
 	github.com/atotto/clipboard v0.1.4
 	github.com/blang/semver/v4 v4.0.0
+	github.com/briandowns/spinner v1.19.0
 	github.com/caspr-io/yamlpath v0.0.0-20200722075116-502e8d113a9b
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/fatih/color v1.13.0

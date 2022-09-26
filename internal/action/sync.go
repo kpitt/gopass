@@ -10,7 +10,6 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/kpitt/gopass/internal/backend"
-	"github.com/kpitt/gopass/internal/diff"
 	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/internal/store"
 	"github.com/kpitt/gopass/internal/store/leaf"
@@ -63,8 +62,6 @@ func (s *Action) autoSync(ctx context.Context) error {
 }
 
 func (s *Action) sync(ctx context.Context, store string) error {
-	out.Printf(ctx, "- Syncing with all remotes...")
-
 	mps := s.Store.MountPoints()
 	mps = append([]string{""}, mps...)
 
@@ -98,7 +95,6 @@ func (s *Action) syncMount(ctx context.Context, mp string) error {
 	if mp == "" {
 		name = "<root>"
 	}
-	out.Printf(ctxno, color.GreenString("[%s] ", name))
 
 	sub, err := s.Store.GetSubStore(mp)
 	if err != nil {
@@ -113,38 +109,27 @@ func (s *Action) syncMount(ctx context.Context, mp string) error {
 		return fmt.Errorf("failed to get sub stores (nil)")
 	}
 
-	l, err := sub.List(ctx, "")
-	if err != nil {
-		out.Errorf(ctx, "Failed to list store: %s", err)
-	}
+	syncMsg := fmt.Sprintf("Synchronizing %s store", color.CyanString(name))
+	ctx = ctxutil.WithSpinner(ctx, syncMsg)
 
-	out.Printf(ctxno, "\n   "+color.GreenString("%s pull and push... ", sub.Storage().Name()))
 	err = sub.Storage().Push(ctx, "", "")
-
 	switch {
 	case err == nil:
 		debug.Log("Push succeeded")
-		out.Printf(ctxno, color.GreenString("OK"))
 	case errors.Is(err, store.ErrGitNoRemote):
-		out.Printf(ctx, "Skipped (no remote)")
+		out.Noticef(ctx, "Skipped %q store (no remote)", name)
 		debug.Log("Failed to push %q to its remote: %s", name, err)
 
 		return err
 	case errors.Is(err, backend.ErrNotSupported):
-		out.Printf(ctxno, "Skipped (not supported)")
+		break
 	case errors.Is(err, store.ErrGitNotInit):
-		out.Printf(ctxno, "Skipped (no Git repo)")
+		break
 	default: // any other error
 		out.Errorf(ctx, "Failed to push %q to its remote: %s", name, err)
 
 		return err
 	}
-
-	ln, err := sub.List(ctx, "")
-	if err != nil {
-		out.Errorf(ctx, "Failed to list store: %s", err)
-	}
-	syncPrintDiff(ctxno, l, ln)
 
 	debug.Log("Syncing Mount %s. Exportkeys: %t", mp, ctxutil.IsExportKeys(ctx))
 	if err := syncImportKeys(ctxno, sub, name); err != nil {
@@ -155,27 +140,24 @@ func (s *Action) syncMount(ctx context.Context, mp string) error {
 			return err
 		}
 	}
-	out.Printf(ctx, "\n   "+color.GreenString("done"))
+	out.OKf(ctx, "%s %s", syncMsg, color.GreenString("[OK]"))
 
 	return nil
 }
 
 func syncImportKeys(ctx context.Context, sub *leaf.Store, name string) error {
 	// import keys.
-	out.Printf(ctx, "\n   "+color.GreenString("importing missing keys... "))
 	if err := sub.ImportMissingPublicKeys(ctx); err != nil {
 		out.Errorf(ctx, "Failed to import missing public keys for %q: %s", name, err)
 
 		return err
 	}
-	out.Printf(ctx, color.GreenString("OK"))
 
 	return nil
 }
 
 func syncExportKeys(ctx context.Context, sub *leaf.Store, name string) error {
 	// export keys.
-	out.Printf(ctx, "\n   "+color.GreenString("exporting missing keys... "))
 	rs, err := sub.GetRecipients(ctx, "")
 	if err != nil {
 		out.Errorf(ctx, "Failed to load recipients for %q: %s", name, err)
@@ -191,8 +173,6 @@ func syncExportKeys(ctx context.Context, sub *leaf.Store, name string) error {
 
 	// only run second push if we did export any keys.
 	if !exported {
-		out.Printf(ctx, color.GreenString("nothing to do"))
-
 		return nil
 	}
 
@@ -201,21 +181,6 @@ func syncExportKeys(ctx context.Context, sub *leaf.Store, name string) error {
 
 		return err
 	}
-	out.Printf(ctx, color.GreenString("OK"))
 
 	return nil
-}
-
-func syncPrintDiff(ctxno context.Context, l, r []string) {
-	added, removed := diff.Stat(l, r)
-	debug.Log("diff - added: %d - removed: %d", added, removed)
-	if added > 0 {
-		out.Printf(ctxno, color.GreenString(" (Added %d entries)", added))
-	}
-	if removed > 0 {
-		out.Printf(ctxno, color.GreenString(" (Removed %d entries)", removed))
-	}
-	if added < 1 && removed < 1 {
-		out.Printf(ctxno, color.GreenString(" (no changes)"))
-	}
 }

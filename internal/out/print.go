@@ -40,6 +40,7 @@ func Print(ctx context.Context, arg any) {
 	if ctxutil.IsHidden(ctx) {
 		return
 	}
+	stopSpinner(ctx)
 	debug.LogN(1, "%s", arg)
 	fmt.Fprintf(Stdout, Prefix(ctx)+"%s"+newline(ctx), arg)
 }
@@ -49,6 +50,7 @@ func Printf(ctx context.Context, format string, args ...any) {
 	if ctxutil.IsHidden(ctx) {
 		return
 	}
+	stopSpinner(ctx)
 	debug.LogN(1, format, args...)
 	fmt.Fprintf(Stdout, Prefix(ctx)+format+newline(ctx), args...)
 }
@@ -58,6 +60,7 @@ func Notice(ctx context.Context, arg any) {
 	if ctxutil.IsHidden(ctx) {
 		return
 	}
+	stopSpinner(ctx)
 	debug.LogN(1, "NOTICE: %s", arg)
 	fmt.Fprintf(Stdout, Prefix(ctx)+"! %s"+newline(ctx), arg)
 }
@@ -67,6 +70,7 @@ func Noticef(ctx context.Context, format string, args ...any) {
 	if ctxutil.IsHidden(ctx) {
 		return
 	}
+	stopSpinner(ctx)
 	debug.LogN(1, "NOTICE: "+format, args...)
 	fmt.Fprintf(Stdout, Prefix(ctx)+"! "+format+newline(ctx), args...)
 }
@@ -76,6 +80,7 @@ func Error(ctx context.Context, arg any) {
 	if ctxutil.IsHidden(ctx) {
 		return
 	}
+	stopSpinner(ctx)
 	debug.LogN(1, "ERROR: %s", arg)
 	fmt.Fprint(Stderr, color.RedString(Prefix(ctx)+"✗ %s"+newline(ctx), arg))
 }
@@ -85,6 +90,7 @@ func Errorf(ctx context.Context, format string, args ...any) {
 	if ctxutil.IsHidden(ctx) {
 		return
 	}
+	stopSpinner(ctx)
 	debug.LogN(1, "ERROR: "+format, args...)
 	fmt.Fprint(Stderr, color.RedString(Prefix(ctx)+"✗ "+format+newline(ctx), args...))
 }
@@ -94,6 +100,7 @@ func OK(ctx context.Context, arg any) {
 	if ctxutil.IsHidden(ctx) {
 		return
 	}
+	stopSpinner(ctx)
 	debug.LogN(1, "OK: %s", arg)
 	fmt.Fprintf(Stdout, Prefix(ctx)+"✓ %s"+newline(ctx), arg)
 }
@@ -103,6 +110,7 @@ func OKf(ctx context.Context, format string, args ...any) {
 	if ctxutil.IsHidden(ctx) {
 		return
 	}
+	stopSpinner(ctx)
 	debug.LogN(1, "OK: "+format, args...)
 	fmt.Fprintf(Stdout, Prefix(ctx)+"✓ "+format+newline(ctx), args...)
 }
@@ -112,6 +120,7 @@ func Warning(ctx context.Context, arg any) {
 	if ctxutil.IsHidden(ctx) {
 		return
 	}
+	stopSpinner(ctx)
 	debug.LogN(1, "WARNING: %s", arg)
 	fmt.Fprint(Stderr, color.YellowString(Prefix(ctx)+"! %s"+newline(ctx), arg))
 }
@@ -121,6 +130,12 @@ func Warningf(ctx context.Context, format string, args ...any) {
 	if ctxutil.IsHidden(ctx) {
 		return
 	}
+	stopSpinner(ctx)
 	debug.LogN(1, "WARNING: "+format, args...)
 	fmt.Fprint(Stderr, color.YellowString(Prefix(ctx)+"! "+format+newline(ctx), args...))
+}
+
+// stopSpinner stops the progress spinner if one is set.
+func stopSpinner(ctx context.Context) {
+	ctxutil.StopSpinner(ctx)
 }
