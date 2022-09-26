@@ -56,7 +56,6 @@ func NewUnitTester(t *testing.T) *Unit {
 		Dir:        td,
 	}
 	u.env = map[string]string{
-		"CHECKPOINT_DISABLE":        "true",
 		"GNUPGHOME":                 u.GPGHome(),
 		"GOPASS_CONFIG":             u.GPConfig(),
 		"GOPASS_DISABLE_ENCRYPTION": "true",
