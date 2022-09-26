@@ -3,7 +3,9 @@ package ctxutil
 import (
 	"context"
 	"fmt"
+	"time"
 
+	"github.com/briandowns/spinner"
 	"github.com/kpitt/gopass/internal/store"
 	"github.com/urfave/cli/v2"
 )
@@ -29,6 +31,7 @@ const (
 	ctxKeyPasswordCallback
 	ctxKeyShowParsing
 	ctxKeyHidden
+	ctxKeySpinner
 )
 
 // ErrNoCallback is returned when no callback is set in the context.
@@ -402,4 +405,38 @@ func IsHidden(ctx context.Context) bool {
 	}
 
 	return bv
+}
+
+// WithSpinner returns a context with a progress spinner showing the specified `msg`.
+func WithSpinner(ctx context.Context, msg string) context.Context {
+	sp := spinner.New(spinner.CharSets[14], 40*time.Millisecond)
+	sp.Color("cyan")
+	sp.Suffix = " " + msg
+	sp.Start()
+
+	return context.WithValue(ctx, ctxKeySpinner, sp)
+}
+
+// HasSpinner returns true if a progress spinner has been set.
+func HasSpinner(ctx context.Context) bool {
+	_, ok := ctx.Value(ctxKeySpinner).(*spinner.Spinner)
+
+	return ok
+}
+
+// GetSpinner returns the set progress spinner, or nil if not set.
+func GetSpinner(ctx context.Context) *spinner.Spinner {
+	sp, ok := ctx.Value(ctxKeySpinner).(*spinner.Spinner)
+	if !ok || sp == nil {
+		return nil
+	}
+
+	return sp
+}
+
+// StopSpinner stops the current progress spinner if one is set.
+func StopSpinner(ctx context.Context) {
+	if sp := GetSpinner(ctx); sp != nil {
+		sp.Stop()
+	}
 }
