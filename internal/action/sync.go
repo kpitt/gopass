@@ -56,8 +56,6 @@ func (s *Action) autoSync(ctx context.Context) error {
 	ls := s.rem.LastSeen("autosync")
 	debug.Log("autosync - last seen: %s", ls)
 	if time.Since(ls) > time.Duration(autosyncIntervalDays)*24*time.Hour {
-		_ = s.rem.Reset("autosync")
-
 		return s.sync(ctx, "")
 	}
 
@@ -84,6 +82,11 @@ func (s *Action) sync(ctx context.Context, store string) error {
 		_ = s.syncMount(ctx, mp)
 	}
 	out.OKf(ctx, "All done")
+
+	// If we are sync'ing all stores, and sync succeeds, then reset the auto-sync interval.
+	if store == "" {
+		_ = s.rem.Reset("autosync")
+	}
 
 	return nil
 }
