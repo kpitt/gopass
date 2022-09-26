@@ -100,7 +100,6 @@ complete -c $PROG -f -n '__fish_gopass_uses_command generate' -a "(__fish_gopass
 complete -c $PROG -f -n '__fish_gopass_needs_command' -a git -d 'Command: Run a git command inside a password store'
 complete -c $PROG -f -n '__fish_gopass_uses_command git' -a init -d 'Subcommand: Initialize git repository'
 complete -c $PROG -f -n '__fish_gopass_uses_command git init -l store -d "Store to operate on"'
-complete -c $PROG -f -n '__fish_gopass_uses_command git init -l sign-key -d "GPG key to sign commits"'
 complete -c $PROG -f -n '__fish_gopass_uses_command git init -l name -d "Git user name"'
 complete -c $PROG -f -n '__fish_gopass_uses_command git init -l email -d "Git user email"'
 complete -c $PROG -f -n '__fish_gopass_uses_command git init -l yes -d "Always answer yes to yes/no questions"'
