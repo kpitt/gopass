@@ -50,12 +50,11 @@ func NewGUnitTester(t *testing.T) *GUnit {
 		Dir:        td,
 	}
 	u.env = map[string]string{
-		"CHECKPOINT_DISABLE": "true",
-		"GNUPGHOME":          u.GPGHome(),
-		"GOPASS_CONFIG":      u.GPConfig(),
-		"GOPASS_HOMEDIR":     u.Dir,
-		"NO_COLOR":           "true",
-		"PAGER":              "",
+		"GNUPGHOME":      u.GPGHome(),
+		"GOPASS_CONFIG":  u.GPConfig(),
+		"GOPASS_HOMEDIR": u.Dir,
+		"NO_COLOR":       "true",
+		"PAGER":          "",
 	}
 	assert.NoError(t, setupEnv(u.env))
 	assert.NoError(t, os.Mkdir(u.GPGHome(), 0o700))

@@ -37,10 +37,6 @@ func createSubStore(dir string) (*Store, error) {
 		return nil, err
 	}
 
-	if err := os.Setenv("CHECKPOINT_DISABLE", "true"); err != nil {
-		return nil, err
-	}
-
 	if err := os.Setenv("GOPASS_DISABLE_ENCRYPTION", "true"); err != nil {
 		return nil, err
 	}

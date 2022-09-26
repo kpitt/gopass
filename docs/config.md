@@ -6,7 +6,6 @@ Some configuration options are only available through setting environment variab
 
 | **Option**                   | **Type** | **Description**                                                                                                  |
 | ---------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------- |
-| `CHECKPOINT_DISABLE`         | `bool`   | Set to any non-empty value to disable calling the GitHub API when running `gopass version`.                      |
 | `GOPASS_DEBUG`               | `bool`   | Set to any non-empty value to enable verbose debug output                                                        |
 | `GOPASS_DEBUG_LOG`           | `string` | Set to a filename to enable debug logging                                                                        |
 | `GOPASS_DEBUG_LOG_SECRETS`   | `bool`   | Set to any non-empty value to enable logging of credentials                                                      |
