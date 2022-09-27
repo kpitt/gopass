@@ -98,7 +98,7 @@ ab: cd`
 	assert.Equal(t, "cd", v)
 }
 
-func TestMultiKeyKVMIME(t *testing.T) {
+func TestMultiKeyKV(t *testing.T) {
 	t.Parallel()
 
 	in := `passw0rd

@@ -5,9 +5,6 @@ and saves the resulting content in the password store. It will attempt to create
 temporary directory (depending on the OS) and will warn if insecure editor configuration
 (currently only `vim`) is detected.
 
-Native `gopass` MIME secrets are syntax checked and invalid encodings are rejected.
-Any other type of secret is accepted as is.
-
 `gopass` will honor templates when creating a new entry.
 
 ## Synopsis

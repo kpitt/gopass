@@ -1,8 +1,6 @@
 package secparse
 
 import (
-	"errors"
-
 	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/pkg/debug"
 	"github.com/kpitt/gopass/pkg/gopass"
@@ -17,20 +15,6 @@ func Parse(in []byte) (gopass.Secret, error) {
 	var s gopass.Secret
 
 	var err error
-
-	s, err = parseLegacyMIME(in)
-	if err == nil {
-		debug.Log("parsed as MIME: %+v", s)
-
-		return s, nil
-	}
-
-	debug.Log("failed to parse as MIME: %s", out.Secret(err.Error()))
-
-	var permError *secrets.PermanentError
-	if errors.As(err, &permError) {
-		return secrets.ParsePlain(in), err
-	}
 
 	s, err = secrets.ParseYAML(in)
 	if err == nil {

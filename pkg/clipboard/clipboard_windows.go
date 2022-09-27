@@ -10,7 +10,6 @@ import (
 	"strconv"
 
 	"github.com/kpitt/gopass/internal/pwschemes/argon2id"
-	"github.com/kpitt/gopass/pkg/ctxutil"
 )
 
 // clear will spwan a copy of gopass that waits in a detached background
