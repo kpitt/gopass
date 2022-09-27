@@ -30,10 +30,6 @@ func (s *Action) Clone(c *cli.Context) error {
 		ctx = backend.WithCryptoBackendString(ctx, c.String("crypto"))
 	}
 
-	if c.IsSet("storage") {
-		ctx = backend.WithStorageBackendString(ctx, c.String("storage"))
-	}
-
 	path := c.String("path")
 
 	if c.Args().Len() < 1 {
@@ -92,27 +88,6 @@ func (s *Action) Clone(c *cli.Context) error {
 	return s.cloneCheckDecryptionKeys(ctx, mount)
 }
 
-// storageBackendOrDefault will return a storage backend that can be clone,
-// i.e. specifically backend.FS can't be cloned.
-func storageBackendOrDefault(ctx context.Context, repo string) backend.StorageBackend {
-	// first try to get it from the context.
-	if be := backend.GetStorageBackend(ctx); be != backend.FS {
-		return be
-	}
-
-	if strings.HasSuffix(repo, ".fossil") {
-		return backend.FossilFS
-	}
-
-	if strings.HasSuffix(repo, ".git") {
-		return backend.GitFS
-	}
-
-	debug.Log("falling back to the default storage backend for clone (GitFS)")
-
-	return backend.GitFS
-}
-
 func (s *Action) clone(ctx context.Context, repo, mount, path string) error {
 	if path == "" {
 		path = config.PwStoreDir(mount)
@@ -135,9 +110,8 @@ func (s *Action) clone(ctx context.Context, repo, mount, path string) error {
 	}
 
 	// clone repo.
-	sb := storageBackendOrDefault(ctx, repo)
-	out.Noticef(ctx, "Cloning %s repository %q to %q...", sb, repo, path)
-	if _, err := backend.Clone(ctx, sb, repo, path); err != nil {
+	out.Noticef(ctx, "Cloning repository %q to %q...", repo, path)
+	if _, err := backend.Clone(ctx, backend.GitFS, repo, path); err != nil {
 		return exit.Error(exit.Git, err, "failed to clone repo %q to %q: %s", repo, path, err)
 	}
 
@@ -153,7 +127,7 @@ func (s *Action) clone(ctx context.Context, repo, mount, path string) error {
 	}
 
 	// try to init repo config.
-	out.Noticef(ctx, "Configuring %s repository...", sb)
+	out.Noticef(ctx, "Configuring Git repository...")
 
 	// ask for config values.
 	username, email, err := s.cloneGetGitConfig(ctx, mount)
@@ -164,7 +138,7 @@ func (s *Action) clone(ctx context.Context, repo, mount, path string) error {
 	// initialize repo config.
 	if err := s.Store.RCSInitConfig(ctx, mount, username, email); err != nil {
 		debug.Log("Stacktrace: %+v\n", err)
-		out.Errorf(ctx, "Failed to configure %s: %s", sb, err)
+		out.Errorf(ctx, "Failed to configure Git: %s", err)
 	}
 
 	if mount != "" {

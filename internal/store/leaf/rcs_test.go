@@ -36,9 +36,10 @@ func TestGit(t *testing.T) {
 	assert.Error(t, s.Storage().Pull(ctx, "origin", "master"))
 	assert.Error(t, s.Storage().Push(ctx, "origin", "master"))
 
+	// context storage is not used by GitInit, so result doesn't change
 	assert.NoError(t, s.GitInit(ctx))
 	assert.NoError(t, s.GitInit(backend.WithStorageBackend(ctx, backend.FS)))
-	assert.Error(t, s.GitInit(backend.WithStorageBackend(ctx, -1)))
+	assert.NoError(t, s.GitInit(backend.WithStorageBackend(ctx, -1)))
 
 	ctx = ctxutil.WithUsername(ctx, "foo")
 	ctx = ctxutil.WithEmail(ctx, "foo@baz.com")

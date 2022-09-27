@@ -19,8 +19,6 @@ const (
 	FS StorageBackend = iota
 	// GitFS is a filesystem-backed storage with Git.
 	GitFS
-	// FossilFS is a filesystem-backed storage with Fossil.
-	FossilFS
 )
 
 func (s StorageBackend) String() string {
@@ -32,6 +30,8 @@ func (s StorageBackend) String() string {
 }
 
 // Storage is an storage backend.
+//
+//nolint:interfacebloat
 type Storage interface {
 	fmt.Stringer
 	rcs

@@ -42,20 +42,4 @@ func TestGit(t *testing.T) { //nolint:paralleltest
 	name, email := act.getUserData(ctx, "", "", "")
 	assert.Equal(t, "0xDEADBEEF", name)
 	assert.Equal(t, "0xDEADBEEF", email)
-
-	// GitAddRemote
-	assert.Error(t, act.RCSAddRemote(c))
-	buf.Reset()
-
-	// GitRemoveRemote
-	assert.Error(t, act.RCSRemoveRemote(c))
-	buf.Reset()
-
-	// GitPull
-	assert.Error(t, act.RCSPull(c))
-	buf.Reset()
-
-	// GitPush
-	assert.Error(t, act.RCSPush(c))
-	buf.Reset()
 }

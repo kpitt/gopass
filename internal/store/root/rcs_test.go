@@ -25,8 +25,6 @@ func TestRCS(t *testing.T) {
 	rs, err := createRootStore(ctx, u)
 	require.NoError(t, err)
 
-	assert.Error(t, rs.RCSStatus(ctx, ""))
-
 	revs, err := rs.ListRevisions(ctx, "foo")
 	assert.NoError(t, err)
 	assert.Equal(t, 1, len(revs))

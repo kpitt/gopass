@@ -7,8 +7,6 @@ Note: This command exists to enable a possible migration path. If we agree
 on a single set of backend implementations the multiple backend support
 might go away and this command as well.
 
-Warning: Converting between different RCS backends will loose part of the history. While we try to retain as much information as possible especially the commit timestamps will be set to the convert time.
-
 ## Synopsis
 
 ```

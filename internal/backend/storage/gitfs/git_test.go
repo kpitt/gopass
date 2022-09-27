@@ -60,8 +60,6 @@ func TestGit(t *testing.T) { //nolint:paralleltest
 		require.NotNil(t, git)
 		assert.Equal(t, "gitfs", git.Name())
 		assert.NoError(t, git.AddRemote(ctx, "foo", "file:///tmp/foo"))
-		assert.NoError(t, git.RemoveRemote(ctx, "foo"))
-		assert.Error(t, git.RemoveRemote(ctx, "foo"))
 	})
 
 	t.Run("clone existing repo", func(t *testing.T) { //nolint:paralleltest

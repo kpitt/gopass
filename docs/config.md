@@ -35,8 +35,8 @@ Variables not exclusively used by gopass
 | `PASSWORD_STORE_UMASK` | `string` | Set to any valid umask to mask bits of files created by gopass (GOPASS_UMASK has precedence over this) |
 | `EDITOR`               | `string` | command name to execute for editing password entries                                                   |
 | `PAGER`                | `string` | the pager program used for `gopass list`. See [Features](features.md#auto-pager) for details           |
-| `GIT_AUTHOR_NAME`      | `string` | name of the author, used by the rcs backend to create a commit                                         |
-| `GIT_AUTHOR_EMAIL`     | `string` | email of the author, used by the rcs backend to create a commit                                        |
+| `GIT_AUTHOR_NAME`      | `string` | name of the author, used by the git backend to create a commit                                         |
+| `GIT_AUTHOR_EMAIL`     | `string` | email of the author, used by the git backend to create a commit                                        |
 | `NO_COLOR`             | `bool`   | disable color output. See [no-color.org](https://no-color.org) for more information.                   |
 
 ## Configuration Options
