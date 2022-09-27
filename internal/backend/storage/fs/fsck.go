@@ -12,7 +12,6 @@ import (
 	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/kpitt/gopass/pkg/debug"
 	"github.com/kpitt/gopass/pkg/fsutil"
-	"github.com/kpitt/gopass/pkg/termio"
 )
 
 // Fsck checks the storage integrity.
@@ -53,9 +52,7 @@ func (s *Store) Fsck(ctx context.Context) error {
 		return err
 	}
 
-	debug.Log("checking git config")
-
-	return s.InitConfig(ctx, termio.DetectName(ctx, nil), termio.DetectEmail(ctx, nil))
+	return nil
 }
 
 func (s *Store) fsckCheckFile(ctx context.Context, filename string) error {
