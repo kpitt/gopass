@@ -124,16 +124,7 @@ func decode(buf []byte, relaxed bool) (*Config, error) {
 	cfgs := []configer{
 		// most recent config must come first.
 		mostRecent,
-		&Pre1127{},
-		&Pre1102{},
-		&Pre193{
-			Root: &Pre193StoreConfig{},
-		},
-		&Pre182{
-			Root: &Pre182StoreConfig{},
-		},
-		&Pre140{},
-		&Pre130{},
+		&Pre1150{},
 	}
 
 	if relaxed {

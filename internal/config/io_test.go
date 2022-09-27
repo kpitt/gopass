@@ -24,12 +24,13 @@ func TestConfigs(t *testing.T) {
 		want *Config
 	}{
 		{
-			name: "1.9.3",
+			name: "1.14.4",
 			cfg: `autoclip: true
 autoimport: false
 cliptimeout: 45
 exportkeys: true
 nopager: false
+notifications: true
 parsing: true
 path: /home/johndoe/.password-store
 safecontent: false
@@ -78,250 +79,6 @@ mounts:
 				},
 				XXX: map[string]any{"foo": string("bar")},
 			},
-		}, {
-			name: "1.8.2",
-			cfg: `root:
-  autoclip: true
-  autoimport: false
-  autosync: false
-  check_recipient_hash: false
-  cliptimeout: 45
-  concurrency: 50
-  editrecipients: true
-  exportkeys: true
-  confirm: false
-  nopager: false
-  notficiations: true
-  path: gpgcli-gitcli-fs+file:///home/johndoe/.password-store
-  safecontent: false
-  usesymbols: true
-mounts:
-  foo/sub:
-    autoclip: true
-    autoimport: false
-    autosync: false
-    check_recipient_hash: false
-    cliptimeout: 45
-    concurrency: 50
-    editrecipients: true
-    exportkeys: true
-    confirm: false
-    nopager: false
-    notficiations: true
-    path: gpgcli-gitcli-fs+file:///home/johndoe/.password-store-foo-sub
-    safecontent: false
-    usesymbols: true
-  work:
-    autoclip: true
-    autoimport: false
-    autosync: false
-    check_recipient_hash: false
-    cliptimeout: 45
-    concurrency: 50
-    editrecipients: true
-    exportkeys: true
-    confirm: false
-    nopager: false
-    notficiations: true
-    path: gpgcli-gitcli-fs+file:///home/johndoe/.password-store-work
-    safecontent: false
-    usesymbols: true
-`,
-			want: &Config{
-				AutoClip:    true,
-				AutoImport:  false,
-				ClipTimeout: 45,
-				ExportKeys:  true,
-				NoPager:     false,
-				Parsing:     true,
-				Path:        "/home/johndoe/.password-store",
-				SafeContent: false,
-				Mounts: map[string]string{
-					"foo/sub": "/home/johndoe/.password-store-foo-sub",
-					"work":    "/home/johndoe/.password-store-work",
-				},
-			},
-		}, {
-			name: "1.4.0",
-			cfg: `root:
-  askformore: false
-  autoimport: false
-  autosync: false
-  cliptimeout: 45
-  noconfirm: false
-  nopager: false
-  path: /home/johndoe/.password-store
-  safecontent: false
-mounts:
-  foo/sub:
-    askformore: false
-    autoimport: false
-    autosync: false
-    cliptimeout: 45
-    noconfirm: false
-    nopager: false
-    path: /home/johndoe/.password-store-foo-sub
-    safecontent: false
-  work:
-    askformore: false
-    autoimport: false
-    autosync: false
-    cliptimeout: 45
-    noconfirm: false
-    nopager: false
-    path: /home/johndoe/.password-store-work
-    safecontent: false
-version: 1.4.0`,
-			want: &Config{
-				AutoClip:    false,
-				AutoImport:  false,
-				ClipTimeout: 45,
-				ExportKeys:  true,
-				NoPager:     false,
-				Parsing:     true,
-				Path:        "/home/johndoe/.password-store",
-				SafeContent: false,
-				Mounts: map[string]string{
-					"foo/sub": "/home/johndoe/.password-store-foo-sub",
-					"work":    "/home/johndoe/.password-store-work",
-				},
-			},
-		}, {
-			name: "1.3.0",
-			cfg: `askformore: false
-autoimport: true
-autosync: false
-cliptimeout: 45
-mounts:
-  dev: /Users/johndoe/.password-store-dev
-  ops: /Users/johndoe/.password-store-ops
-  personal: /Users/johndoe/secrets
-  teststore: /Users/johndoe/tmp/teststore
-noconfirm: false
-path: /home/foo/.password-store
-safecontent: true
-version: "1.3.0"`,
-			want: &Config{
-				AutoClip:    false,
-				AutoImport:  true,
-				ClipTimeout: 45,
-				ExportKeys:  true,
-				NoPager:     false,
-				Parsing:     true,
-				Path:        "/home/foo/.password-store",
-				SafeContent: true,
-				Mounts: map[string]string{
-					"dev":       "/Users/johndoe/.password-store-dev",
-					"ops":       "/Users/johndoe/.password-store-ops",
-					"personal":  "/Users/johndoe/secrets",
-					"teststore": "/Users/johndoe/tmp/teststore",
-				},
-			},
-		}, {
-			name: "1.2.0",
-			cfg: `alwaystrust: true
-askformore: false
-autoimport: true
-autopull: true
-autopush: true
-cliptimeout: 45
-debug: false
-loadkeys: true
-mounts:
-  dev: /Users/johndoe/.password-store-dev
-  ops: /Users/johndoe/.password-store-ops
-  personal: /Users/johndoe/secrets
-  teststore: /Users/johndoe/tmp/teststore
-nocolor: false
-noconfirm: false
-path: /home/foo/.password-store
-persistkeys: true
-safecontent: true
-version: "1.2.0"`,
-			want: &Config{
-				AutoClip:    false,
-				AutoImport:  true,
-				ClipTimeout: 45,
-				ExportKeys:  true,
-				NoPager:     false,
-				Parsing:     true,
-				Path:        "/home/foo/.password-store",
-				SafeContent: true,
-				Mounts: map[string]string{
-					"dev":       "/Users/johndoe/.password-store-dev",
-					"ops":       "/Users/johndoe/.password-store-ops",
-					"personal":  "/Users/johndoe/secrets",
-					"teststore": "/Users/johndoe/tmp/teststore",
-				},
-			},
-		}, {
-			name: "1.1.0",
-			cfg: `alwaystrust: false
-autoimport: false
-autopull: true
-autopush: true
-cliptimeout: 45
-loadkeys: false
-mounts:
-  dev: /home/johndoe/.password-store-dev
-  ops: /home/johndoe/.password-store-ops
-  personal: /home/johndoe/secrets
-  teststore: /home/johndoe/tmp/teststore
-nocolor: false
-noconfirm: false
-path: /home/johndoe/.password-store
-persistkeys: true
-safecontent: false
-version: 1.1.0`,
-			want: &Config{
-				AutoClip:    false,
-				AutoImport:  false,
-				ClipTimeout: 45,
-				ExportKeys:  true,
-				NoPager:     false,
-				Parsing:     true,
-				Path:        "/home/johndoe/.password-store",
-				SafeContent: false,
-				Mounts: map[string]string{
-					"dev":       "/home/johndoe/.password-store-dev",
-					"ops":       "/home/johndoe/.password-store-ops",
-					"personal":  "/home/johndoe/secrets",
-					"teststore": "/home/johndoe/tmp/teststore",
-				},
-			},
-		}, {
-			name: "1.0.0",
-			cfg: `alwaystrust: false
-autoimport: false
-autopull: true
-autopush: false
-cliptimeout: 45
-loadkeys: false
-mounts:
-  dev: /Users/johndoe/.password-store-dev
-  ops: /Users/johndoe/.password-store-ops
-  personal: /Users/johndoe/secrets
-  teststore: /Users/johndoe/tmp/teststore
-noconfirm: false
-path: /home/foo/.password-store
-persistkeys: false
-version: "1.0.0"`,
-			want: &Config{
-				AutoClip:    false,
-				AutoImport:  false,
-				ClipTimeout: 45,
-				ExportKeys:  true,
-				NoPager:     false,
-				Parsing:     true,
-				Path:        "/home/foo/.password-store",
-				SafeContent: false,
-				Mounts: map[string]string{
-					"dev":       "/Users/johndoe/.password-store-dev",
-					"ops":       "/Users/johndoe/.password-store-ops",
-					"personal":  "/Users/johndoe/secrets",
-					"teststore": "/Users/johndoe/tmp/teststore",
-				},
-			},
 		},
 	} {
 		tc := tc
@@ -337,35 +94,18 @@ version: "1.0.0"`,
 	}
 }
 
-const testConfig = `root:
-  askformore: true
-  autoimport: true
-  autosync: true
-  cliptimeout: 5
-  noconfirm: true
-  nopager: true
-  path: /home/johndoe/.password-store
-  safecontent: true
+const testConfig = `autoclip: true
+autoimport: true
+cliptimeout: 5
+exportkeys: true
+nopager: true
+notifications: true
+parsing: true
+path: /home/johndoe/.password-store
+safecontent: true
 mounts:
-  foo/sub:
-    askformore: false
-    autoimport: false
-    autosync: false
-    cliptimeout: 45
-    noconfirm: false
-    nopager: false
-    path: /home/johndoe/.password-store-foo-sub
-    safecontent: false
-  work:
-    askformore: false
-    autoimport: false
-    autosync: false
-    cliptimeout: 45
-    noconfirm: false
-    nopager: false
-    path: /home/johndoe/.password-store-work
-    safecontent: false
-version: 1.4.0`
+  foo/sub: /home/johndoe/.password-store-foo-sub
+  work: /home/johndoe/.password-store-work`
 
 func TestLoad(t *testing.T) { //nolint:paralleltest
 	td := os.TempDir()
