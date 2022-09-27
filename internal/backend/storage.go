@@ -30,6 +30,8 @@ func (s StorageBackend) String() string {
 }
 
 // Storage is an storage backend.
+//
+//nolint:interfacebloat
 type Storage interface {
 	fmt.Stringer
 	rcs
