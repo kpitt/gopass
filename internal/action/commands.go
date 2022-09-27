@@ -44,7 +44,7 @@ func ShowFlags() []cli.Flag {
 		&cli.StringFlag{
 			Name:    "revision",
 			Aliases: []string{"r"},
-			Usage:   "Show a past revision. Does NOT support RCS specific shortcuts. Use exact revision or -<N> to select the Nth oldest revision of this entry.",
+			Usage:   "Show a past revision. Does NOT support Git shortcuts. Use exact revision or -<N> to select the Nth oldest revision of this entry.",
 		},
 		&cli.BoolFlag{
 			Name:    "noparsing",

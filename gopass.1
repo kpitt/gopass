@@ -1,5 +1,5 @@
 
-.TH GOPASS "1" "August 2022" "gopass (github.com/kpitt/gopass) 1.14.4" "User Commands"
+.TH GOPASS "1" "September 2022" "gopass (github.com/kpitt/gopass) 1.14.4" "User Commands"
 .SH NAME
 gopass - The standard Unix password manager
 .SH SYNOPSIS
@@ -32,7 +32,7 @@ Print the password as a QR Code
 .TP
 \fB\-\-revision\fR,
 \fB\-r\fR,
-Show a past revision. Does NOT support RCS specific shortcuts. Use exact revision or -<N> to select the Nth oldest revision of this entry.
+Show a past revision. Does NOT support Git shortcuts. Use exact revision or -<N> to select the Nth oldest revision of this entry.
 .TP
 \fB\-\-unsafe\fR,
 \fB\-u\fR,
@@ -82,9 +82,6 @@ Select crypto backend [age gpgcli plain]
 .TP
 \fB\-\-path\fR,
 Path to clone the repo to
-.TP
-\fB\-\-storage\fR,
-Select storage backend [fossilfs gitfs]
 .SS config
 Display and edit the configuration file
 
@@ -103,7 +100,7 @@ Which crypto backend? [age gpgcli plain]
 Replace store?
 .TP
 \fB\-\-storage\fR,
-Which storage backend? [fossilfs fs gitfs]
+Which storage backend? [fs gitfs]
 .TP
 \fB\-\-store\fR,
 Specify which store to convert
@@ -248,9 +245,11 @@ Require strict character class rules
 \fB\-s\fR,
 Use symbols in the password
 .SS git
-Run a git command inside a password store: gopass git [--store=<store>] <git-command>
+Run a git command inside a password store
 
-If the password store is a git repository, execute a git command specified by git-command-args.
+If the password store is a git repository, execute a git command in the password store directory.
+
+Use the "git init" command if the store does not yet have a git repository.
 
 .B Flags
 .TP
@@ -291,7 +290,7 @@ Select crypto backend [age gpgcli plain]
 Set the sub-store path to operate on
 .TP
 \fB\-\-storage\fR,
-Select storage backend [fossilfs fs gitfs]
+Select storage backend [fs gitfs]
 .TP
 \fB\-\-store\fR,
 \fB\-s\fR,
@@ -434,10 +433,6 @@ Include at least one symbol in the password.
 \fB\-\-xkcd\fR,
 \fB\-x\fR,
 Use multiple random english words combined to a password. By default, space is used as separator and all words are lowercase
-.SS rcs
-Run a RCS command inside a password store
-
-If the password store is a git repository, execute a git command specified by git-command-args.
 .SS recipients
 Edit recipient permissions
 
@@ -468,7 +463,7 @@ Firstname and Lastname for unattended GPG key generation
 URL to a git remote, will attempt to join this team
 .TP
 \fB\-\-storage\fR,
-Select storage backend [fossilfs fs gitfs]
+Select storage backend [fs gitfs]
 .SS show
 Display the content of a secret
 
@@ -500,7 +495,7 @@ Print the password as a QR Code
 .TP
 \fB\-\-revision\fR,
 \fB\-r\fR,
-Show a past revision. Does NOT support RCS specific shortcuts. Use exact revision or -<N> to select the Nth oldest revision of this entry.
+Show a past revision. Does NOT support Git shortcuts. Use exact revision or -<N> to select the Nth oldest revision of this entry.
 .TP
 \fB\-\-unsafe\fR,
 \fB\-u\fR,

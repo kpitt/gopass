@@ -41,7 +41,7 @@ _gopass () {
 	      
 	      ;;
 	  clone)
-	      _arguments : "--path[Path to clone the repo to]" "--crypto[Select crypto backend \[age gpgcli plain\]]" "--storage[Select storage backend \[fossilfs gitfs\]]" "--check-keys[Check for valid decryption keys. Generate new keys if none are found.]"
+	      _arguments : "--path[Path to clone the repo to]" "--crypto[Select crypto backend \[age gpgcli plain\]]" "--check-keys[Check for valid decryption keys. Generate new keys if none are found.]"
 	      
 	      
 	      ;;
@@ -64,7 +64,7 @@ _gopass () {
 	      
 	      ;;
 	  convert)
-	      _arguments : "--store[Specify which store to convert]" "--move[Replace store?]" "--crypto[Which crypto backend? \[age gpgcli plain\]]" "--storage[Which storage backend? \[fossilfs fs gitfs\]]"
+	      _arguments : "--store[Specify which store to convert]" "--move[Replace store?]" "--crypto[Which crypto backend? \[age gpgcli plain\]]" "--storage[Which storage backend? \[fs gitfs\]]"
 	      
 	      
 	      ;;
@@ -120,6 +120,11 @@ WARNING: This will update the secret content to the latest format. This might be
 	      _gopass_complete_passwords
 	      ;;
 	  git)
+	      local -a subcommands
+	      subcommands=(
+	      "init:Initialize git repository"
+	      )
+	      _describe -t commands "gopass git" subcommands
 	      _arguments : "--store[Store to operate on]"
 	      
 	      
@@ -135,7 +140,7 @@ WARNING: This will update the secret content to the latest format. This might be
 	      
 	      ;;
 	  init)
-	      _arguments : "--path[Set the sub-store path to operate on]" "--store[Set the name of the sub-store]" "--crypto[Select crypto backend \[age gpgcli plain\]]" "--storage[Select storage backend \[fossilfs fs gitfs\]]"
+	      _arguments : "--path[Set the sub-store path to operate on]" "--store[Set the name of the sub-store]" "--crypto[Select crypto backend \[age gpgcli plain\]]" "--storage[Select storage backend \[fs gitfs\]]"
 	      
 	      
 	      ;;
@@ -190,17 +195,6 @@ WARNING: This will update the secret content to the latest format. This might be
 	      
 	      
 	      ;;
-	  rcs)
-	      local -a subcommands
-	      subcommands=(
-	      "init:Init RCS repo"
-	      "status:RCS status"
-	      )
-	      _describe -t commands "gopass rcs" subcommands
-	      
-	      
-	      
-	      ;;
 	  recipients)
 	      local -a subcommands
 	      subcommands=(
@@ -213,12 +207,12 @@ WARNING: This will update the secret content to the latest format. This might be
 	      
 	      ;;
 	  setup)
-	      _arguments : "--remote[URL to a git remote, will attempt to join this team]" "--alias[Local mount point for the given remote]" "--create[Create a new team (default: false, i.e. join an existing team)]" "--name[Firstname and Lastname for unattended GPG key generation]" "--email[EMail for unattended GPG key generation]" "--crypto[Select crypto backend \[age gpgcli plain\]]" "--storage[Select storage backend \[fossilfs fs gitfs\]]"
+	      _arguments : "--remote[URL to a git remote, will attempt to join this team]" "--alias[Local mount point for the given remote]" "--create[Create a new team (default: false, i.e. join an existing team)]" "--name[Firstname and Lastname for unattended GPG key generation]" "--email[EMail for unattended GPG key generation]" "--crypto[Select crypto backend \[age gpgcli plain\]]" "--storage[Select storage backend \[fs gitfs\]]"
 	      
 	      
 	      ;;
 	  show)
-	      _arguments : "--yes[Always answer yes to yes/no questions]" "--clip[Copy the password value into the clipboard]" "--alsoclip[Copy the password and show everything]" "--qr[Print the password as a QR Code]" "--unsafe[Display unsafe content (e.g. the password) even if safecontent is enabled]" "--password[Display only the password. Takes precedence over all other flags.]" "--revision[Show a past revision. Does NOT support RCS specific shortcuts. Use exact revision or -<N> to select the Nth oldest revision of this entry.]" "--noparsing[Do not parse the output.]" "--chars[Print specific characters from the secret]"
+	      _arguments : "--yes[Always answer yes to yes/no questions]" "--clip[Copy the password value into the clipboard]" "--alsoclip[Copy the password and show everything]" "--qr[Print the password as a QR Code]" "--unsafe[Display unsafe content (e.g. the password) even if safecontent is enabled]" "--password[Display only the password. Takes precedence over all other flags.]" "--revision[Show a past revision. Does NOT support Git shortcuts. Use exact revision or -<N> to select the Nth oldest revision of this entry.]" "--noparsing[Do not parse the output.]" "--chars[Print specific characters from the secret]"
 	      
 	      _gopass_complete_passwords
 	      ;;
@@ -284,7 +278,7 @@ WARNING: This will update the secret content to the latest format. This might be
 	  "fscopy:Copy files from or to the password store"
 	  "fsmove:Move files from or to the password store"
 	  "generate:Generate a new password"
-	  "git:Run a git command inside a password store: gopass git [--store=<store>] <git-command>"
+	  "git:Run a git command inside a password store"
 	  "grep:Search for secrets files containing search-string when decrypted."
 	  "history:Show password history"
 	  "init:Initialize new password store."
@@ -297,7 +291,6 @@ WARNING: This will update the secret content to the latest format. This might be
 	  "otp:Generate time- or hmac-based tokens"
 	  "process:Process a template file"
 	  "pwgen:Generate passwords"
-	  "rcs:Run a RCS command inside a password store"
 	  "recipients:Edit recipient permissions"
 	  "setup:Initialize a new password store"
 	  "show:Display the content of a secret"
@@ -309,7 +302,7 @@ WARNING: This will update the secret content to the latest format. This might be
 	  "help:Shows a list of commands or help for one command"
 	)
 	_describe -t command 'gopass' subcommands
-	_arguments : "--yes[Always answer yes to yes/no questions]" "--clip[Copy the password value into the clipboard]" "--alsoclip[Copy the password and show everything]" "--qr[Print the password as a QR Code]" "--unsafe[Display unsafe content (e.g. the password) even if safecontent is enabled]" "--password[Display only the password. Takes precedence over all other flags.]" "--revision[Show a past revision. Does NOT support RCS specific shortcuts. Use exact revision or -<N> to select the Nth oldest revision of this entry.]" "--noparsing[Do not parse the output.]" "--chars[Print specific characters from the secret]" "--help[show help]" "--version[print the version]" 
+	_arguments : "--yes[Always answer yes to yes/no questions]" "--clip[Copy the password value into the clipboard]" "--alsoclip[Copy the password and show everything]" "--qr[Print the password as a QR Code]" "--unsafe[Display unsafe content (e.g. the password) even if safecontent is enabled]" "--password[Display only the password. Takes precedence over all other flags.]" "--revision[Show a past revision. Does NOT support Git shortcuts. Use exact revision or -<N> to select the Nth oldest revision of this entry.]" "--noparsing[Do not parse the output.]" "--chars[Print specific characters from the secret]" "--help[show help]" "--version[print the version]" 
 	_gopass_complete_passwords
     fi
 }
