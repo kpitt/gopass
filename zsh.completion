@@ -99,8 +99,7 @@ _gopass () {
 	      
 	      ;;
 	  fsck)
-	      _arguments : "--decrypt[Decrypt and reencryt during fsck.
-WARNING: This will update the secret content to the latest format. This might be incompatible with other implementations. Use with caution!]"
+	      _arguments : "--decrypt[Decrypt and reencryt during fsck.]"
 	      
 	      
 	      ;;
