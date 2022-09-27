@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -163,32 +162,6 @@ func (ts tester) run(arg string) (string, error) {
 	}
 
 	return strings.TrimSpace(string(out)), nil
-}
-
-func (ts tester) runWithInput(arg, input string) ([]byte, error) {
-	reader := strings.NewReader(input)
-
-	return ts.runWithInputReader(arg, reader)
-}
-
-func (ts tester) runWithInputReader(arg string, input io.Reader) ([]byte, error) {
-	args, err := shellquote.Split(arg)
-	if err != nil {
-		return nil, fmt.Errorf("failed to split args %v: %w", arg, err)
-	}
-
-	cmd := exec.Command(ts.Binary, args...)
-	cmd.Dir = ts.workDir()
-	cmd.Stdin = input
-
-	ts.t.Logf("%+v", cmd.Args)
-
-	buf, err := cmd.CombinedOutput()
-	if err != nil {
-		return buf, fmt.Errorf("%s %v failed: %w", ts.Binary, args, err)
-	}
-
-	return buf, nil
 }
 
 func (ts *tester) initStore() {
