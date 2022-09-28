@@ -22,7 +22,7 @@ $ gopass show entry --password
 Flag | Aliases | Description
 ---- | ------- | -----------
 `--clip` | `-c` | Copy the password value into the clipboard and don't show the content.
-`--qr` | | Encode the password field as a QR code and print it. Note: When combining with `-c`/`-C` the unencoded password is copied. Not the QR code.
+`--qr` | | Encode the password field as a QR code and print it. Note: When combining with `-c` the unencoded password is copied, not the QR code.
 `--password` | `-o` | Display only the password. For use in scripts. Takes precedence over other flags.
 `--revision` | `-r` | Display a specific revision of the entry. Use an exact version identifier from `gopass history` or the special `-<N>` syntax. Does not work with native (e.g. git) refs.
 `--noparsing` | `-n` | Do not parse the content, disable YAML and Key-Value functions.

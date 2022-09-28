@@ -8,10 +8,6 @@ gopass - The standard Unix password manager
 .SH GLOBAL OPTIONS
 
 .TP
-\fB\-\-alsoclip\fR,
-\fB\-C\fR,
-Copy the password and show everything
-.TP
 \fB\-\-chars\fR,
 Print specific characters from the secret
 .TP
@@ -164,13 +160,7 @@ Do not capitalize the environment variable and instead retain the original capit
 .SS find
 Search for secrets
 
-This command will first attempt a simple pattern match on the name of the secret.  If there is an exact match it will be shown directly; if there are multiple matches, a selection will be shown.
-
-.B Flags
-.TP
-\fB\-\-clip\fR,
-\fB\-c\fR,
-Copy the password into the clipboard
+List all secrets that match the specified search pattern.
 .SS fsck
 Check store integrity
 
@@ -457,10 +447,6 @@ Display the content of a secret
 Show an existing secret and optionally put its first line on the clipboard. If put on the clipboard, it will be cleared after 45 seconds.
 
 .B Flags
-.TP
-\fB\-\-alsoclip\fR,
-\fB\-C\fR,
-Copy the password and show everything
 .TP
 \fB\-\-chars\fR,
 Print specific characters from the secret

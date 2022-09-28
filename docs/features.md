@@ -205,7 +205,7 @@ Eech4ahRoy2oowi0ohl
 
 The default action of `gopass` is show, so the previous command is exactly the same as typing `gopass golang.org/gopher`. It also accepts the `-c` flag to copy the content of the secret directly to the clipboard.
 
-In order to display only the password, the flag `-o` can be used. One can also copy the password to the clipboard while still showing the entry using the flag `-C`.
+In order to display only the password, the flag `-o` can be used.
 
 WARNING: The short form `gopass <secret>` is deprecated. Use `gopass show <secret>`.
 
