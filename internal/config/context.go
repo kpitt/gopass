@@ -21,10 +21,6 @@ func (c *Config) WithContext(ctx context.Context) context.Context {
 		ctx = ctxutil.WithNoPager(ctx, c.NoPager)
 	}
 
-	if !ctxutil.HasShowSafeContent(ctx) {
-		ctx = ctxutil.WithShowSafeContent(ctx, c.SafeContent)
-	}
-
 	if !ctxutil.HasShowParsing(ctx) {
 		ctx = ctxutil.WithShowParsing(ctx, c.Parsing)
 	}

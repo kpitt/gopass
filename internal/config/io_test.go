@@ -45,7 +45,6 @@ mounts:
 				NoPager:     false,
 				Parsing:     true,
 				Path:        "/home/johndoe/.password-store",
-				SafeContent: false,
 				Mounts: map[string]string{
 					"foo/sub": "/home/johndoe/.password-store-foo-sub",
 					"work":    "/home/johndoe/.password-store-work",
@@ -60,7 +59,6 @@ exportkeys: true
 nopager: false
 foo: bar
 path: /home/johndoe/.password-store
-safecontent: false
 mounts:
   foo/sub: /home/johndoe/.password-store-foo-sub
   work: /home/johndoe/.password-store-work`,
@@ -72,7 +70,6 @@ mounts:
 				NoPager:     false,
 				Parsing:     true,
 				Path:        "/home/johndoe/.password-store",
-				SafeContent: false,
 				Mounts: map[string]string{
 					"foo/sub": "/home/johndoe/.password-store-foo-sub",
 					"work":    "/home/johndoe/.password-store-work",
@@ -117,7 +114,7 @@ func TestLoad(t *testing.T) { //nolint:paralleltest
 	require.NoError(t, os.WriteFile(gcfg, []byte(testConfig), 0o600))
 
 	cfg := Load()
-	assert.True(t, cfg.SafeContent)
+	assert.True(t, cfg.NoPager)
 }
 
 func TestLoadError(t *testing.T) { //nolint:paralleltest

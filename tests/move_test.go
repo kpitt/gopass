@@ -51,12 +51,12 @@ func TestMove(t *testing.T) { //nolint:paralleltest
 	})
 
 	t.Run("show source secret", func(t *testing.T) { //nolint:paralleltest
-		_, err := ts.run("show -f bar/bar")
+		_, err := ts.run("show bar/bar")
 		assert.NoError(t, err)
 	})
 
 	t.Run("show secret", func(t *testing.T) { //nolint:paralleltest
-		_, err := ts.run("show -f baz")
+		_, err := ts.run("show baz")
 		assert.NoError(t, err)
 	})
 }

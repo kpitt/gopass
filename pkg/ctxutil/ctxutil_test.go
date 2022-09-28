@@ -49,16 +49,6 @@ func TestNoPager(t *testing.T) {
 	assert.Equal(t, false, IsNoPager(WithNoPager(ctx, false)))
 }
 
-func TestShowSafeContent(t *testing.T) {
-	t.Parallel()
-
-	ctx := context.Background()
-
-	assert.Equal(t, false, IsShowSafeContent(ctx))
-	assert.Equal(t, true, IsShowSafeContent(WithShowSafeContent(ctx, true)))
-	assert.Equal(t, false, IsShowSafeContent(WithShowSafeContent(ctx, false)))
-}
-
 func TestGitCommit(t *testing.T) {
 	t.Parallel()
 
@@ -111,16 +101,6 @@ func TestGitInit(t *testing.T) {
 	assert.Equal(t, false, IsGitInit(WithGitInit(ctx, false)))
 }
 
-func TestForce(t *testing.T) {
-	t.Parallel()
-
-	ctx := context.Background()
-
-	assert.Equal(t, false, IsForce(ctx))
-	assert.Equal(t, true, IsForce(WithForce(ctx, true)))
-	assert.Equal(t, false, IsForce(WithForce(ctx, false)))
-}
-
 func TestCommitMessage(t *testing.T) {
 	t.Parallel()
 
@@ -139,7 +119,6 @@ func TestComposite(t *testing.T) {
 	ctx = WithInteractive(ctx, false)
 	ctx = WithStdin(ctx, true)
 	ctx = WithNoPager(ctx, true)
-	ctx = WithShowSafeContent(ctx, true)
 	ctx = WithGitCommit(ctx, false)
 	ctx = WithAlwaysYes(ctx, true)
 	ctx = WithExportKeys(ctx, false)
@@ -147,7 +126,6 @@ func TestComposite(t *testing.T) {
 	ctx = WithUsername(ctx, "foo")
 	ctx = WithNoNetwork(ctx, true)
 	ctx = WithCommitMessage(ctx, "foobar")
-	ctx = WithForce(ctx, true)
 	ctx = WithGitInit(ctx, false)
 
 	assert.Equal(t, false, IsTerminal(ctx))
@@ -161,9 +139,6 @@ func TestComposite(t *testing.T) {
 
 	assert.Equal(t, true, IsNoPager(ctx))
 	assert.Equal(t, true, HasNoPager(ctx))
-
-	assert.Equal(t, true, IsShowSafeContent(ctx))
-	assert.Equal(t, true, HasShowSafeContent(ctx))
 
 	assert.Equal(t, false, IsGitCommit(ctx))
 	assert.Equal(t, true, HasGitCommit(ctx))
@@ -182,9 +157,6 @@ func TestComposite(t *testing.T) {
 
 	assert.Equal(t, "foobar", GetCommitMessage(ctx))
 	assert.Equal(t, true, HasCommitMessage(ctx))
-
-	assert.Equal(t, true, IsForce(ctx))
-	assert.Equal(t, true, HasForce(ctx))
 
 	assert.Equal(t, false, IsGitInit(ctx))
 	assert.Equal(t, true, HasGitInit(ctx))

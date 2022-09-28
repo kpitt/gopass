@@ -46,7 +46,6 @@ Generator | Description
 ## Relevant configuration options
 
 * `autoclip` only applies to `generate`. If set the generated password is automatically copied to the clipboard - unless `--clip` is explicitly set to `--clip=false`
-* `safecontent` will suppress printing of the password, unless `-p` is set. The password will not be copied, unless `-c` or the `autoclip` option are set.
 
 ## Templates
 

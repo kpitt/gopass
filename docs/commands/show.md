@@ -24,7 +24,6 @@ Flag | Aliases | Description
 `--clip` | `-c` | Copy the password value into the clipboard and don't show the content.
 `--alsoclip` | `-C` | Copy the password value into the clipboard and show the content.
 `--qr` | | Encode the password field as a QR code and print it. Note: When combining with `-c`/`-C` the unencoded password is copied. Not the QR code.
-`--unsafe` | `-u` | Display unsafe content (e.g. the password) even when the `safecontent` option is set. No-op when `safecontent` is `false`.
 `--password` | `-o` | Display only the password. For use in scripts. Takes precedence over other flags.
 `--revision` | `-r` | Display a specific revision of the entry. Use an exact version identifier from `gopass history` or the special `-<N>` syntax. Does not work with native (e.g. git) refs.
 `--noparsing` | `-n` | Do not parse the content, disable YAML and Key-Value functions.
@@ -41,8 +40,6 @@ If you notice any discrepancies please file a bug and we will try to fix it.
 TODO: We need to specify the expectations around new lines.
 
 * When no flag is set the `show` command will display the full content of the secret and will parse it to support key-value lookup and YAML entries.
-  If the `safecontent` option is set to `true` any secret fields (current default is only `password`) are replaced with a random number of '*' characters (length: 5-10). 
-  Using the `--unsafe` flag will reveal these fields even if `safecontent` is enabled. `--password` takes precedence of `safecontent=true` as well and displays only the password.
 * The `--noparsing` flag will disable all parsing of the output, this can help debugging YAML secrets for example, where `key: 0123` actually parses into octal for 83. 
 * The `--clip` flag will copy the value of the `Password` field to the clipboard and doesn't display any part of the secret.
 * The `--alsoclip` option will copy the value of the `Password` field but also display the secret content depending on the `safecontent` setting, i.e. obstructing the `Password` field if `safecontent` is `true` or just displaying it if not.
@@ -74,8 +71,9 @@ The secrets are split into 3 categories:
     and maybe we have a body text
     below it
     ```
-    will be parsed into (with `safecontent` enabled):
+    will be parsed into:
    ```
+    this is a KV secret
     and: the keys are separated from their value by :
     where: the first line is the password
     
@@ -96,35 +94,19 @@ The secrets are split into 3 categories:
         family : Doe
     ship-to: *id001
     ```
-   will be parsed into (with `safecontent` enabled):
-   ```
-    bill-to: map[family:Doe given:Bob]
-    date: 2001-01-23 00:00:00 +0000 UTC
+   will be parsed into:
+    ```
+    s3cret
+    ---
+    bill-to:
+        family: Doe
+        given: Bob
+    date: 2001-01-23T00:00:00Z
     invoice: 83
-    ship-to: map[family:Doe given:Bob]
+    ship-to:
+        family: Doe
+        given: Bob
     ```
    Note how the `0123` is interpreted as octal for 83. If you want to store a string made of digits such as a numerical
    username, it should be enclosed in string delimiters: `username: "0123"` will always be parsed as the string `0123`
    and not as octal.
-
-Both the key-value and the YAML format support so-called "unsafe-keys", which is a key-value that allows you to specify keys that should be hidden when using `gopass show` with `gopass config safecontent` set to true.
-E.g:
-```
-supersecret
----
-age: 27
-secret: The rabbit outran the tortoise
-name: John Smith
-unsafe-keys: age,secret
-```
-will display (with safecontent enabled):
-``` 
-age: *****
-name: John Smith
-secret: *****
-unsafe-keys: age,secret
-
-```
-unless it is called with `gopass show -n` that would disable parsing of the body, but still hide the password, or `gopass show -f` that would show everything that was hidden, including the password.
-
-Notice that if the option `parsing` is disabled in the config, then all secrets are handled as plain secrets.

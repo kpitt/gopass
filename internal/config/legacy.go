@@ -29,7 +29,6 @@ func (c *Pre1150) Config() *Config {
 		NoPager:     c.NoPager,
 		Parsing:     c.Parsing,
 		Path:        c.Path,
-		SafeContent: c.SafeContent,
 		Mounts:      make(map[string]string, len(c.Mounts)),
 	}
 

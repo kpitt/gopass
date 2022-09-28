@@ -63,8 +63,6 @@ func (s *Action) Generate(c *cli.Context) error {
 	name := args.Get(0)
 	key, length := keyAndLength(args)
 
-	ctx = ctxutil.WithForce(ctx, force)
-
 	// ask for name of the secret if it wasn't provided already.
 	if name == "" {
 		var err error
@@ -153,12 +151,6 @@ func (s *Action) generateCopyOrPrint(ctx context.Context, c *cli.Context, name, 
 
 	if !c.Bool("print") {
 		out.Printf(ctx, "Not printing secrets by default. Use 'gopass show %s' to display the password.", entry)
-
-		return nil
-	}
-
-	if c.IsSet("print") && !c.Bool("print") && ctxutil.IsShowSafeContent(ctx) {
-		debug.Log("safecontent suppresing printing")
 
 		return nil
 	}
