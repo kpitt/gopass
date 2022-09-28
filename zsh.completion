@@ -18,18 +18,6 @@ _gopass () {
 	      
 	      
 	      ;;
-	  alias)
-	      local -a subcommands
-	      subcommands=(
-	      "add:Add a new alias"
-	      "remove:Remove an alias from a domain"
-	      "delete:Delete an entire domain"
-	      )
-	      _describe -t commands "gopass alias" subcommands
-	      
-	      
-	      
-	      ;;
 	  audit)
 	      _arguments : "--expiry[Age in days before a password is considered expired. Setting this will only check expiration.]"
 	      
@@ -51,7 +39,6 @@ _gopass () {
 	      "bash:Source for auto completion in bash"
 	      "zsh:Source for auto completion in zsh"
 	      "fish:Source for auto completion in fish"
-	      "openbsdksh:Source for auto completion in OpenBSD's ksh"
 	      )
 	      _describe -t commands "gopass completion" subcommands
 	      
@@ -60,11 +47,6 @@ _gopass () {
 	      ;;
 	  config)
 	      
-	      
-	      
-	      ;;
-	  convert)
-	      _arguments : "--store[Specify which store to convert]" "--move[Replace store?]" "--crypto[Which crypto backend? \[age gpgcli plain\]]" "--storage[Which storage backend? \[fs gitfs\]]"
 	      
 	      
 	      ;;
@@ -87,11 +69,6 @@ _gopass () {
 	      _arguments : "--editor[Use this editor binary]" "--create[Create a new secret if none found]"
 	      
 	      _gopass_complete_passwords
-	      ;;
-	  env)
-	      _arguments : "--keep-case[Do not capitalize the environment variable and instead retain the original capitalization]"
-	      
-	      
 	      ;;
 	  find|search)
 	      
@@ -261,18 +238,15 @@ _gopass () {
 	local -a subcommands
 	subcommands=(
 	  "age:age commands"
-	  "alias:Manage domain aliases"
 	  "audit:Decrypt all secrets and scan for weak or leaked passwords"
 	  "cat:Decode and print content of a binary secret to stdout, or encode and insert from stdin"
 	  "clone:Clone a password store from a git repository"
 	  "completion:Bash and ZSH completion"
 	  "config:Display and edit the configuration file"
-	  "convert:Convert a store to different backends"
 	  "copy:Copy secrets from one location to another"
 	  "create:Easy creation of new secrets"
 	  "delete:Remove one or many secrets from the store"
 	  "edit:Edit new or existing secrets"
-	  "env:Run a subprocess with a pre-populated environment"
 	  "find:Search for secrets"
 	  "fsck:Check store integrity"
 	  "fscopy:Copy files from or to the password store"

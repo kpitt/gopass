@@ -136,9 +136,9 @@ func setupApp(ctx context.Context, buildVersion, buildDate string) (context.Cont
 
 		if c.Args().Present() {
 			return action.Show(c)
+		} else {
+			return action.List(c)
 		}
-
-		return action.REPL(c)
 	}
 
 	app.Commands = getCommands(action, app)
@@ -168,12 +168,6 @@ func getCommands(action *ap.Action, app *cli.App) []*cli.Command {
 				Usage: "Source for auto completion in fish",
 				Action: func(c *cli.Context) error {
 					return action.CompletionFish(app) //nolint:wrapcheck
-				},
-			}, {
-				Name:  "openbsdksh",
-				Usage: "Source for auto completion in OpenBSD's ksh",
-				Action: func(c *cli.Context) error {
-					return action.CompletionOpenBSDKsh(app) //nolint:wrapcheck
 				},
 			}},
 		},

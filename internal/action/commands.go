@@ -52,36 +52,6 @@ func ShowFlags() []cli.Flag {
 func (s *Action) GetCommands() []*cli.Command {
 	cmds := []*cli.Command{
 		{
-			Name:        "alias",
-			Usage:       "Manage domain aliases",
-			Description: "Manages domain aliases. Note: this command might change or go away.",
-			Action:      s.AliasesPrint,
-			Hidden:      true,
-			Subcommands: []*cli.Command{
-				{
-					Name:        "add",
-					Action:      s.AliasesAdd,
-					Usage:       "Add a new alias",
-					ArgsUsage:   "[alias] [domain]",
-					Description: "Adds a new alias",
-				},
-				{
-					Name:        "remove",
-					Action:      s.AliasesRemove,
-					Usage:       "Remove an alias from a domain",
-					ArgsUsage:   "[alias] [domain]",
-					Description: "Remove an alias from a domain",
-				},
-				{
-					Name:        "delete",
-					Action:      s.AliasesDelete,
-					Usage:       "Delete an entire domain",
-					ArgsUsage:   "[alias]",
-					Description: "Delete an entire domain",
-				},
-			},
-		},
-		{
 			Name:      "audit",
 			Usage:     "Decrypt all secrets and scan for weak or leaked passwords",
 			ArgsUsage: "[filter]",
@@ -150,33 +120,6 @@ func (s *Action) GetCommands() []*cli.Command {
 				"With two arguments a setting specified by key can be set to value.",
 			Action:       s.Config,
 			BashComplete: s.ConfigComplete,
-		},
-		{
-			Name:        "convert",
-			Usage:       "Convert a store to different backends",
-			Description: "Convert a store to a different set of backends",
-			Action:      s.Convert,
-			Before:      s.IsInitialized,
-			Hidden:      true,
-			Flags: []cli.Flag{
-				&cli.StringFlag{
-					Name:  "store",
-					Usage: "Specify which store to convert",
-				},
-				&cli.BoolFlag{
-					Name:  "move",
-					Value: true,
-					Usage: "Replace store?",
-				},
-				&cli.StringFlag{
-					Name:  "crypto",
-					Usage: fmt.Sprintf("Which crypto backend? %v", backend.CryptoRegistry.BackendNames()),
-				},
-				&cli.StringFlag{
-					Name:  "storage",
-					Usage: fmt.Sprintf("Which storage backend? %v", backend.StorageRegistry.BackendNames()),
-				},
-			},
 		},
 		{
 			Name:      "copy",
@@ -273,24 +216,6 @@ func (s *Action) GetCommands() []*cli.Command {
 					Name:    "create",
 					Aliases: []string{"c"},
 					Usage:   "Create a new secret if none found",
-				},
-			},
-		},
-		{
-			Name:         "env",
-			Usage:        "Run a subprocess with a pre-populated environment",
-			ArgsUsage:    "[secret] [command and args...]",
-			Description:  "This command runs a sub process with the environment populated from the keys of a secret.",
-			Before:       s.IsInitialized,
-			Action:       s.Env,
-			BashComplete: s.Complete,
-			Hidden:       true,
-			Flags: []cli.Flag{
-				&cli.BoolFlag{
-					Name:    "keep-case",
-					Aliases: []string{"kc"},
-					Value:   false,
-					Usage:   "Do not capitalize the environment variable and instead retain the original capitalization",
 				},
 			},
 		},

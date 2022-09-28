@@ -100,12 +100,4 @@ func TestComplete(t *testing.T) { //nolint:paralleltest
 		assert.Contains(t, buf.String(), "action.test")
 		assert.Error(t, act.CompletionZSH(nil))
 	})
-
-	t.Run("openbsdksh completion", func(t *testing.T) { //nolint:paralleltest
-		defer buf.Reset()
-
-		assert.NoError(t, act.CompletionOpenBSDKsh(app))
-		assert.Contains(t, buf.String(), "complete_gopass")
-		assert.Error(t, act.CompletionOpenBSDKsh(nil))
-	})
 }
