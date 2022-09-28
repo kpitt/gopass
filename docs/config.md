@@ -45,15 +45,14 @@ During start up, gopass will look for a configuration file at `$HOME/.config/gop
 All configuration options are also available for reading and writing through the sub-command `gopass config`.
 
 * To display all values: `gopass config`
-* To display a single value: `gopass config autoclip`
-* To update a single value: `gopass config autoclip false`
+* To display a single value: `gopass config autoimport`
+* To update a single value: `gopass config autoimport false`
 * As many other sub-commands this command accepts a `--store` flag to operate on a given sub-store, provided the sub-store is a remote one.
 
 This is a list of available options:
 
 | **Option**       | **Type** | Description                                                                                                                                                                                    |
 | ---------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `autoclip`       | `bool`   | Always copy the password created by `gopass generate`. Only applies to generate.                                                                                                               |
 | `autoimport`     | `bool`   | Import missing keys stored in the pass repository without asking.                                                                                                                              |
 | `cliptimeout`    | `int`    | How many seconds the secret is stored when using `-c`.                                                                                                                                         |
 | `exportkeys`     | `bool`   | Export public keys of all recipients to the store.                                                                                                                                             |

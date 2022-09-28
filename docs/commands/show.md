@@ -22,7 +22,6 @@ $ gopass show entry --password
 Flag | Aliases | Description
 ---- | ------- | -----------
 `--clip` | `-c` | Copy the password value into the clipboard and don't show the content.
-`--alsoclip` | `-C` | Copy the password value into the clipboard and show the content.
 `--qr` | | Encode the password field as a QR code and print it. Note: When combining with `-c`/`-C` the unencoded password is copied. Not the QR code.
 `--password` | `-o` | Display only the password. For use in scripts. Takes precedence over other flags.
 `--revision` | `-r` | Display a specific revision of the entry. Use an exact version identifier from `gopass history` or the special `-<N>` syntax. Does not work with native (e.g. git) refs.
@@ -42,7 +41,6 @@ TODO: We need to specify the expectations around new lines.
 * When no flag is set the `show` command will display the full content of the secret and will parse it to support key-value lookup and YAML entries.
 * The `--noparsing` flag will disable all parsing of the output, this can help debugging YAML secrets for example, where `key: 0123` actually parses into octal for 83. 
 * The `--clip` flag will copy the value of the `Password` field to the clipboard and doesn't display any part of the secret.
-* The `--alsoclip` option will copy the value of the `Password` field but also display the secret content depending on the `safecontent` setting, i.e. obstructing the `Password` field if `safecontent` is `true` or just displaying it if not.
 * The `--qr` flags operates complementary to other flags. It will *additionally* format the value of the `Password` entry as a QR code and display it. Other than that it will honor the other options, e.g. `gopass show --qr` will display the QR code *and* the whole secret content below. One special case is the `-o` flag, this flag doesn't make a lot of sense in combination, so if both `--qr` and `-o` are given only the QR code will be displayed.
 * Arbitrary git refs are not supported as arguments to the `--revision` flag. Using those might work, but this is explicitly not supported and bug reports will be closed as `wont-fix`. The main issue with using arbitrary git refs is that git versions a whole repository, not single files. So the revision `HEAD^` might not have any changes for a given entry. Thus we only support specifc revisions obtained from `gopass history` or our custom syntax `-N` where N is an integer identifying a specific commit before `HEAD` (cf. `HEAD~N`).
 

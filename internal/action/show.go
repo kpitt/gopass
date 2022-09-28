@@ -23,7 +23,7 @@ import (
 func showParseArgs(c *cli.Context) context.Context {
 	ctx := ctxutil.WithGlobalFlags(c)
 	if c.IsSet("clip") {
-		ctx = WithOnlyClip(ctx, c.Bool("clip"))
+		ctx = WithClip(ctx, c.Bool("clip"))
 	}
 
 	if c.IsSet("qr") {
@@ -36,10 +36,6 @@ func showParseArgs(c *cli.Context) context.Context {
 
 	if c.IsSet("revision") {
 		ctx = WithRevision(ctx, c.String("revision"))
-	}
-
-	if c.IsSet("alsoclip") {
-		ctx = WithAlsoClip(ctx, c.Bool("alsoclip"))
 	}
 
 	if c.IsSet("noparsing") {
@@ -61,7 +57,6 @@ func showParseArgs(c *cli.Context) context.Context {
 		}
 		ctx = WithPrintChars(ctx, iv)
 	}
-	ctx = WithClip(ctx, IsOnlyClip(ctx) || IsAlsoClip(ctx))
 
 	return ctx
 }
@@ -69,6 +64,9 @@ func showParseArgs(c *cli.Context) context.Context {
 // Show the content of a secret file.
 func (s *Action) Show(c *cli.Context) error {
 	name := c.Args().First()
+	if name == "" {
+		return exit.Error(exit.Usage, nil, "Usage: %s show [name]", s.Name)
+	}
 
 	ctx := showParseArgs(c)
 
@@ -86,10 +84,6 @@ func (s *Action) Show(c *cli.Context) error {
 
 // show displays the given secret/key.
 func (s *Action) show(ctx context.Context, c *cli.Context, name string, recurse bool) error {
-	if name == "" {
-		return exit.Error(exit.Usage, nil, "Usage: %s show [name]", s.Name)
-	}
-
 	if s.Store.IsDir(ctx, name) && !s.Store.Exists(ctx, name) {
 		return s.List(c)
 	}
@@ -232,7 +226,7 @@ func (s *Action) showGetContent(ctx context.Context, sec gopass.Secret) (string,
 	fullBody := string(sec.Bytes())
 
 	// first line of the secret only.
-	if IsPrintQR(ctx) || IsOnlyClip(ctx) {
+	if IsPrintQR(ctx) || IsClip(ctx) {
 		return pw, "", nil
 	}
 	if IsPasswordOnly(ctx) {
@@ -277,7 +271,7 @@ func (s *Action) showHandleError(ctx context.Context, c *cli.Context, name strin
 
 	out.Warningf(ctx, "Entry %q not found. Starting search...", name)
 	c.Context = ctx
-	if err := s.Find(c); err != nil {
+	if err := s.FindFuzzy(c, name); err != nil {
 		return exit.Error(exit.NotFound, err, "%s", err)
 	}
 

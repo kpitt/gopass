@@ -10,8 +10,6 @@ const (
 	ctxKeyPrintQR
 	ctxKeyRevision
 	ctxKeyKey
-	ctxKeyOnlyClip
-	ctxKeyAlsoClip
 	ctxKeyPrintChars
 )
 
@@ -24,38 +22,6 @@ func WithClip(ctx context.Context, clip bool) context.Context {
 // IsClip returns the value of clip or the default (false).
 func IsClip(ctx context.Context) bool {
 	bv, ok := ctx.Value(ctxKeyClip).(bool)
-	if !ok {
-		return false
-	}
-
-	return bv
-}
-
-// WithAlsoClip returns a context with the value for alsoclip (copy to
-// clipboard and print to stdout) set.
-func WithAlsoClip(ctx context.Context, clip bool) context.Context {
-	return context.WithValue(ctx, ctxKeyAlsoClip, clip)
-}
-
-// IsAlsoClip returns the value for alsoclip of the dfeault (false).
-func IsAlsoClip(ctx context.Context) bool {
-	bv, ok := ctx.Value(ctxKeyAlsoClip).(bool)
-	if !ok {
-		return false
-	}
-
-	return bv
-}
-
-// WithOnlyClip returns a context with the value for clip (for copy to clipboard)
-// set.
-func WithOnlyClip(ctx context.Context, clip bool) context.Context {
-	return context.WithValue(ctx, ctxKeyOnlyClip, clip)
-}
-
-// IsOnlyClip returns the value of clip or the default (false).
-func IsOnlyClip(ctx context.Context) bool {
-	bv, ok := ctx.Value(ctxKeyOnlyClip).(bool)
 	if !ok {
 		return false
 	}

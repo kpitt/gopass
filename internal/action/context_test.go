@@ -63,21 +63,3 @@ func TestWithKey(t *testing.T) {
 	assert.Equal(t, "", GetKey(ctx))
 	assert.Equal(t, "foo", GetKey(WithKey(ctx, "foo")))
 }
-
-func TestWithOnlyClip(t *testing.T) {
-	t.Parallel()
-
-	ctx := context.Background()
-
-	assert.False(t, IsOnlyClip(ctx))
-	assert.True(t, IsOnlyClip(WithOnlyClip(ctx, true)))
-}
-
-func TestWithAlsoClip(t *testing.T) {
-	t.Parallel()
-
-	ctx := context.Background()
-
-	assert.False(t, IsAlsoClip(ctx))
-	assert.True(t, IsAlsoClip(WithAlsoClip(ctx, true)))
-}

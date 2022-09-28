@@ -23,11 +23,6 @@ func ShowFlags() []cli.Flag {
 			Usage:   "Copy the password value into the clipboard",
 		},
 		&cli.BoolFlag{
-			Name:    "alsoclip",
-			Aliases: []string{"C"},
-			Usage:   "Copy the password and show everything",
-		},
-		&cli.BoolFlag{
 			Name:  "qr",
 			Usage: "Print the password as a QR Code",
 		},
@@ -302,22 +297,13 @@ func (s *Action) GetCommands() []*cli.Command {
 		{
 			Name:      "find",
 			Usage:     "Search for secrets",
-			ArgsUsage: "[needle]",
+			ArgsUsage: "<pattern>",
 			Description: "" +
-				"This command will first attempt a simple pattern match on the name of the " +
-				"secret.  If there is an exact match it will be shown directly; if there are " +
-				"multiple matches, a selection will be shown.",
+				"List all secrets that match the specified search pattern.",
 			Before:       s.IsInitialized,
-			Action:       s.FindNoFuzzy,
+			Action:       s.Find,
 			Aliases:      []string{"search"},
 			BashComplete: s.Complete,
-			Flags: []cli.Flag{
-				&cli.BoolFlag{
-					Name:    "clip",
-					Aliases: []string{"c"},
-					Usage:   "Copy the password into the clipboard",
-				},
-			},
 		},
 		{
 			Name:      "fsck",

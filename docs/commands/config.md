@@ -8,8 +8,8 @@ Note: To manage mounts use `gopass mounts`.
 
 ```
 $ gopass config
-$ gopass config autoclip
-$ gopass config autoclip false
+$ gopass config autoimport
+$ gopass config autoimport false
 ```
 
 ## Flags
