@@ -40,10 +40,6 @@ age commands
 
 Built-in commands for the age backend.
 These allow limited interactions with the gopass specific age identities.
-.SS alias
-Manage domain aliases
-
-Manages domain aliases. Note: this command might change or go away.
 .SS audit
 Decrypt all secrets and scan for weak or leaked passwords
 
@@ -76,24 +72,6 @@ Path to clone the repo to
 Display and edit the configuration file
 
 This command allows for easy printing and editing of the configuration. Without argument, the entire config is printed. With a single argument, a single key can be printed. With two arguments a setting specified by key can be set to value.
-.SS convert
-Convert a store to different backends
-
-Convert a store to a different set of backends
-
-.B Flags
-.TP
-\fB\-\-crypto\fR,
-Which crypto backend? [age gpgcli plain]
-.TP
-\fB\-\-move\fR,
-Replace store?
-.TP
-\fB\-\-storage\fR,
-Which storage backend? [fs gitfs]
-.TP
-\fB\-\-store\fR,
-Specify which store to convert
 .SS copy
 Copy secrets from one location to another
 
@@ -147,16 +125,6 @@ Create a new secret if none found
 \fB\-\-editor\fR,
 \fB\-e\fR,
 Use this editor binary
-.SS env
-Run a subprocess with a pre-populated environment
-
-This command runs a sub process with the environment populated from the keys of a secret.
-
-.B Flags
-.TP
-\fB\-\-keep-case\fR,
-\fB\-\-kc\fR,
-Do not capitalize the environment variable and instead retain the original capitalization
 .SS find
 Search for secrets
 
