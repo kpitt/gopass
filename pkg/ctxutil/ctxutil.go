@@ -22,7 +22,6 @@ const (
 	ctxKeyProgressCallback
 	ctxKeyAlias
 	ctxKeyGitInit
-	ctxKeyForce
 	ctxKeyCommitMessage
 	ctxKeyNoNetwork
 	ctxKeyUsername
@@ -258,21 +257,6 @@ func HasGitInit(ctx context.Context) bool {
 // IsGitInit returns the value of the git init flag or ture if none was set.
 func IsGitInit(ctx context.Context) bool {
 	return is(ctx, ctxKeyGitInit, true)
-}
-
-// WithForce returns a context with the force flag set.
-func WithForce(ctx context.Context, bv bool) context.Context {
-	return context.WithValue(ctx, ctxKeyForce, bv)
-}
-
-// HasForce returns true if the context has the force flag set.
-func HasForce(ctx context.Context) bool {
-	return hasBool(ctx, ctxKeyForce)
-}
-
-// IsForce returns the force flag value of the default (false).
-func IsForce(ctx context.Context) bool {
-	return is(ctx, ctxKeyForce, false)
 }
 
 // WithCommitMessage returns a context with a commit message set.

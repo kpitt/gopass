@@ -359,7 +359,7 @@ gopass ls --flat | dmenu | xargs --no-run-if-empty gopass show -c
 # First pipe the selected name to gopass, decrypt it and type the password with xdotool.
 gopass ls --flat | dmenu | xargs --no-run-if-empty gopass show -o | xdotool type --clearmodifiers --file -
 # First pipe the selected name to gopass, and type the value from the key "username" with xdotool.
-gopass ls --flat | dmenu | xargs --no-run-if-empty -- bash -c 'gopass show -f $0 username' | head -n 1 | xdotool type --clearmodifiers --file -
+gopass ls --flat | dmenu | xargs --no-run-if-empty -- bash -c 'gopass show $0 username' | head -n 1 | xdotool type --clearmodifiers --file -
 # Oterwise type the name of the entry using xdotool, in case you are not including a username key in your entries
 gopass ls --flat | dmenu | sed 's!.*/!!' | tr -d '\n' | xdotool type --clearmodifiers --file -
 ```

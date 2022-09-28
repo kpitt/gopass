@@ -63,8 +63,6 @@ func (s *Action) Generate(c *cli.Context) error {
 	name := args.Get(0)
 	key, length := keyAndLength(args)
 
-	ctx = ctxutil.WithForce(ctx, force)
-
 	// ask for name of the secret if it wasn't provided already.
 	if name == "" {
 		var err error

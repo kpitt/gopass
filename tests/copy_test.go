@@ -49,10 +49,10 @@ func TestCopy(t *testing.T) { //nolint:paralleltest
 		require.NoError(t, err)
 		assert.Equal(t, "", out)
 
-		orig, err := ts.run("show -f foo/bar")
+		orig, err := ts.run("show foo/bar")
 		assert.NoError(t, err)
 
-		cp, err := ts.run("show -f foo/baz")
+		cp, err := ts.run("show foo/baz")
 		assert.NoError(t, err)
 
 		assert.Equal(t, orig, cp)

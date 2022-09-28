@@ -24,19 +24,19 @@ func TestInsert(t *testing.T) { //nolint:paralleltest
 	assert.NoError(t, err)
 
 	t.Run("Regression test for #1573 without actual pipes", func(t *testing.T) { //nolint:paralleltest
-		out, err = ts.run("show -f some/secret")
+		out, err = ts.run("show some/secret")
 		assert.NoError(t, err)
 		assert.Equal(t, "moar", out)
 
-		out, err = ts.run("show -f some/newsecret")
+		out, err = ts.run("show some/newsecret")
 		assert.NoError(t, err)
 		assert.Equal(t, "and\nmoar", out)
 
-		out, err = ts.run("show -f some/secret")
+		out, err = ts.run("show some/secret")
 		assert.NoError(t, err)
 		assert.Equal(t, "moar", out)
 
-		out, err = ts.run("show -f some/newsecret")
+		out, err = ts.run("show some/newsecret")
 		assert.NoError(t, err)
 		assert.Equal(t, "and\nmoar", out)
 	})
@@ -127,7 +127,7 @@ glossary": {
 		assert.NoError(t, err)
 
 		// using show -n to disable parsing
-		out, err = ts.run("show -f -n some/json")
+		out, err = ts.run("show -n some/json")
 		assert.NoError(t, err)
 		assert.Equal(t, json, out)
 	})
@@ -142,7 +142,7 @@ test2
 		assert.NoError(t, err)
 
 		// using show -n to disable parsing
-		out, err = ts.run("show -f -n some/multilinewithbraces")
+		out, err = ts.run("show -n some/multilinewithbraces")
 		assert.NoError(t, err)
 		assert.Equal(t, input, out)
 	})
@@ -157,7 +157,7 @@ user: second user`
 		assert.NoError(t, err)
 
 		// using show -n to disable parsing
-		out, err = ts.run("show -f -n some/multikey")
+		out, err = ts.run("show -n some/multikey")
 		assert.NoError(t, err)
 		assert.Equal(t, input, out)
 	})
@@ -178,8 +178,7 @@ user: second user`
 		_, err = ts.runCmd([]string{ts.Binary, "insert", "some/multikeyvalues"}, []byte(input))
 		assert.NoError(t, err)
 
-		// using show -n to disable parsing
-		out, err = ts.run("show -f some/multikeyvalues")
+		out, err = ts.run("show some/multikeyvalues")
 		assert.NoError(t, err)
 		assert.Equal(t, output, out)
 	})
@@ -197,12 +196,12 @@ user: 83`
 		assert.NoError(t, err)
 
 		// with parsing we have 0123 interpreted as octal for 83
-		out, err = ts.run("show -f some/yamloctal")
+		out, err = ts.run("show some/yamloctal")
 		assert.NoError(t, err)
 		assert.Equal(t, output, out)
 
 		// using show -n to disable parsing
-		out, err = ts.run("show -f -n some/yamloctal")
+		out, err = ts.run("show -n some/yamloctal")
 		assert.NoError(t, err)
 		assert.Equal(t, input, out)
 	})
@@ -222,7 +221,7 @@ Test / test.com`
 		_, err = ts.runCmd([]string{ts.Binary, "insert", "some/kvwithspace"}, []byte(input))
 		assert.NoError(t, err)
 
-		out, err = ts.run("show -f some/kvwithspace")
+		out, err = ts.run("show some/kvwithspace")
 		assert.NoError(t, err)
 		assert.Equal(t, output, out)
 	})

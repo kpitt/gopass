@@ -19,5 +19,3 @@ $ gopass find -c entry
 Flag | Aliases | Description
 ---- | ------- | -----------
 `--clip` | `-c` | Copy the password into the clipboard.
-`--unsafe` | `-u` | Display any unsafe content, even if `safecontent` is enabled.
-

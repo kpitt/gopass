@@ -35,10 +35,6 @@ func TestShow(t *testing.T) { //nolint:paralleltest
 	t.Run("show folder foo", func(t *testing.T) { //nolint:paralleltest
 		_, err = ts.run("show foo")
 		assert.NoError(t, err)
-		_, err = ts.run("show -u foo")
-		assert.NoError(t, err)
-		_, err = ts.run("show foo -unsafe")
-		assert.NoError(t, err)
 	})
 
 	t.Run("show", func(t *testing.T) { //nolint:paralleltest
