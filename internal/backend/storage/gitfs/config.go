@@ -21,17 +21,6 @@ const (
 // that git has. We'd prefer if that wasn't necessary but git has way too many modes of operation
 // and we need it to behave a predicatable as possible.
 func (g *Git) fixConfig(ctx context.Context) error {
-	// set push default, to avoid issues with
-	// "fatal: The current branch master has multiple upstream branches, refusing to push"
-	// https://stackoverflow.com/questions/948354/default-behavior-of-git-push-without-a-branch-specified.
-	if err := g.ConfigSet(ctx, "push.default", "matching"); err != nil {
-		return fmt.Errorf("failed to set git config for push.default: %w", err)
-	}
-
-	if err := g.ConfigSet(ctx, "pull.rebase", "false"); err != nil {
-		return fmt.Errorf("failed to set git config for pull.rebase: %w", err)
-	}
-
 	// setup for proper diffs.
 	if err := g.ConfigSet(ctx, "diff.gpg.binary", "true"); err != nil {
 		out.Errorf(ctx, "Error while initializing git: %s", err)
@@ -40,12 +29,7 @@ func (g *Git) fixConfig(ctx context.Context) error {
 		out.Errorf(ctx, "Error while initializing git: %s", err)
 	}
 
-	// setup for persistent SSH connections.
-	if sc := gitSSHCommand(); sc != "" {
-		if err := g.ConfigSet(ctx, "core.sshCommand", sc); err != nil {
-			out.Errorf(ctx, "Error while configuring persistent SSH connections: %s", err)
-		}
-	}
+	// TODO: should set up for age encryption also, or check the crypto backend
 
 	return nil
 }
@@ -73,6 +57,7 @@ func (g *Git) InitConfig(ctx context.Context, userName, userEmail string) error 
 		return fmt.Errorf("failed to fix git config: %w", err)
 	}
 
+	// TODO: handle `*.age` files if using `age` crypto backend
 	if err := os.WriteFile(filepath.Join(g.fs.Path(), ".gitattributes"), []byte("*.gpg diff=gpg\n"), fileMode); err != nil {
 		return fmt.Errorf("failed to initialize git: %w", err)
 	}
