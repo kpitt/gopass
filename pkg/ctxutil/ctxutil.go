@@ -16,7 +16,6 @@ const (
 	ctxKeyInteractive
 	ctxKeyStdin
 	ctxKeyNoPager
-	ctxKeyShowSafeContent
 	ctxKeyGitCommit
 	ctxKeyAlwaysYes
 	ctxKeyVerbose
@@ -135,28 +134,6 @@ func HasNoPager(ctx context.Context) bool {
 // IsNoPager returns the value of pager or the default (false).
 func IsNoPager(ctx context.Context) bool {
 	bv, ok := ctx.Value(ctxKeyNoPager).(bool)
-	if !ok {
-		return false
-	}
-
-	return bv
-}
-
-// WithShowSafeContent returns a context with the value for ShowSafeContent set.
-func WithShowSafeContent(ctx context.Context, bv bool) context.Context {
-	return context.WithValue(ctx, ctxKeyShowSafeContent, bv)
-}
-
-// HasShowSafeContent returns true if a value for ShowSafeContent has been set in this context.
-func HasShowSafeContent(ctx context.Context) bool {
-	_, ok := ctx.Value(ctxKeyShowSafeContent).(bool)
-
-	return ok
-}
-
-// IsShowSafeContent returns the value of ShowSafeContent or the default (false).
-func IsShowSafeContent(ctx context.Context) bool {
-	bv, ok := ctx.Value(ctxKeyShowSafeContent).(bool)
 	if !ok {
 		return false
 	}

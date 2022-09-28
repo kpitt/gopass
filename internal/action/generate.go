@@ -157,12 +157,6 @@ func (s *Action) generateCopyOrPrint(ctx context.Context, c *cli.Context, name, 
 		return nil
 	}
 
-	if c.IsSet("print") && !c.Bool("print") && ctxutil.IsShowSafeContent(ctx) {
-		debug.Log("safecontent suppresing printing")
-
-		return nil
-	}
-
 	out.Printf(
 		ctx,
 		"- The generated password is:\n\n%s\n",

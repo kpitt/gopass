@@ -180,10 +180,6 @@ func (s *Action) showHandleOutput(ctx context.Context, name string, sec gopass.S
 	}
 
 	if pw == "" && body == "" {
-		if ctxutil.IsShowSafeContent(ctx) && !ctxutil.IsForce(ctx) {
-			out.Warning(ctx, "safecontent=true. Use -f to display password, if any")
-		}
-
 		return exit.Error(exit.NotFound, store.ErrEmptySecret, store.ErrEmptySecret.Error())
 	}
 
@@ -251,44 +247,8 @@ func (s *Action) showGetContent(ctx context.Context, sec gopass.Secret) (string,
 		return pw, pw, nil
 	}
 
-	// everything but the first line.
-	if ctxutil.IsShowSafeContent(ctx) && !ctxutil.IsForce(ctx) {
-		body := showSafeContent(ctx, sec)
-		if IsAlsoClip(ctx) {
-			return pw, body, nil
-		}
-
-		return "", body, nil
-	}
-
 	// everything (default).
 	return sec.Password(), fullBody, nil
-}
-
-func showSafeContent(ctx context.Context, sec gopass.Secret) string {
-	var sb strings.Builder
-	for i, k := range sec.Keys() {
-		sb.WriteString(k)
-		sb.WriteString(": ")
-		v, found := sec.Values(k)
-		if !found {
-			continue
-		}
-		sb.WriteString(strings.Join(v, "\n"+k+": "))
-		// we only add a final new line if the body is non-empty.
-		if sec.Body() != "" || i < len(sec.Keys())-1 {
-			sb.WriteString("\n")
-		}
-	}
-
-	sb.WriteString(sec.Body())
-
-	return sb.String()
-}
-
-func randAsterisk() string {
-	// we could also have a random number of asterisks but testing becomes painful.
-	return strings.Repeat("*", 5)
 }
 
 func (s *Action) hasAliasDomain(ctx context.Context, name string) string {

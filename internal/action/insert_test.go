@@ -88,7 +88,6 @@ func TestInsert(t *testing.T) { //nolint:paralleltest
 
 	t.Run("insert zab#key", func(t *testing.T) { //nolint:paralleltest
 		ctx = ctxutil.WithInteractive(ctx, false)
-		ctx = ctxutil.WithShowSafeContent(ctx, true)
 		assert.NoError(t, act.insertYAML(ctx, "zab", "key", []byte("foobar"), nil))
 		assert.NoError(t, act.show(ctx, gptest.CliCtx(ctx, t), "zab", false))
 		assert.Contains(t, buf.String(), "key: foobar")
@@ -107,18 +106,8 @@ func TestInsert(t *testing.T) { //nolint:paralleltest
 		buf.Reset()
 	})
 
-	t.Run("insert baz via stdin w/ yaml and input parsing and safecontent", func(t *testing.T) { //nolint:paralleltest
-		assert.NoError(t, act.insertStdin(ctx, "baz", []byte("foobar\n---\nuser: name\nother: 0123"), false))
-		buf.Reset()
-
-		assert.NoError(t, act.show(ctx, gptest.CliCtx(ctx, t), "baz", false))
-		assert.Equal(t, "other: 83\nuser: name", buf.String())
-		buf.Reset()
-	})
-
 	t.Run("insert baz via stdin w/ yaml and no input parsing", func(t *testing.T) { //nolint:paralleltest
 		ctx = ctxutil.WithShowParsing(ctx, false)
-		ctx = ctxutil.WithShowSafeContent(ctx, false)
 		assert.NoError(t, act.insertStdin(ctx, "baz", []byte("foobar\n---\nuser: name\nother: 0123"), false))
 		buf.Reset()
 

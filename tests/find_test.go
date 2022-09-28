@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 func TestFind(t *testing.T) { //nolint:paralleltest
@@ -17,9 +16,6 @@ func TestFind(t *testing.T) { //nolint:paralleltest
 	out, err := ts.run("find")
 	assert.Error(t, err)
 	assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" find <NEEDLE>\n", out)
-
-	_, err = ts.run("config safecontent false")
-	require.NoError(t, err)
 
 	out, err = ts.run("find bar")
 	assert.Error(t, err)
@@ -39,15 +35,4 @@ func TestFind(t *testing.T) { //nolint:paralleltest
 	out, err = ts.run("find b")
 	assert.NoError(t, err)
 	assert.Contains(t, "Found exact match in 'foo/bar'\nbaz", out)
-
-	_, err = ts.run("config safecontent true")
-	require.NoError(t, err)
-
-	out, err = ts.run("find bar")
-	assert.NoError(t, err)
-	assert.Contains(t, out, "foo/bar")
-
-	out, err = ts.run("find -f bar")
-	assert.NoError(t, err)
-	assert.Contains(t, out, "foo/bar")
 }

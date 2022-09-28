@@ -60,4 +60,3 @@ This is a list of available options:
 | `nopager`        | `bool`   | Do not invoke a pager to display long lists.                                                                                                                                                   |
 | `parsing`        | `bool`   | Enable parsing of output to have key-value and yaml secrets.                                                                                                                                   |
 | `path`           | `string` | Path to the root store.                                                                                                                                                                        |
-| `safecontent`    | `bool`   | Only output _safe content_ (i.e. everything but the first line of a secret) to the terminal. Use _copy_ (`-c`) to retrieve the password in the clipboard, or _force_ (`-f`) to still print it. |

@@ -67,66 +67,6 @@ func TestShowMulti(t *testing.T) { //nolint:paralleltest
 		buf.Reset()
 	})
 
-	t.Run("show twoliner with safecontent enabled", func(t *testing.T) { //nolint:paralleltest
-		ctx := ctxutil.WithShowSafeContent(ctx, true)
-		c := gptest.CliCtx(ctx, t, "bar/baz")
-
-		assert.NoError(t, act.Show(c))
-		assert.Contains(t, buf.String(), "bar: zab")
-		assert.NotContains(t, buf.String(), "password: ***")
-		assert.NotContains(t, buf.String(), "123")
-		buf.Reset()
-	})
-
-	t.Run("show foo with safecontent enabled, should error out", func(t *testing.T) { //nolint:paralleltest
-		ctx := ctxutil.WithShowSafeContent(ctx, true)
-
-		c := gptest.CliCtx(ctx, t, "foo")
-		assert.NoError(t, act.Show(c))
-		assert.NotContains(t, buf.String(), "secret")
-		buf.Reset()
-	})
-
-	t.Run("show foo with safecontent enabled, with the force flag", func(t *testing.T) { //nolint:paralleltest
-		c := gptest.CliCtxWithFlags(ctx, t, map[string]string{"unsafe": "true"}, "foo")
-		assert.NoError(t, act.Show(c))
-		assert.Contains(t, buf.String(), "secret")
-		buf.Reset()
-	})
-
-	t.Run("show twoliner with safecontent enabled, but with the clip flag, which should copy just the secret", func(t *testing.T) { //nolint:paralleltest
-		ctx := ctxutil.WithShowSafeContent(ctx, true)
-		c := gptest.CliCtxWithFlags(ctx, t, map[string]string{"clip": "true"}, "bar/baz")
-
-		assert.NoError(t, act.Show(c))
-		assert.NotContains(t, buf.String(), "123")
-		buf.Reset()
-	})
-
-	t.Run("show twoliner with safecontent enabled", func(t *testing.T) { //nolint:paralleltest
-		ctx := ctxutil.WithShowSafeContent(ctx, true)
-		c := gptest.CliCtx(ctx, t, "bar/baz")
-
-		assert.NoError(t, act.Show(c))
-		assert.Contains(t, buf.String(), "bar: zab")
-		assert.NotContains(t, buf.String(), "password: ***")
-		assert.NotContains(t, buf.String(), "123")
-		buf.Reset()
-	})
-
-	t.Run("show twoliner with parsing disabled and safecontent enabled", func(t *testing.T) { //nolint:paralleltest
-		ctx := ctxutil.WithShowSafeContent(ctx, true)
-		ctx = ctxutil.WithShowParsing(ctx, false)
-		c := gptest.CliCtx(ctx, t, "bar/baz")
-
-		assert.NoError(t, act.Show(c))
-		assert.Contains(t, buf.String(), "bar: zab")
-		// password should not show up neither be obstructed
-		assert.NotContains(t, buf.String(), "123")
-		assert.NotContains(t, buf.String(), "***")
-		buf.Reset()
-	})
-
 	t.Run("show key with parsing enabled", func(t *testing.T) { //nolint:paralleltest
 		ctx := ctxutil.WithShowParsing(ctx, true)
 		c := gptest.CliCtx(ctx, t, "bar/baz", "bar")

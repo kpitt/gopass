@@ -211,11 +211,6 @@ In order to display only the password, the flag `-o` can be used. One can also c
 
 WARNING: The short form `gopass <secret>` is deprecated. Use `gopass show <secret>`.
 
-Since it may be dangerous to always display the password, the `safecontent` setting may be set to `true` to allow one to display only the rest of the password entries by default but hiding the password. In order to display the whole entry, with the password in clear, the `-u`/`--unsafe` flag must then be used.
-The password can still be shown using the `-o` flag.
-
-WARNING: The `safecontent` setting is not perfect and *might* be removed in the future.
-
 #### Copy a secret to the clipboard
 
 ```bash
@@ -481,9 +476,3 @@ Disabling colors is as simple as setting `NO_COLOR` to `true`. See [no-color.org
 With gopass you can create templates which are searched when executing `gopass edit` on a new secret. If the folder, or any parent folder, contains a file called `.pass-template` it's parsed as a Go template, executed with the name of the new secret and an auto-generated password and loaded into your `$EDITOR`.
 
 This makes it easy to use templates for certain kind of secrets such as database passwords.
-
-### Safecontent
-
-Gopass can limit display of certain *unsafe* fields in secrets.
-By default no fields are obstructed, but if the `safecontent`
-config option is set to `true` the `Password` field is obstructed.
