@@ -15,7 +15,7 @@ func TestFind(t *testing.T) { //nolint:paralleltest
 
 	out, err := ts.run("find")
 	assert.Error(t, err)
-	assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" find <NEEDLE>\n", out)
+	assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" find <pattern>\n", out)
 
 	out, err = ts.run("find bar")
 	assert.Error(t, err)
