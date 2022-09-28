@@ -487,7 +487,3 @@ This makes it easy to use templates for certain kind of secrets such as database
 Gopass can limit display of certain *unsafe* fields in secrets.
 By default no fields are obstructed, but if the `safecontent`
 config option is set to `true` the `Password` field is obstructed.
-Also the special `unsafe-keys` key is evaluated. It expectes
-a comma separated list of keys that will be obstructed when
-printing the secret.
-

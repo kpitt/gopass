@@ -270,17 +270,11 @@ func showSafeContent(ctx context.Context, sec gopass.Secret) string {
 	for i, k := range sec.Keys() {
 		sb.WriteString(k)
 		sb.WriteString(": ")
-		// check if this key should be obstructed.
-		if isUnsafeKey(k, sec) {
-			debug.Log("obstructing unsafe key %s", k)
-			sb.WriteString(randAsterisk())
-		} else {
-			v, found := sec.Values(k)
-			if !found {
-				continue
-			}
-			sb.WriteString(strings.Join(v, "\n"+k+": "))
+		v, found := sec.Values(k)
+		if !found {
+			continue
 		}
+		sb.WriteString(strings.Join(v, "\n"+k+": "))
 		// we only add a final new line if the body is non-empty.
 		if sec.Body() != "" || i < len(sec.Keys())-1 {
 			sb.WriteString("\n")
@@ -290,29 +284,6 @@ func showSafeContent(ctx context.Context, sec gopass.Secret) string {
 	sb.WriteString(sec.Body())
 
 	return sb.String()
-}
-
-func isUnsafeKey(key string, sec gopass.Secret) bool {
-	if strings.ToLower(key) == "password" {
-		return true
-	}
-
-	uks, found := sec.Get("unsafe-keys")
-	if !found || uks == "" {
-		return false
-	}
-
-	for _, uk := range strings.Split(uks, ",") {
-		uk = strings.TrimSpace(uk)
-		if uk == "" {
-			continue
-		}
-		if strings.EqualFold(uk, key) {
-			return true
-		}
-	}
-
-	return false
 }
 
 func randAsterisk() string {
