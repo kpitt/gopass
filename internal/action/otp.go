@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gosuri/uilive"
 	"github.com/kpitt/gopass/internal/action/exit"
 	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/internal/store"
@@ -16,7 +17,6 @@ import (
 	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/kpitt/gopass/pkg/debug"
 	"github.com/kpitt/gopass/pkg/otp"
-	"github.com/kpitt/gopass/pkg/termio"
 	"github.com/mattn/go-tty"
 	potp "github.com/pquerna/otp"
 	"github.com/pquerna/otp/hotp"
@@ -39,8 +39,8 @@ func (s *Action) OTP(c *cli.Context) error {
 	return s.otp(ctx, name, qrf, clip, continuous, true)
 }
 
-func tickingBar(ctx context.Context, expiresAt time.Time, bar *termio.ProgressBar) {
-	ticker := time.NewTicker(1 * time.Second)
+func tickingBar(ctx context.Context, token string, expiresAt time.Time, lw *uilive.Writer) {
+	ticker := time.NewTicker(100 * time.Millisecond)
 	defer ticker.Stop()
 	for tt := range ticker.C {
 		select {
@@ -52,7 +52,12 @@ func tickingBar(ctx context.Context, expiresAt time.Time, bar *termio.ProgressBa
 		if tt.After(expiresAt) {
 			return
 		}
-		bar.Inc()
+		secondsLeft := int(time.Until(expiresAt).Seconds()) + 1
+		plural := ""
+		if secondsLeft != 1 {
+			plural = "s"
+		}
+		fmt.Fprintf(lw, "%s    expires in %d second%s\n", token, secondsLeft, plural)
 	}
 }
 
@@ -97,11 +102,17 @@ func (s *Action) otp(ctx context.Context, name, qrf string, clip, continuous, re
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
+	var writer *uilive.Writer
+	writer = nil
 	skip := ctxutil.IsHidden(ctx) || !continuous || qrf != "" || !ctxutil.IsTerminal(ctx) || !ctxutil.IsInteractive(ctx) || clip
 	if !skip {
 		// let us monitor key presses for cancellation:.
 		out.Warningf(ctx, "%s", "[q] to stop. -o flag to avoid.")
 		go waitForKeyPress(ctx, cancel)
+
+		writer = uilive.New()
+		writer.Start()
+		defer writer.Stop()
 	}
 
 	// only used for the HOTP case as a fallback
@@ -153,9 +164,6 @@ func (s *Action) otp(ctx context.Context, name, qrf string, clip, continuous, re
 
 		now := time.Now()
 		expiresAt := now.Add(time.Duration(two.Period()) * time.Second).Truncate(time.Duration(two.Period()) * time.Second)
-		secondsLeft := int(time.Until(expiresAt).Seconds())
-		bar := termio.NewProgressBar(token, int64(secondsLeft))
-		bar.Hidden = skip
 
 		debug.Log("OTP period: %ds", two.Period())
 
@@ -171,12 +179,11 @@ func (s *Action) otp(ctx context.Context, name, qrf string, clip, continuous, re
 		if !continuous || qrf != "" || !ctxutil.IsTerminal(ctx) {
 			out.Printf(ctx, "%s", token)
 			cancel()
-		} else { // if not then we want to print a progress bar with the expiry time.
-			if bar.Hidden {
+		} else { // if not then we want to print a countdown showing the expiry time.
+			if skip {
 				cancel()
 			} else {
-				bar.Set(0)
-				go tickingBar(ctx, expiresAt, bar)
+				go tickingBar(ctx, token, expiresAt, writer)
 			}
 		}
 
@@ -188,15 +195,11 @@ func (s *Action) otp(ctx context.Context, name, qrf string, clip, continuous, re
 		for {
 			select {
 			case <-ctx.Done():
-				bar.Done()
-
 				return nil
 			default:
-				time.Sleep(time.Millisecond * 500)
+				time.Sleep(time.Millisecond * 100)
 			}
 			if time.Now().After(expiresAt) {
-				bar.Done()
-
 				break
 			}
 		}
