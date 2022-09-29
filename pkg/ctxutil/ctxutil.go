@@ -3,7 +3,6 @@ package ctxutil
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/kpitt/gopass/internal/store"
 	"github.com/urfave/cli/v2"
@@ -18,7 +17,6 @@ const (
 	ctxKeyNoPager
 	ctxKeyGitCommit
 	ctxKeyAlwaysYes
-	ctxKeyVerbose
 	ctxKeyProgressCallback
 	ctxKeyAlias
 	ctxKeyGitInit
@@ -29,7 +27,6 @@ const (
 	ctxKeyImportFunc
 	ctxKeyExportKeys
 	ctxKeyPasswordCallback
-	ctxKeyCommitTimestamp
 	ctxKeyShowParsing
 	ctxKeyHidden
 )
@@ -390,30 +387,6 @@ func GetPasswordCallback(ctx context.Context) PasswordCallback {
 	}
 
 	return pwcb
-}
-
-// WithCommitTimestamp returns a context with the value for the commit
-// timestamp set.
-func WithCommitTimestamp(ctx context.Context, ts time.Time) context.Context {
-	return context.WithValue(ctx, ctxKeyCommitTimestamp, ts)
-}
-
-// HasCommitTimestamp returns true if the value for the commit timestamp
-// was set in the context.
-func HasCommitTimestamp(ctx context.Context) bool {
-	_, ok := ctx.Value(ctxKeyCommitTimestamp).(time.Time)
-
-	return ok
-}
-
-// GetCommitTimestamp returns the commit timestamp from the context if
-// set or the default (now) otherwise.
-func GetCommitTimestamp(ctx context.Context) time.Time {
-	if ts, ok := ctx.Value(ctxKeyCommitTimestamp).(time.Time); ok {
-		return ts
-	}
-
-	return time.Now()
 }
 
 // WithHidden returns a context with the flag value for hidden set.
