@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gosuri/uilive"
 	"github.com/kpitt/gopass/internal/action/exit"
 	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/internal/store"
@@ -34,13 +35,20 @@ func (s *Action) OTP(c *cli.Context) error {
 
 	qrf := c.String("qr")
 	clip := c.Bool("clip")
-	pw := c.Bool("password")
+	continuous := c.Bool("continuous")
 
-	return s.otp(ctx, name, qrf, clip, pw, true)
+	return s.otp(ctx, name, qrf, clip, continuous, true)
 }
 
-func tickingBar(ctx context.Context, expiresAt time.Time, bar *termio.ProgressBar) {
-	ticker := time.NewTicker(1 * time.Second)
+func tickingBar(ctx context.Context, expiresAt time.Time) {
+	lw := uilive.New()
+	lw.Start()
+	defer func() {
+		fmt.Fprint(lw, "\r")
+		lw.Stop()
+	}()
+
+	ticker := time.NewTicker(100 * time.Millisecond)
 	defer ticker.Stop()
 	for tt := range ticker.C {
 		select {
@@ -52,7 +60,12 @@ func tickingBar(ctx context.Context, expiresAt time.Time, bar *termio.ProgressBa
 		if tt.After(expiresAt) {
 			return
 		}
-		bar.Inc()
+		secondsLeft := int(time.Until(expiresAt).Seconds()) + 1
+		plural := ""
+		if secondsLeft != 1 {
+			plural = "s"
+		}
+		fmt.Fprintf(lw, "%s\n", termio.Gray("(expires in %d second%s)", secondsLeft, plural))
 	}
 }
 
@@ -88,19 +101,19 @@ func waitForKeyPress(ctx context.Context, cancel context.CancelFunc) {
 }
 
 //nolint:cyclop
-func (s *Action) otp(ctx context.Context, name, qrf string, clip, pw, recurse bool) error {
+func (s *Action) otp(ctx context.Context, name, qrf string, clip, continuous, recurse bool) error {
 	sec, err := s.Store.Get(ctx, name)
 	if err != nil {
-		return s.otpHandleError(ctx, name, qrf, clip, pw, recurse, err)
+		return s.otpHandleError(ctx, name, qrf, clip, continuous, recurse, err)
 	}
 
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	skip := ctxutil.IsHidden(ctx) || pw || qrf != "" || !ctxutil.IsTerminal(ctx) || !ctxutil.IsInteractive(ctx) || clip
+	skip := ctxutil.IsHidden(ctx) || !continuous || qrf != "" || !ctxutil.IsTerminal(ctx) || !ctxutil.IsInteractive(ctx) || clip
 	if !skip {
 		// let us monitor key presses for cancellation:.
-		out.Warningf(ctx, "%s", "[q] to stop. -o flag to avoid.")
+		out.Printf(ctx, "- %s to stop\n", termio.Bold("Press Q"))
 		go waitForKeyPress(ctx, cancel)
 	}
 
@@ -153,9 +166,6 @@ func (s *Action) otp(ctx context.Context, name, qrf string, clip, pw, recurse bo
 
 		now := time.Now()
 		expiresAt := now.Add(time.Duration(two.Period()) * time.Second).Truncate(time.Duration(two.Period()) * time.Second)
-		secondsLeft := int(time.Until(expiresAt).Seconds())
-		bar := termio.NewProgressBar(token, int64(secondsLeft))
-		bar.Hidden = skip
 
 		debug.Log("OTP period: %ds", two.Period())
 
@@ -167,38 +177,27 @@ func (s *Action) otp(ctx context.Context, name, qrf string, clip, pw, recurse bo
 			return nil
 		}
 
-		// check if we are in "password only" or in "qr code" mode or being redirected to a pipe.
-		if pw || qrf != "" || !ctxutil.IsTerminal(ctx) {
-			out.Printf(ctx, "%s", token)
-			cancel()
-		} else { // if not then we want to print a progress bar with the expiry time.
-			if bar.Hidden {
-				cancel()
-			} else {
-				bar.Set(0)
-				go tickingBar(ctx, expiresAt, bar)
-			}
-		}
+		out.Printf(ctx, "%s", token)
 
+		// If we are in "qr code" mode then just create the image file and exit.
 		if qrf != "" {
 			return otp.WriteQRFile(two, qrf)
 		}
 
-		// let us wait until next OTP code:.
-		for {
-			select {
-			case <-ctx.Done():
-				bar.Done()
+		// If we are in "password only" mode or not interacting with a terminal (i.e. either stdin
+		// or stdout is attached to a pipe), then we are done.
+		if skip {
+			return nil
+		}
 
-				return nil
-			default:
-				time.Sleep(time.Millisecond * 500)
-			}
-			if time.Now().After(expiresAt) {
-				bar.Done()
+		// Otherwise, we want to print a countdown showing the expiry time.
+		tickingBar(ctx, expiresAt)
 
-				break
-			}
+		// Return if cancelled, otherwise loop back for another token.
+		select {
+		case <-ctx.Done():
+			return nil
+		default:
 		}
 	}
 }
