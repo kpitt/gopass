@@ -177,24 +177,23 @@ func (s *Action) otp(ctx context.Context, name, qrf string, clip, continuous, re
 			return nil
 		}
 
-		// check if we are in "password only" or in "qr code" mode or being redirected to a pipe.
-		if !continuous || qrf != "" || !ctxutil.IsTerminal(ctx) {
-			out.Printf(ctx, "%s", token)
-			cancel()
+		out.Printf(ctx, "%s", token)
 
-			if qrf != "" {
-				return otp.WriteQRFile(two, qrf)
-			}
-		} else { // if not then we want to print a countdown showing the expiry time.
-			if skip {
-				cancel()
-			} else {
-				out.Printf(ctx, "%s", token)
-				tickingBar(ctx, expiresAt)
-			}
+		// If we are in "qr code" mode then just create the image file and exit.
+		if qrf != "" {
+			return otp.WriteQRFile(two, qrf)
 		}
 
-		// return if cancelled, otherwise loop back for another token
+		// If we are in "password only" mode or not interacting with a terminal (i.e. either stdin
+		// or stdout is attached to a pipe), then we are done.
+		if skip {
+			return nil
+		}
+
+		// Otherwise, we want to print a countdown showing the expiry time.
+		tickingBar(ctx, expiresAt)
+
+		// Return if cancelled, otherwise loop back for another token.
 		select {
 		case <-ctx.Done():
 			return nil
