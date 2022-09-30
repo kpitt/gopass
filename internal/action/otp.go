@@ -17,6 +17,7 @@ import (
 	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/kpitt/gopass/pkg/debug"
 	"github.com/kpitt/gopass/pkg/otp"
+	"github.com/kpitt/gopass/pkg/termio"
 	"github.com/mattn/go-tty"
 	potp "github.com/pquerna/otp"
 	"github.com/pquerna/otp/hotp"
@@ -39,7 +40,14 @@ func (s *Action) OTP(c *cli.Context) error {
 	return s.otp(ctx, name, qrf, clip, continuous, true)
 }
 
-func tickingBar(ctx context.Context, token string, expiresAt time.Time, lw *uilive.Writer) {
+func tickingBar(ctx context.Context, expiresAt time.Time) {
+	lw := uilive.New()
+	lw.Start()
+	defer func() {
+		fmt.Fprint(lw, "\r")
+		lw.Stop()
+	}()
+
 	ticker := time.NewTicker(100 * time.Millisecond)
 	defer ticker.Stop()
 	for tt := range ticker.C {
@@ -57,7 +65,7 @@ func tickingBar(ctx context.Context, token string, expiresAt time.Time, lw *uili
 		if secondsLeft != 1 {
 			plural = "s"
 		}
-		fmt.Fprintf(lw, "%s    expires in %d second%s\n", token, secondsLeft, plural)
+		fmt.Fprintf(lw, "%s\n", termio.Gray("(expires in %d second%s)", secondsLeft, plural))
 	}
 }
 
@@ -102,17 +110,11 @@ func (s *Action) otp(ctx context.Context, name, qrf string, clip, continuous, re
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	var writer *uilive.Writer
-	writer = nil
 	skip := ctxutil.IsHidden(ctx) || !continuous || qrf != "" || !ctxutil.IsTerminal(ctx) || !ctxutil.IsInteractive(ctx) || clip
 	if !skip {
 		// let us monitor key presses for cancellation:.
-		out.Warningf(ctx, "%s", "[q] to stop. -o flag to avoid.")
+		out.Printf(ctx, "- %s to stop\n", termio.Bold("Press Q"))
 		go waitForKeyPress(ctx, cancel)
-
-		writer = uilive.New()
-		writer.Start()
-		defer writer.Stop()
 	}
 
 	// only used for the HOTP case as a fallback
@@ -179,29 +181,24 @@ func (s *Action) otp(ctx context.Context, name, qrf string, clip, continuous, re
 		if !continuous || qrf != "" || !ctxutil.IsTerminal(ctx) {
 			out.Printf(ctx, "%s", token)
 			cancel()
+
+			if qrf != "" {
+				return otp.WriteQRFile(two, qrf)
+			}
 		} else { // if not then we want to print a countdown showing the expiry time.
 			if skip {
 				cancel()
 			} else {
-				go tickingBar(ctx, token, expiresAt, writer)
+				out.Printf(ctx, "%s", token)
+				tickingBar(ctx, expiresAt)
 			}
 		}
 
-		if qrf != "" {
-			return otp.WriteQRFile(two, qrf)
-		}
-
-		// let us wait until next OTP code:.
-		for {
-			select {
-			case <-ctx.Done():
-				return nil
-			default:
-				time.Sleep(time.Millisecond * 100)
-			}
-			if time.Now().After(expiresAt) {
-				break
-			}
+		// return if cancelled, otherwise loop back for another token
+		select {
+		case <-ctx.Done():
+			return nil
+		default:
 		}
 	}
 }
