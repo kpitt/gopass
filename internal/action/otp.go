@@ -34,9 +34,9 @@ func (s *Action) OTP(c *cli.Context) error {
 
 	qrf := c.String("qr")
 	clip := c.Bool("clip")
-	pw := c.Bool("password")
+	continuous := c.Bool("continuous")
 
-	return s.otp(ctx, name, qrf, clip, pw, true)
+	return s.otp(ctx, name, qrf, clip, continuous, true)
 }
 
 func tickingBar(ctx context.Context, expiresAt time.Time, bar *termio.ProgressBar) {
@@ -88,16 +88,16 @@ func waitForKeyPress(ctx context.Context, cancel context.CancelFunc) {
 }
 
 //nolint:cyclop
-func (s *Action) otp(ctx context.Context, name, qrf string, clip, pw, recurse bool) error {
+func (s *Action) otp(ctx context.Context, name, qrf string, clip, continuous, recurse bool) error {
 	sec, err := s.Store.Get(ctx, name)
 	if err != nil {
-		return s.otpHandleError(ctx, name, qrf, clip, pw, recurse, err)
+		return s.otpHandleError(ctx, name, qrf, clip, continuous, recurse, err)
 	}
 
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	skip := ctxutil.IsHidden(ctx) || pw || qrf != "" || !ctxutil.IsTerminal(ctx) || !ctxutil.IsInteractive(ctx) || clip
+	skip := ctxutil.IsHidden(ctx) || !continuous || qrf != "" || !ctxutil.IsTerminal(ctx) || !ctxutil.IsInteractive(ctx) || clip
 	if !skip {
 		// let us monitor key presses for cancellation:.
 		out.Warningf(ctx, "%s", "[q] to stop. -o flag to avoid.")
@@ -168,7 +168,7 @@ func (s *Action) otp(ctx context.Context, name, qrf string, clip, pw, recurse bo
 		}
 
 		// check if we are in "password only" or in "qr code" mode or being redirected to a pipe.
-		if pw || qrf != "" || !ctxutil.IsTerminal(ctx) {
+		if !continuous || qrf != "" || !ctxutil.IsTerminal(ctx) {
 			out.Printf(ctx, "%s", token)
 			cancel()
 		} else { // if not then we want to print a progress bar with the expiry time.

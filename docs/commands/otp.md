@@ -15,4 +15,4 @@ Flag | Aliases | Description
 ---- | ------- | -----------
 `--clip` | `-c` | Copy the time-based token into the clipboard.
 `--qr` | `-q` | Write QR code to file.
-`--password` | `-o` | Only display the token. For use in scripts.
+`--continuous` | `-C` | Display tokens continuously until interrupted.
