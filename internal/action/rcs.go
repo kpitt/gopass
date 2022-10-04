@@ -9,7 +9,6 @@ import (
 	"github.com/fatih/color"
 	"github.com/kpitt/gopass/internal/action/exit"
 	"github.com/kpitt/gopass/internal/backend"
-	"github.com/kpitt/gopass/internal/cui"
 	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/kpitt/gopass/pkg/debug"
@@ -64,35 +63,27 @@ func (s *Action) getUserData(ctx context.Context, store, name, email string) (st
 		return name, email
 	}
 
-	// for convenience, set defaults to user-selected values from available private keys.
-	// NB: discarding returned error since this is merely a best-effort look-up for convenience.
-	userName, userEmail, _ := cui.AskForGitConfigUser(ctx, s.Store.Crypto(ctx, store))
-
 	if name == "" {
-		if userName == "" {
-			userName = termio.DetectName(ctx, nil)
-		}
+		defaultName := termio.DetectName(ctx, nil)
 
 		var err error
-		name, err = termio.AskForString(ctx, color.CyanString("Please enter a user name for password store git config"), userName)
+		name, err = termio.AskForString(ctx, color.CyanString("Please enter a user name for password store git config"), defaultName)
 		if err != nil {
 			out.Errorf(ctx, "Failed to ask for user input: %s", err)
 		}
 	}
 
 	if email == "" {
-		if userEmail == "" {
-			userEmail = termio.DetectEmail(ctx, nil)
-		}
+		defaultEmail := termio.DetectEmail(ctx, nil)
 
 		var err error
-		email, err = termio.AskForString(ctx, color.CyanString("Please enter an email address for password store git config"), userEmail)
+		email, err = termio.AskForString(ctx, color.CyanString("Please enter an email address for password store git config"), defaultEmail)
 		if err != nil {
 			out.Errorf(ctx, "Failed to ask for user input: %s", err)
 		}
 	}
 
-	debug.Log("Username: %s, Email: %s (detected)", name, email)
+	debug.Log("Username: %s, Email: %s (entered)", name, email)
 
 	return name, email
 }

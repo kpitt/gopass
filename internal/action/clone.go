@@ -13,7 +13,6 @@ import (
 	"github.com/kpitt/gopass/internal/backend/crypto/age"
 	"github.com/kpitt/gopass/internal/backend/crypto/gpg"
 	"github.com/kpitt/gopass/internal/config"
-	"github.com/kpitt/gopass/internal/cui"
 	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/internal/store/root"
 	"github.com/kpitt/gopass/pkg/ctxutil"
@@ -220,25 +219,17 @@ func (s *Action) cloneAddMount(ctx context.Context, mount, path string) error {
 
 func (s *Action) cloneGetGitConfig(ctx context.Context, name string) (string, string, error) {
 	out.Printf(ctx, "- Gathering information for the git repository...")
-	// for convenience, set defaults to user-selected values from available private keys.
-	// NB: discarding returned error since this is merely a best-effort look-up for convenience.
-	username, email, _ := cui.AskForGitConfigUser(ctx, s.Store.Crypto(ctx, name))
-	if username == "" {
-		username = termio.DetectName(ctx, nil)
-		var err error
-		username, err = termio.AskForString(ctx, "? What is your name?", username)
-		if err != nil {
-			return "", "", exit.Error(exit.IO, err, "Failed to read user input: %s", err)
-		}
+	var err error
+	username := termio.DetectName(ctx, nil)
+	username, err = termio.AskForString(ctx, "? What is your name?", username)
+	if err != nil {
+		return "", "", exit.Error(exit.IO, err, "Failed to read user input: %s", err)
 	}
 
-	if email == "" {
-		email = termio.DetectEmail(ctx, nil)
-		var err error
-		email, err = termio.AskForString(ctx, "? What is your email?", email)
-		if err != nil {
-			return "", "", exit.Error(exit.IO, err, "Failed to read user input: %s", err)
-		}
+	email := termio.DetectEmail(ctx, nil)
+	email, err = termio.AskForString(ctx, "? What is your email?", email)
+	if err != nil {
+		return "", "", exit.Error(exit.IO, err, "Failed to read user input: %s", err)
 	}
 
 	return username, email, nil

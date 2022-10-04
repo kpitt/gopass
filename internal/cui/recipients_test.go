@@ -8,7 +8,6 @@ import (
 
 	"github.com/kpitt/gopass/internal/backend/crypto/plain"
 	"github.com/kpitt/gopass/pkg/ctxutil"
-	"github.com/kpitt/gopass/tests/gptest"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -27,18 +26,6 @@ func TestAskForPrivateKey(t *testing.T) { //nolint:paralleltest
 	require.NoError(t, err)
 	assert.Equal(t, "0xDEADBEEF", key)
 	buf.Reset()
-}
-
-func TestAskForGitConfigUser(t *testing.T) { //nolint:paralleltest
-	u := gptest.NewUnitTester(t)
-	defer u.Remove()
-
-	ctx := context.Background()
-	ctx = ctxutil.WithTerminal(ctx, true)
-	ctx = ctxutil.WithAlwaysYes(ctx, true)
-
-	_, _, err := AskForGitConfigUser(ctx, plain.New())
-	assert.NoError(t, err)
 }
 
 type fakeMountPointer []string

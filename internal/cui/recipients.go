@@ -10,7 +10,6 @@ import (
 
 	"github.com/kpitt/gopass/internal/backend"
 	"github.com/kpitt/gopass/pkg/ctxutil"
-	"github.com/kpitt/gopass/pkg/debug"
 	"github.com/kpitt/gopass/pkg/termio"
 )
 
@@ -83,68 +82,6 @@ func AskForPrivateKey(ctx context.Context, crypto backend.Crypto, prompt string)
 	}
 
 	return "", fmt.Errorf("no valid user input")
-}
-
-// AskForGitConfigUser will iterate over GPG private key identities and prompt
-// the user for selecting one identity whose name and email address will be used as
-// git config user.name and git config user.email, respectively.
-// On error or no selection, name and email will be empty.
-//
-// If s.isTerm is false (i.e., the user cannot be prompted), however,
-// the first identity's name/email pair found is returned.
-func AskForGitConfigUser(ctx context.Context, crypto backend.Crypto) (string, string, error) {
-	var useCurrent bool
-
-	if crypto == nil {
-		return "", "", fmt.Errorf("crypto not available")
-	}
-
-	if crypto.Name() == "age" {
-		debug.Log("skipping git config user prompt for non-gpg backend %s", crypto.Name())
-
-		return "", "", nil
-	}
-
-	keyList, err := crypto.ListIdentities(ctx)
-	if err != nil {
-		return "", "", err
-	}
-
-	if len(keyList) < 1 {
-		return "", "", fmt.Errorf("no usable private keys found")
-	}
-
-	for _, key := range keyList {
-		// check for context cancelation
-		select {
-		case <-ctx.Done():
-			return "", "", fmt.Errorf("user aborted")
-		default:
-		}
-
-		name := crypto.FormatKey(ctx, key, "{{ .Identity.Name }}")
-		email := crypto.FormatKey(ctx, key, "{{ .Identity.Email }}")
-
-		if name == "" && email == "" {
-			continue
-		}
-
-		useCurrent, err = termio.AskForBool(
-			ctx,
-			fmt.Sprintf("Use %s (%s) for password store git config?", name, email),
-			true,
-		)
-
-		if err != nil {
-			return "", "", err
-		}
-
-		if useCurrent {
-			return name, email, nil
-		}
-	}
-
-	return "", "", nil
 }
 
 type mountPointer interface {
