@@ -132,8 +132,10 @@ func TestCloneGetGitConfig(t *testing.T) { //nolint:paralleltest
 	require.NoError(t, err)
 	require.NotNil(t, act)
 
+	t.Setenv("USER", "foo")
+
 	name, email, err := act.cloneGetGitConfig(ctx, "foobar")
 	assert.NoError(t, err)
-	assert.Equal(t, "0xDEADBEEF", name)
-	assert.Equal(t, "0xDEADBEEF", email)
+	assert.Equal(t, "foo", name)
+	assert.Equal(t, "", email)
 }

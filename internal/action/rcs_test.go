@@ -8,6 +8,7 @@ import (
 
 	"github.com/kpitt/gopass/internal/out"
 	"github.com/kpitt/gopass/pkg/ctxutil"
+	"github.com/kpitt/gopass/pkg/termio"
 	"github.com/kpitt/gopass/tests/gptest"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -39,7 +40,14 @@ func TestGit(t *testing.T) { //nolint:paralleltest
 	buf.Reset()
 
 	// getUserData
+	r1 := gptest.UnsetVars(termio.NameVars...)
+	defer r1()
+	r2 := gptest.UnsetVars(termio.EmailVars...)
+	defer r2()
+
+	t.Setenv("USER", "foo")
+
 	name, email := act.getUserData(ctx, "", "", "")
-	assert.Equal(t, "0xDEADBEEF", name)
-	assert.Equal(t, "0xDEADBEEF", email)
+	assert.Equal(t, "foo", name)
+	assert.Equal(t, "", email)
 }
