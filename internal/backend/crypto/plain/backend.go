@@ -6,42 +6,14 @@ import (
 	"fmt"
 	"runtime"
 	"strings"
-	"time"
 
 	"github.com/blang/semver/v4"
-	"github.com/kpitt/gopass/internal/backend/crypto/gpg"
 	"github.com/kpitt/gopass/pkg/debug"
 )
 
-var staticPrivateKeyList = gpg.KeyList{
-	gpg.Key{
-		KeyType:      "rsa",
-		KeyLength:    2048,
-		Validity:     "u",
-		CreationDate: time.Now(),
-		Fingerprint:  "000000000000000000000000DEADBEEF",
-		Identities: map[string]gpg.Identity{
-			"Dead Beef <dead.beef@example.com>": {
-				Name:         "Dead Beef",
-				Email:        "dead.beef@example.com",
-				CreationDate: time.Now(),
-			},
-		},
-	},
-	gpg.Key{
-		KeyType:      "rsa",
-		KeyLength:    2048,
-		Validity:     "u",
-		CreationDate: time.Now(),
-		Fingerprint:  "000000000000000000000000FEEDBEEF",
-		Identities: map[string]gpg.Identity{
-			"Feed Beef <feed.beef@example.com>": {
-				Name:         "Feed Beef",
-				Email:        "feed.beef@example.com",
-				CreationDate: time.Now(),
-			},
-		},
-	},
+var staticRecipientsList = []string{
+	"0xDEADBEEF",
+	"0xFEEDBEEF",
 }
 
 // Mocker is a no-op GPG mock.
@@ -54,14 +26,13 @@ func New() *Mocker {
 
 // ListRecipients does nothing.
 func (m *Mocker) ListRecipients(context.Context) ([]string, error) {
-	return staticPrivateKeyList.Recipients(), nil
+	return staticRecipientsList, nil
 }
 
 // FindRecipients does nothing.
 func (m *Mocker) FindRecipients(ctx context.Context, keys ...string) ([]string, error) {
-	rs := staticPrivateKeyList.Recipients()
-	res := make([]string, 0, len(rs))
-	for _, r := range rs {
+	res := make([]string, 0, len(staticRecipientsList))
+	for _, r := range staticRecipientsList {
 		for _, needle := range keys {
 			if strings.HasSuffix(r, needle) {
 				res = append(res, r)
@@ -74,7 +45,7 @@ func (m *Mocker) FindRecipients(ctx context.Context, keys ...string) ([]string, 
 
 // ListIdentities does nothing.
 func (m *Mocker) ListIdentities(context.Context) ([]string, error) {
-	return staticPrivateKeyList.Recipients(), nil
+	return staticRecipientsList, nil
 }
 
 // FindIdentities does nothing.
@@ -84,7 +55,7 @@ func (m *Mocker) FindIdentities(ctx context.Context, keys ...string) ([]string, 
 
 // RecipientIDs does nothing.
 func (m *Mocker) RecipientIDs(context.Context, []byte) ([]string, error) {
-	return staticPrivateKeyList.Recipients(), nil
+	return staticRecipientsList, nil
 }
 
 // Encrypt writes the input to disk unaltered.
