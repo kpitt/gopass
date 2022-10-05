@@ -6,6 +6,8 @@ import (
 
 	"github.com/kpitt/gopass/internal/action/exit"
 	"github.com/kpitt/gopass/internal/backend"
+	"github.com/kpitt/gopass/internal/backend/crypto/age"
+	"github.com/kpitt/gopass/internal/backend/crypto/gpg"
 	"github.com/kpitt/gopass/internal/config"
 	"github.com/kpitt/gopass/internal/cui"
 	"github.com/kpitt/gopass/internal/out"
@@ -63,6 +65,17 @@ func (s *Action) Init(c *cli.Context) error {
 		ctx = ctxutil.WithEmail(ctx, email)
 	}
 
+	// age: only native keys
+	// "[ssh] types should only be used for compatibility with existing keys,
+	// and native X25519 keys should be preferred otherwise."
+	// https://pkg.go.dev/filippo.io/age@v1.0.0/agessh#pkg-overview.
+	ctx = age.WithOnlyNative(ctx, true)
+	// gpg: only trusted keys
+	// only list "usable" / properly trused and signed GPG keys by requesting
+	// always trust is false. Ignored for other backends. See
+	// https://www.gnupg.org/gph/en/manual/r1554.html.
+	ctx = gpg.WithAlwaysTrust(ctx, false)
+
 	inited, err := s.Store.IsInitialized(ctx)
 	if err != nil {
 		return exit.Error(exit.Unknown, err, "Failed to initialized store: %s", err)
@@ -70,6 +83,16 @@ func (s *Action) Init(c *cli.Context) error {
 
 	if inited {
 		out.Errorf(ctx, "Store is already initialized!")
+	}
+
+	crypto := s.getCryptoFor(ctx, alias)
+	if crypto == nil {
+		return fmt.Errorf("cannot continue without crypto")
+	}
+	debug.Log("Crypto Backend initialized as: %s", crypto.Name())
+
+	if err := s.initCheckPrivateKeys(ctx, crypto); err != nil {
+		return fmt.Errorf("failed to check private keys: %w", err)
 	}
 
 	if err := s.init(ctx, alias, path, c.Args().Slice()...); err != nil {
