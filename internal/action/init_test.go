@@ -42,7 +42,6 @@ func TestInit(t *testing.T) { //nolint:paralleltest
 	c := gptest.CliCtx(ctx, t, "foo.bar@example.org")
 	assert.NoError(t, act.IsInitialized(c))
 	assert.Error(t, act.Init(c))
-	assert.NoError(t, act.Setup(c))
 
 	crypto := act.Store.Crypto(ctx, "")
 	require.NotNil(t, crypto)
