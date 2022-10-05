@@ -43,7 +43,7 @@ func (s *Action) IsInitialized(c *cli.Context) error {
 	}
 
 	out.Errorf(ctx, "No existing configuration found.")
-	out.Printf(ctx, "- Please run 'gopass setup'")
+	out.Printf(ctx, "- Please run 'gopass init'")
 
 	return exit.Error(exit.NotInitialized, err, "not initialized")
 }
