@@ -234,6 +234,10 @@ Select crypto backend [age gpgcli plain]
 \fB\-p\fR,
 Set the sub-store path to operate on
 .TP
+\fB\-\-remote\fR,
+\fB\-R\fR,
+URL of remote Git repository for this store
+.TP
 \fB\-\-storage\fR,
 Select storage backend [fs gitfs]
 .TP
@@ -382,33 +386,6 @@ Use multiple random english words combined to a password. By default, space is u
 Edit recipient permissions
 
 This command displays all existing recipients for all mounted stores. The subcommands allow adding or removing recipients.
-.SS setup
-Initialize a new password store
-
-This command is automatically invoked if gopass is started without any existing password store. This command exists so users can be provided with simple one-command setup instructions.
-
-.B Flags
-.TP
-\fB\-\-alias\fR,
-Local mount point for the given remote
-.TP
-\fB\-\-create\fR,
-Create a new team (default: false, i.e. join an existing team)
-.TP
-\fB\-\-crypto\fR,
-Select crypto backend [age gpgcli plain]
-.TP
-\fB\-\-email\fR,
-EMail for unattended GPG key generation
-.TP
-\fB\-\-name\fR,
-Firstname and Lastname for unattended GPG key generation
-.TP
-\fB\-\-remote\fR,
-URL to a git remote, will attempt to join this team
-.TP
-\fB\-\-storage\fR,
-Select storage backend [fs gitfs]
 .SS show
 Display the content of a secret
 

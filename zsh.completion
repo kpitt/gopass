@@ -116,7 +116,7 @@ _gopass () {
 	      
 	      ;;
 	  init)
-	      _arguments : "--path[Set the sub-store path to operate on]" "--store[Set the name of the sub-store]" "--crypto[Select crypto backend \[age gpgcli plain\]]" "--storage[Select storage backend \[fs gitfs\]]"
+	      _arguments : "--path[Set the sub-store path to operate on]" "--store[Set the name of the sub-store]" "--crypto[Select crypto backend \[age gpgcli plain\]]" "--storage[Select storage backend \[fs gitfs\]]" "--remote[URL of remote Git repository for this store]"
 	      
 	      
 	      ;;
@@ -180,11 +180,6 @@ _gopass () {
 	      )
 	      _describe -t commands "gopass recipients" subcommands
 	      
-	      
-	      
-	      ;;
-	  setup)
-	      _arguments : "--remote[URL to a git remote, will attempt to join this team]" "--alias[Local mount point for the given remote]" "--create[Create a new team (default: false, i.e. join an existing team)]" "--name[Firstname and Lastname for unattended GPG key generation]" "--email[EMail for unattended GPG key generation]" "--crypto[Select crypto backend \[age gpgcli plain\]]" "--storage[Select storage backend \[fs gitfs\]]"
 	      
 	      
 	      ;;
@@ -266,7 +261,6 @@ _gopass () {
 	  "process:Process a template file"
 	  "pwgen:Generate passwords"
 	  "recipients:Edit recipient permissions"
-	  "setup:Initialize a new password store"
 	  "show:Display the content of a secret"
 	  "sum:Compute the SHA256 checksum"
 	  "sync:Sync all local stores with their remotes"
