@@ -158,7 +158,7 @@ _gopass () {
 	      _gopass_complete_passwords
 	      ;;
 	  otp|totp|hotp)
-	      _arguments : "--clip[Copy the time-based token into the clipboard]" "--qr[Write QR code to FILE]" "--password[Only display the token]"
+	      _arguments : "--clip[Copy the time-based token into the clipboard]" "--qr[Write QR code to `FILE`]" "--continuous[Display tokens continuously until interrupted]"
 	      
 	      
 	      ;;
