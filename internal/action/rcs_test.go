@@ -45,9 +45,10 @@ func TestGit(t *testing.T) { //nolint:paralleltest
 	r2 := gptest.UnsetVars(termio.EmailVars...)
 	defer r2()
 
-	t.Setenv("USER", "foo")
+	un := termio.DetectName(ctx, c)
+	ue := termio.DetectEmail(ctx, c)
 
-	name, email := act.getUserData(ctx, "", "", "")
-	assert.Equal(t, "foo", name)
-	assert.Equal(t, "", email)
+	name, email := act.getUserData(ctx, "", un, ue)
+	assert.Equal(t, "foobar", name)
+	assert.Equal(t, "foo.bar@example.org", email)
 }
