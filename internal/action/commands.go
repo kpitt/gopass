@@ -440,6 +440,11 @@ Use the "git init" command if the store does not yet have a git repository.`,
 					Usage: fmt.Sprintf("Select storage backend %v", backend.StorageRegistry.BackendNames()),
 					Value: "gitfs",
 				},
+				&cli.StringFlag{
+					Name:    "remote",
+					Aliases: []string{"R"},
+					Usage:   "URL of remote Git repository for this store",
+				},
 			},
 		},
 		{

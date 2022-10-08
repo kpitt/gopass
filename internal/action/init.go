@@ -53,6 +53,7 @@ func (s *Action) Init(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 	path := c.String("path")
 	alias := c.String("store")
+	remoteUrl := c.String("remote")
 
 	ctx = initParseContext(ctx, c)
 	out.Printf(ctx, "Initializing a new password store:\n")
@@ -95,7 +96,7 @@ func (s *Action) Init(c *cli.Context) error {
 		return fmt.Errorf("failed to check private keys: %w", err)
 	}
 
-	if err := s.init(ctx, alias, path, c.Args().Slice()...); err != nil {
+	if err := s.init(ctx, alias, path, remoteUrl, c.Args().Slice()...); err != nil {
 		return exit.Error(exit.Unknown, err, "Failed to initialize store: %s", err)
 	}
 
@@ -124,7 +125,7 @@ func initParseContext(ctx context.Context, c *cli.Context) context.Context {
 	return ctx
 }
 
-func (s *Action) init(ctx context.Context, alias, path string, keys ...string) error {
+func (s *Action) init(ctx context.Context, alias, path string, remoteUrl string, keys ...string) error {
 	if path == "" {
 		if alias != "" {
 			path = config.PwStoreDir(alias)
@@ -187,6 +188,31 @@ func (s *Action) init(ctx context.Context, alias, path string, keys ...string) e
 
 	out.Printf(ctx, "✓ Password store %s initialized for:", path)
 	s.printRecipients(ctx, alias)
+
+	if be == backend.GitFS && remoteUrl != "" {
+		debug.Log("configuring git remote: %q", remoteUrl)
+		out.Printf(ctx, "Configuring git remote...")
+		if err := s.initSetupGitRemote(ctx, alias, remoteUrl); err != nil {
+			return fmt.Errorf("failed to setup git remote: %w", err)
+		}
+	}
+
+	return nil
+}
+
+func (s *Action) initSetupGitRemote(ctx context.Context, alias, remoteUrl string) error {
+	// omit RCS output.
+	ctx = ctxutil.WithHidden(ctx, true)
+	if err := s.Store.RCSAddRemote(ctx, alias, "origin", remoteUrl); err != nil {
+		return fmt.Errorf("failed to add git remote: %w", err)
+	}
+	// initial pull, in case the remote is non-empty.
+	if err := s.Store.RCSPull(ctx, alias, "origin", ""); err != nil {
+		debug.Log("Initial git pull failed: %s", err)
+	}
+	if err := s.Store.RCSPush(ctx, alias, "origin", ""); err != nil {
+		return fmt.Errorf("failed to push to git remote: %w", err)
+	}
 
 	return nil
 }
