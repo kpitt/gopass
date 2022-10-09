@@ -68,21 +68,24 @@ Either initialize a new git repository or clone an existing one.
 ### New password store
 
 ```
-$ gopass setup
+$ gopass init
 
 Initializing a new password store:
 
-- Configuring your password store...
+- Searching for usable private keys...
+! Hint: Use 'gopass init <subkey> to use subkeys!'
 ? Please select a private key for encrypting secrets:
 [0] gpg - 0xFEEDBEEF - John Doe <john.doe@example.org>
 Please enter the number of a key (0-12, [q]uit) (q to abort) [0]: 0
-? Do you want to add a git remote? [y/N/q]: y
-Configuring the git remote...
-Please enter the git remote for your shared store []: git@gitlab.example.org:john/passwords.git
-✓ Configured
+✓ Wrote recipients to .gpg-id
+git initialized at ~/.local/share/gopass/stores/root
+git configured at ~/.local/share/gopass/stores/root
+Initialized git repository for "John Doe" <john.doe@example.org>...
+✓ Password store ~/.local/share/gopass/stores/root initialized for:
+- 0xFEEDBEEF - John Doe <john.doe@example.org>
 ```
 
-Hint: `gopass setup` will use `gpg` encryption and `git` storage by default.
+Hint: `gopass init` will use `gpg` encryption and `git` storage by default.
 
 ### Existing password store
 

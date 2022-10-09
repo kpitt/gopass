@@ -359,12 +359,11 @@ password store.
 #### New password store with git
 
 Create a new repository, either locally or on a server, then specify this
-repository during the `gopass setup`.
+repository during the `gopass init`.
 
 ```bash
-$ gopass setup --crypto gpg --storage gitfs # used by default
+$ gopass init --remote git@gitlab.example.org:john/passwords.git --crypto gpg --storage gitfs # used by default
 [...]
-# provide an existing, empty git remote, e.g. git@gitlab.example.org:john/passwords.git
 ```
 
 #### Existing password store with git
@@ -385,7 +384,7 @@ Please be warned that using cloud-based storage may negatively impact the confid
 For example, to use gopass with [Google Drive](https://drive.google.com):
 
 ```bash
-gopass setup --storage fs
+gopass init --storage fs
 mv .password-store/ "Google Drive/Password-Store"
 gopass config path "~/Google Drive/Password-Store"
 ```
