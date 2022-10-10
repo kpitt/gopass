@@ -22,13 +22,13 @@ func TestMove(t *testing.T) { //nolint:paralleltest
 	t.Run("move w/o args", func(t *testing.T) { //nolint:paralleltest
 		out, err := ts.run("move")
 		assert.Error(t, err)
-		assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" mv old-path new-path\n", out)
+		assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" mv <from> <to>\n", out)
 	})
 
 	t.Run("move w/o destination", func(t *testing.T) { //nolint:paralleltest
 		out, err := ts.run("move foo")
 		assert.Error(t, err)
-		assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" mv old-path new-path\n", out)
+		assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" mv <from> <to>\n", out)
 	})
 
 	t.Run("move non existing source", func(t *testing.T) { //nolint:paralleltest

@@ -21,7 +21,7 @@ func TestShow(t *testing.T) { //nolint:paralleltest
 	t.Run("test usage", func(t *testing.T) { //nolint:paralleltest
 		out, err := ts.run("show")
 		assert.Error(t, err)
-		assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" show [name]\n", out)
+		assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" show <secret> [<key>]\n", out)
 	})
 
 	t.Run("test show with non-existing secret", func(t *testing.T) { //nolint:paralleltest

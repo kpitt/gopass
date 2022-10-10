@@ -22,13 +22,13 @@ func TestCopy(t *testing.T) { //nolint:paralleltest
 	t.Run("copy usage", func(t *testing.T) { //nolint:paralleltest
 		out, err := ts.run("copy")
 		assert.Error(t, err)
-		assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" cp <FROM> <TO>\n", out)
+		assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" cp <from> <to>\n", out)
 	})
 
 	t.Run("copy w/o destination", func(t *testing.T) { //nolint:paralleltest
 		out, err := ts.run("copy foo")
 		assert.Error(t, err)
-		assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" cp <FROM> <TO>\n", out)
+		assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" cp <from> <to>\n", out)
 	})
 
 	t.Run("copy non existing source", func(t *testing.T) { //nolint:paralleltest

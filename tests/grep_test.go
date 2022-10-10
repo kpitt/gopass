@@ -15,7 +15,7 @@ func TestGrep(t *testing.T) { //nolint:paralleltest
 
 	out, err := ts.run("grep")
 	assert.Error(t, err)
-	assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" grep arg\n", out)
+	assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" grep <search-string>\n", out)
 
 	out, err = ts.run("grep BOOM")
 	assert.NoError(t, err)

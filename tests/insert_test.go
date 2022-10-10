@@ -15,7 +15,7 @@ func TestInsert(t *testing.T) { //nolint:paralleltest
 
 	out, err := ts.run("insert")
 	assert.Error(t, err)
-	assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" insert name\n", out)
+	assert.Equal(t, "\nError: Usage: "+filepath.Base(ts.Binary)+" insert <secret> [<key>]\n", out)
 
 	_, err = ts.runCmd([]string{ts.Binary, "insert", "some/secret"}, []byte("moar"))
 	assert.NoError(t, err)

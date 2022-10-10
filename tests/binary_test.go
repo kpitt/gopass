@@ -109,7 +109,7 @@ func TestBinaryShasum(t *testing.T) { //nolint:paralleltest
 	t.Run("shasum w/o args", func(t *testing.T) { //nolint:paralleltest
 		out, err := ts.run("sha256")
 		assert.Error(t, err)
-		assert.Equal(t, "\nError: Usage: gopass sha256 name\n", out)
+		assert.Equal(t, "\nError: Usage: gopass sum <secret>\n", out)
 	})
 
 	t.Run("populate store", func(t *testing.T) { //nolint:paralleltest
