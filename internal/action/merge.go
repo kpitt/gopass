@@ -23,11 +23,11 @@ func (s *Action) Merge(c *cli.Context) error {
 	from := c.Args().Tail()
 
 	if to == "" {
-		return exit.Error(exit.Usage, nil, "usage: %s merge <to> <from> [<from>]", s.Name)
+		return exit.Error(exit.Usage, nil, "usage: %s merge <destination> <source>...", s.Name)
 	}
 
 	if len(from) < 1 {
-		return exit.Error(exit.Usage, nil, "usage: %s merge <to> <from> [<from>]", s.Name)
+		return exit.Error(exit.Usage, nil, "usage: %s merge <destination> <source>...", s.Name)
 	}
 
 	ed := editor.Path(c)

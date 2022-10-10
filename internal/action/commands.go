@@ -532,11 +532,11 @@ Use the "git init" command if the store does not yet have a git repository.`,
 		{
 			Name:      "merge",
 			Usage:     "Merge multiple secrets into one",
-			ArgsUsage: "[to] [from]...",
+			ArgsUsage: "<destination> <source>...",
 			Description: "" +
 				"This command implements a merge workflow to help deduplicate " +
-				"secrets. It requires exactly one destination (may already exist) " +
-				"and at least one source (must exist, can be multiple). gopass will " +
+				"secrets. It requires exactly one <destination> (may already exist) " +
+				"and at least one <source> (must exist, can be multiple). gopass will " +
 				"then merge all entries into one, drop into an editor, save the result " +
 				"and remove all merged entries.",
 			Before:       s.IsInitialized,
