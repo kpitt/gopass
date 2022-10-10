@@ -27,6 +27,7 @@ linters:
   - deadcode
   - durationcheck
   - dupl
+  - dupword
   - exhaustruct
   - exhaustivestruct
   - forbidigo
@@ -53,6 +54,7 @@ linters:
   - noctx
   - nolintlint
   - nosnakecase
+  - reassign
   - revive
   - rowserrcheck
   - scopelint
@@ -61,6 +63,7 @@ linters:
   - structcheck
   - stylecheck
   - tagliatelle
+  - testableexamples
   - testpackage
   - tparallel
   - typecheck
