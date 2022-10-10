@@ -7,10 +7,8 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/kpitt/gopass/internal/backend"
-	"github.com/kpitt/gopass/internal/backend/crypto/gpg"
 	gpgcli "github.com/kpitt/gopass/internal/backend/crypto/gpg/cli"
 	"github.com/kpitt/gopass/internal/out"
-	"github.com/kpitt/gopass/pkg/ctxutil"
 	"github.com/kpitt/gopass/pkg/debug"
 	"github.com/kpitt/gopass/pkg/pwgen/xkcdgen"
 	"github.com/kpitt/gopass/pkg/termio"
@@ -18,13 +16,18 @@ import (
 
 func (s *Action) initCheckPrivateKeys(ctx context.Context, crypto backend.Crypto) error {
 	// check for existing GPG/Age keypairs (private/secret keys). We need at least
-	// one useable key pair. If none exists try to create one.
+	// one useable key pair. If none exists, try to create one if using `age` encryption.
 	if !s.initHasUseablePrivateKeys(ctx, crypto) {
-		out.Printf(ctx, "! No useable cryptographic keys. Generating new key pair")
-		if crypto.Name() == "gpgcli" {
-			out.Printf(ctx, "! Key generation may take up to a few minutes")
+		if crypto.Name() == gpgcli.Name {
+			debug.Log("Setup Error: no useable GPG private keys found")
+			out.Error(ctx, "No useable cryptographic keys")
+
+			// TODO: Handle initGenerateIdentity not supported
+			return backend.ErrNotFound
 		}
-		if err := s.initGenerateIdentity(ctx, crypto, ctxutil.GetUsername(ctx), ctxutil.GetEmail(ctx)); err != nil {
+
+		out.Printf(ctx, "! No useable cryptographic keys. Generating a new key pair.")
+		if err := s.initGenerateIdentity(ctx, crypto); err != nil {
 			return fmt.Errorf("failed to create new private key: %w", err)
 		}
 		out.Printf(ctx, "✓ Cryptographic keys generated")
@@ -35,24 +38,7 @@ func (s *Action) initCheckPrivateKeys(ctx context.Context, crypto backend.Crypto
 	return nil
 }
 
-func (s *Action) initGenerateIdentity(ctx context.Context, crypto backend.Crypto, name, email string) error {
-	out.Printf(ctx, "- Creating cryptographic key pair (%s)...", crypto.Name())
-
-	if crypto.Name() == gpgcli.Name {
-		var err error
-
-		out.Printf(ctx, "- Gathering information for the %s key pair...", crypto.Name())
-		name, err = termio.AskForString(ctx, "? What is your name?", name)
-		if err != nil {
-			return err
-		}
-
-		email, err = termio.AskForString(ctx, "? What is your email?", email)
-		if err != nil {
-			return err
-		}
-	}
-
+func (s *Action) initGenerateIdentity(ctx context.Context, crypto backend.Crypto) error {
 	passphrase := xkcdgen.Random()
 	pwGenerated := true
 	want, err := termio.AskForBool(ctx, "! Do you want to enter a passphrase? (otherwise we generate one for you)", false)
@@ -68,17 +54,7 @@ func (s *Action) initGenerateIdentity(ctx context.Context, crypto backend.Crypto
 		passphrase = sv
 	}
 
-	if crypto.Name() == "gpgcli" {
-		// Note: This issue shouldn't matter much past Linux Kernel 5.6,
-		// eventually we might want to remove this notice. Only applies to
-		// GPG.
-		out.Printf(ctx, "! This can take a long time. If you get impatient see https://gopass.pittcrew.org/entropy")
-		if want, err := termio.AskForBool(ctx, "Continue?", true); err != nil || !want {
-			return fmt.Errorf("user aborted: %w", err)
-		}
-	}
-
-	if err := crypto.GenerateIdentity(ctx, name, email, passphrase); err != nil {
+	if err := crypto.GenerateIdentity(ctx, passphrase); err != nil {
 		return fmt.Errorf("failed to create new private key: %w", err)
 	}
 
@@ -91,8 +67,7 @@ func (s *Action) initGenerateIdentity(ctx context.Context, crypto backend.Crypto
 
 	out.Notice(ctx, "! We need to unlock your newly created private key now! Please enter the passphrase you just generated.")
 
-	// avoid the gpg cache or we won't find the newly created key
-	kl, err := crypto.ListIdentities(gpg.WithUseCache(ctx, false))
+	kl, err := crypto.ListIdentities(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to list private keys: %w", err)
 	}

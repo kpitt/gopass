@@ -60,7 +60,7 @@ func (l loader) Commands() []*cli.Command {
 									return exit.Error(exit.Unknown, err, "failed to create age backend")
 								}
 
-								if err := a.GenerateIdentity(ctx, "", "", ""); err != nil {
+								if err := a.GenerateIdentity(ctx, ""); err != nil {
 									return exit.Error(exit.Unknown, err, "failed to generate age identity")
 								}
 

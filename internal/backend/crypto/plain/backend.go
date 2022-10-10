@@ -118,7 +118,7 @@ func (m *Mocker) Binary() string {
 }
 
 // GenerateIdentity is not implemented.
-func (m *Mocker) GenerateIdentity(ctx context.Context, name, email, pw string) error {
+func (m *Mocker) GenerateIdentity(ctx context.Context, pw string) error {
 	return fmt.Errorf("not yet implemented")
 }
 

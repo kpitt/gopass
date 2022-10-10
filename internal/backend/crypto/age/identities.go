@@ -82,7 +82,7 @@ func (a *Age) IdentityRecipients(ctx context.Context) ([]age.Recipient, error) {
 }
 
 // GenerateIdentity creates a new identity.
-func (a *Age) GenerateIdentity(ctx context.Context, _ string, _ string, pw string) error {
+func (a *Age) GenerateIdentity(ctx context.Context, pw string) error {
 	if pw != "" {
 		ctx = ctxutil.WithPasswordCallback(ctx, func(prompt string, confirm bool) ([]byte, error) {
 			return []byte(pw), nil

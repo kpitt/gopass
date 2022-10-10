@@ -47,7 +47,7 @@ func TestInit(t *testing.T) { //nolint:paralleltest
 	require.NotNil(t, crypto)
 	assert.Equal(t, "plain", crypto.Name())
 	assert.True(t, act.initHasUseablePrivateKeys(ctx, crypto))
-	assert.Error(t, act.initGenerateIdentity(ctx, crypto, "foo bar", "foo.bar@example.org"))
+	assert.Error(t, act.initGenerateIdentity(ctx, crypto))
 	buf.Reset()
 
 	act.printRecipients(ctx, "")

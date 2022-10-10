@@ -46,7 +46,7 @@ func TestPlain(t *testing.T) {
 
 	assert.Equal(t, "gpg", m.Binary())
 
-	assert.Error(t, m.GenerateIdentity(ctx, "", "", ""))
+	assert.Error(t, m.GenerateIdentity(ctx, ""))
 
 	kl, err = m.FindRecipients(ctx)
 	assert.NoError(t, err)

@@ -42,5 +42,5 @@ func TestGenerateIdentity(t *testing.T) {
 	g := &GPG{}
 	g.binary = "true"
 
-	assert.NoError(t, g.GenerateIdentity(ctx, "foo", "foo@bar.com", "bar"))
+	assert.Error(t, g.GenerateIdentity(ctx, "foo bar baz"))
 }
