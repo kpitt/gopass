@@ -23,7 +23,7 @@ gpg: directory '/tmp/gp1/.gnupg' created
 gpg: keybox '/tmp/gp1/.gnupg/pubring.kbx' created
 gpg: /tmp/gp1/.gnupg/trustdb.gpg: trustdb created
 $ gpg --gen-key
-$ go build && ./gopass setup --crypto gpg --storage gitfs
+$ go build && ./gopass init --crypto gpg --storage gitfs
 ```
 
 ### With age
@@ -35,5 +35,5 @@ Using `age` is recommended for development since it's easier to set up. Setting
 $ export GOPASS_DEBUG_LOG=/tmp/gp1.log
 $ export GOPASS_HOMEDIR=/tmp/gp1
 $ mkdir -p $GOPASS_HOMEDIR
-$ go build && ./gopass setup --crypto age --storage gitfs
+$ go build && ./gopass init --crypto age --storage gitfs
 ```

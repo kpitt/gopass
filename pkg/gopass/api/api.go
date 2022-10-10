@@ -27,7 +27,7 @@ var _ gopass.Store = &Gopass{}
 var ErrNotImplemented = fmt.Errorf("not yet implemented")
 
 // ErrNotInitialized is returned when the store is not initialized.
-var ErrNotInitialized = fmt.Errorf("password store not initialized. run 'gopass setup' first")
+var ErrNotInitialized = fmt.Errorf("password store not initialized. run 'gopass init' first")
 
 // New creates a new secret store.
 // WARNING: This will need to change to accommodate for runtime configuration.

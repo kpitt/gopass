@@ -440,6 +440,11 @@ Use the "git init" command if the store does not yet have a git repository.`,
 					Usage: fmt.Sprintf("Select storage backend %v", backend.StorageRegistry.BackendNames()),
 					Value: "gitfs",
 				},
+				&cli.StringFlag{
+					Name:    "remote",
+					Aliases: []string{"R"},
+					Usage:   "URL of remote Git repository for this store",
+				},
 			},
 		},
 		{
@@ -709,45 +714,6 @@ Use the "git init" command if the store does not yet have a git repository.`,
 							Usage: "Force adding non-existing keys",
 						},
 					},
-				},
-			},
-		},
-		{
-			Name:  "setup",
-			Usage: "Initialize a new password store",
-			Description: "" +
-				"This command is automatically invoked if gopass is started without any " +
-				"existing password store. This command exists so users can be provided with " +
-				"simple one-command setup instructions.",
-			Action: s.Setup,
-			Flags: []cli.Flag{
-				&cli.StringFlag{
-					Name:  "remote",
-					Usage: "URL to a git remote, will attempt to join this team",
-				},
-				&cli.StringFlag{
-					Name:  "alias",
-					Usage: "Local mount point for the given remote",
-				},
-				&cli.BoolFlag{
-					Name:  "create",
-					Usage: "Create a new team (default: false, i.e. join an existing team)",
-				},
-				&cli.StringFlag{
-					Name:  "name",
-					Usage: "Firstname and Lastname for unattended GPG key generation",
-				},
-				&cli.StringFlag{
-					Name:  "email",
-					Usage: "EMail for unattended GPG key generation",
-				},
-				&cli.StringFlag{
-					Name:  "crypto",
-					Usage: fmt.Sprintf("Select crypto backend %v", backend.CryptoRegistry.BackendNames()),
-				},
-				&cli.StringFlag{
-					Name:  "storage",
-					Usage: fmt.Sprintf("Select storage backend %v", backend.StorageRegistry.BackendNames()),
 				},
 			},
 		},

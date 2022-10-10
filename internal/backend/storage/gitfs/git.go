@@ -312,23 +312,11 @@ func (g *Git) PushPull(ctx context.Context, op, remote, branch string) error {
 
 // Push pushes to the git remote.
 func (g *Git) Push(ctx context.Context, remote, branch string) error {
-	if ctxutil.IsNoNetwork(ctx) {
-		debug.Log("Skipping network ops. NoNetwork=true")
-
-		return nil
-	}
-
 	return g.PushPull(ctx, "push", remote, branch)
 }
 
 // Pull pulls from the git remote.
 func (g *Git) Pull(ctx context.Context, remote, branch string) error {
-	if ctxutil.IsNoNetwork(ctx) {
-		debug.Log("Skipping network ops. NoNetwork=true")
-
-		return nil
-	}
-
 	return g.PushPull(ctx, "pull", remote, branch)
 }
 

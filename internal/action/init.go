@@ -6,6 +6,8 @@ import (
 
 	"github.com/kpitt/gopass/internal/action/exit"
 	"github.com/kpitt/gopass/internal/backend"
+	"github.com/kpitt/gopass/internal/backend/crypto/age"
+	"github.com/kpitt/gopass/internal/backend/crypto/gpg"
 	"github.com/kpitt/gopass/internal/config"
 	"github.com/kpitt/gopass/internal/cui"
 	"github.com/kpitt/gopass/internal/out"
@@ -41,7 +43,7 @@ func (s *Action) IsInitialized(c *cli.Context) error {
 	}
 
 	out.Errorf(ctx, "No existing configuration found.")
-	out.Printf(ctx, "- Please run 'gopass setup'")
+	out.Printf(ctx, "- Please run 'gopass init'")
 
 	return exit.Error(exit.NotInitialized, err, "not initialized")
 }
@@ -51,6 +53,7 @@ func (s *Action) Init(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 	path := c.String("path")
 	alias := c.String("store")
+	remoteUrl := c.String("remote")
 
 	ctx = initParseContext(ctx, c)
 	out.Printf(ctx, "Initializing a new password store:\n")
@@ -63,6 +66,17 @@ func (s *Action) Init(c *cli.Context) error {
 		ctx = ctxutil.WithEmail(ctx, email)
 	}
 
+	// age: only native keys
+	// "[ssh] types should only be used for compatibility with existing keys,
+	// and native X25519 keys should be preferred otherwise."
+	// https://pkg.go.dev/filippo.io/age@v1.0.0/agessh#pkg-overview.
+	ctx = age.WithOnlyNative(ctx, true)
+	// gpg: only trusted keys
+	// only list "usable" / properly trused and signed GPG keys by requesting
+	// always trust is false. Ignored for other backends. See
+	// https://www.gnupg.org/gph/en/manual/r1554.html.
+	ctx = gpg.WithAlwaysTrust(ctx, false)
+
 	inited, err := s.Store.IsInitialized(ctx)
 	if err != nil {
 		return exit.Error(exit.Unknown, err, "Failed to initialized store: %s", err)
@@ -72,7 +86,17 @@ func (s *Action) Init(c *cli.Context) error {
 		out.Errorf(ctx, "Store is already initialized!")
 	}
 
-	if err := s.init(ctx, alias, path, c.Args().Slice()...); err != nil {
+	crypto := s.getCryptoFor(ctx, alias)
+	if crypto == nil {
+		return fmt.Errorf("cannot continue without crypto")
+	}
+	debug.Log("Crypto Backend initialized as: %s", crypto.Name())
+
+	if err := s.initCheckPrivateKeys(ctx, crypto); err != nil {
+		return fmt.Errorf("failed to check private keys: %w", err)
+	}
+
+	if err := s.init(ctx, alias, path, remoteUrl, c.Args().Slice()...); err != nil {
 		return exit.Error(exit.Unknown, err, "Failed to initialize store: %s", err)
 	}
 
@@ -101,7 +125,7 @@ func initParseContext(ctx context.Context, c *cli.Context) context.Context {
 	return ctx
 }
 
-func (s *Action) init(ctx context.Context, alias, path string, keys ...string) error {
+func (s *Action) init(ctx context.Context, alias, path string, remoteUrl string, keys ...string) error {
 	if path == "" {
 		if alias != "" {
 			path = config.PwStoreDir(alias)
@@ -164,6 +188,31 @@ func (s *Action) init(ctx context.Context, alias, path string, keys ...string) e
 
 	out.Printf(ctx, "✓ Password store %s initialized for:", path)
 	s.printRecipients(ctx, alias)
+
+	if be == backend.GitFS && remoteUrl != "" {
+		debug.Log("configuring git remote: %q", remoteUrl)
+		out.Printf(ctx, "Configuring git remote...")
+		if err := s.initSetupGitRemote(ctx, alias, remoteUrl); err != nil {
+			return fmt.Errorf("failed to setup git remote: %w", err)
+		}
+	}
+
+	return nil
+}
+
+func (s *Action) initSetupGitRemote(ctx context.Context, alias, remoteUrl string) error {
+	// omit RCS output.
+	ctx = ctxutil.WithHidden(ctx, true)
+	if err := s.Store.RCSAddRemote(ctx, alias, "origin", remoteUrl); err != nil {
+		return fmt.Errorf("failed to add git remote: %w", err)
+	}
+	// initial pull, in case the remote is non-empty.
+	if err := s.Store.RCSPull(ctx, alias, "origin", ""); err != nil {
+		debug.Log("Initial git pull failed: %s", err)
+	}
+	if err := s.Store.RCSPush(ctx, alias, "origin", ""); err != nil {
+		return fmt.Errorf("failed to push to git remote: %w", err)
+	}
 
 	return nil
 }

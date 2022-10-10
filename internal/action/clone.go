@@ -157,20 +157,10 @@ func (s *Action) cloneCheckDecryptionKeys(ctx context.Context, mount string) err
 	}
 	debug.Log("Crypto Backend initialized as: %s", crypto.Name())
 
-	// check for existing GPG/Age keypairs (private/secret keys). We need at least
-	// one useable key pair. If none exists try to create one.
-	if !s.initHasUseablePrivateKeys(ctx, crypto) {
-		out.Printf(ctx, "! No useable cryptographic keys. Generating new key pair")
-		if crypto.Name() == "gpgcli" {
-			out.Printf(ctx, "! Key generation may take up to a few minutes")
-		}
-		if err := s.initGenerateIdentity(ctx, crypto, ctxutil.GetUsername(ctx), ctxutil.GetEmail(ctx)); err != nil {
-			return fmt.Errorf("failed to create new private key: %w", err)
-		}
-		out.Printf(ctx, "✓ Cryptographic keys generated")
+	// We need at least one useable private key.
+	if err := s.initCheckPrivateKeys(ctx, crypto); err != nil {
+		return err
 	}
-
-	debug.Log("We have useable private keys")
 
 	recpSet := stringset.New(s.Store.ListRecipients(ctx, mount)...)
 	ids, err := crypto.ListIdentities(ctx)
