@@ -14,7 +14,7 @@ func (s *Action) Move(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 
 	if c.Args().Len() != 2 {
-		return exit.Error(exit.Usage, nil, "Usage: %s mv old-path new-path", s.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s mv <from> <to>", s.Name)
 	}
 
 	from := c.Args().Get(0)

@@ -33,7 +33,7 @@ func (s *Action) Clone(c *cli.Context) error {
 	path := c.String("path")
 
 	if c.Args().Len() < 1 {
-		return exit.Error(exit.Usage, nil, "Usage: %s clone repo [mount]", s.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s clone <repo> [<mount-point>]", s.Name)
 	}
 
 	// gopass clone [--crypto=foo] [--path=/some/store] git://foo/bar team0.

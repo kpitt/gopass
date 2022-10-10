@@ -25,7 +25,7 @@ import (
 func (s *Action) MountRemove(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 	if c.Args().Len() != 1 {
-		return exit.Error(exit.Usage, nil, "Usage: %s mount remove [alias]", s.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s mount remove <mount-point>", s.Name)
 	}
 
 	if err := s.Store.RemoveMount(ctx, c.Args().Get(0)); err != nil {
@@ -81,7 +81,7 @@ func (s *Action) MountAdd(c *cli.Context) error {
 	alias := c.Args().Get(0)
 	localPath := c.Args().Get(1)
 	if alias == "" {
-		return exit.Error(exit.Usage, nil, "usage: %s mounts add <alias> [local path]", s.Name)
+		return exit.Error(exit.Usage, nil, "usage: %s mounts add <mount-point> [<path>]", s.Name)
 	}
 
 	if localPath == "" {

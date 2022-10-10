@@ -27,7 +27,7 @@ func (s *Action) Cat(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 	name := c.Args().First()
 	if name == "" {
-		return exit.Error(exit.NoName, nil, "Usage: %s cat <NAME>", c.App.Name)
+		return exit.Error(exit.NoName, nil, "Usage: %s cat <secret>", c.App.Name)
 	}
 
 	// handle pipe to stdin.
@@ -251,7 +251,7 @@ func (s *Action) Sum(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 	name := c.Args().First()
 	if name == "" {
-		return exit.Error(exit.Usage, nil, "Usage: %s sha256 name", c.App.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s sum <secret>", c.App.Name)
 	}
 
 	buf, err := s.binaryGet(ctx, name)

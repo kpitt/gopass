@@ -63,7 +63,7 @@ func showParseArgs(c *cli.Context) context.Context {
 func (s *Action) Show(c *cli.Context) error {
 	name := c.Args().First()
 	if name == "" {
-		return exit.Error(exit.Usage, nil, "Usage: %s show [name]", s.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s show <secret> [<key>]", s.Name)
 	}
 
 	ctx := showParseArgs(c)

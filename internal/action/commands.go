@@ -70,7 +70,7 @@ func (s *Action) GetCommands() []*cli.Command {
 		{
 			Name:      "cat",
 			Usage:     "Decode and print content of a binary secret to stdout, or encode and insert from stdin",
-			ArgsUsage: "[secret]",
+			ArgsUsage: "<secret>",
 			Description: "" +
 				"This command is similar to the way cat works on the command line. " +
 				"It can either be used to retrieve the decoded content of a secret " +
@@ -83,7 +83,7 @@ func (s *Action) GetCommands() []*cli.Command {
 		{
 			Name:      "clone",
 			Usage:     "Clone a password store from a git repository",
-			ArgsUsage: "[git-repo] [mount-point]",
+			ArgsUsage: "<repo> [<mount-point>]",
 			Description: "" +
 				"This command clones an existing password store from a git remote to " +
 				"a local password store. Can be either used to initialize a new root store " +
@@ -112,7 +112,7 @@ func (s *Action) GetCommands() []*cli.Command {
 		{
 			Name:      "config",
 			Usage:     "Display and edit the configuration file",
-			ArgsUsage: "[key [value]]",
+			ArgsUsage: "[<key> [<value>]]",
 			Description: "" +
 				"This command allows for easy printing and editing of the configuration. " +
 				"Without argument, the entire config is printed. " +
@@ -125,7 +125,7 @@ func (s *Action) GetCommands() []*cli.Command {
 			Name:      "copy",
 			Aliases:   []string{"cp"},
 			Usage:     "Copy secrets from one location to another",
-			ArgsUsage: "[from] [to]",
+			ArgsUsage: "<from> <to>",
 			Description: "" +
 				"This command copies an existing secret in the store to another location. " +
 				"This also works across different sub-stores. If the source is a directory it will " +
@@ -192,7 +192,7 @@ func (s *Action) GetCommands() []*cli.Command {
 		{
 			Name:      "edit",
 			Usage:     "Edit new or existing secrets",
-			ArgsUsage: "[secret]",
+			ArgsUsage: "<secret>",
 			Description: "" +
 				"Use this command to insert a new secret or edit an existing one using " +
 				"your $EDITOR. It will attempt to create a secure temporary directory " +
@@ -233,7 +233,7 @@ func (s *Action) GetCommands() []*cli.Command {
 		{
 			Name:      "fsck",
 			Usage:     "Check store integrity",
-			ArgsUsage: "[filter]",
+			ArgsUsage: "[<filter>]",
 			Description: "" +
 				"Check the integrity of the given sub-store or all stores if none are specified. " +
 				"Will automatically fix all issues found.",
@@ -379,8 +379,8 @@ Use the "git init" command if the store does not yet have a git repository.`,
 		},
 		{
 			Name:      "grep",
-			Usage:     "Search for secrets files containing search-string when decrypted.",
-			ArgsUsage: "[needle]",
+			Usage:     "Search for secrets files containing <search-string> when decrypted.",
+			ArgsUsage: "<search-string>",
 			Description: "" +
 				"This command decrypts all secrets and performs a pattern matching on the " +
 				"content.",
@@ -397,10 +397,10 @@ Use the "git init" command if the store does not yet have a git repository.`,
 		{
 			Name:      "history",
 			Usage:     "Show password history",
-			ArgsUsage: "[secret]",
+			ArgsUsage: "<secret>",
 			Aliases:   []string{"hist"},
 			Description: "" +
-				"Display the change history for a secret",
+				"Display the change history for a secret.",
 			Before:       s.IsInitialized,
 			Action:       s.History,
 			BashComplete: s.Complete,
@@ -450,11 +450,12 @@ Use the "git init" command if the store does not yet have a git repository.`,
 		{
 			Name:      "insert",
 			Usage:     "Insert a new secret",
-			ArgsUsage: "[secret]",
+			ArgsUsage: "<secret> [<key>]",
 			Description: "" +
 				"Insert a new secret. Optionally, echo the secret back to the console during entry. " +
 				"Or, optionally, the entry may be multiline. " +
-				"Prompt before overwriting existing secret unless forced.",
+				"Prompt before overwriting existing secret unless forced. " +
+				"If <key> is specified, insert a new key-value into an existing secret.",
 			Before:       s.IsInitialized,
 			Action:       s.Insert,
 			BashComplete: s.Complete,
@@ -484,7 +485,7 @@ Use the "git init" command if the store does not yet have a git repository.`,
 		{
 			Name:      "link",
 			Usage:     "Create a symlink",
-			ArgsUsage: "[from] [to]",
+			ArgsUsage: "<from> <to>",
 			Description: "" +
 				"This command creates a symlink from one entry in a mounted store to another entry. " +
 				"Important: Does not cross mounts!",
@@ -559,7 +560,7 @@ Use the "git init" command if the store does not yet have a git repository.`,
 			Name:      "move",
 			Aliases:   []string{"mv"},
 			Usage:     "Move secrets from one location to another",
-			ArgsUsage: "[from] [to]",
+			ArgsUsage: "<from> <to>",
 			Description: "" +
 				"This command moves a secret from one path to another. This also works " +
 				"across different sub-stores. If the source is a directory, the source directory " +
@@ -586,9 +587,10 @@ Use the "git init" command if the store does not yet have a git repository.`,
 			Action: s.MountsPrint,
 			Subcommands: []*cli.Command{
 				{
-					Name:    "add",
-					Aliases: []string{"mount"},
-					Usage:   "Mount a password store",
+					Name:      "add",
+					Aliases:   []string{"mount"},
+					Usage:     "Mount a password store",
+					ArgsUsage: "<mount-point> [<path>]",
 					Description: "" +
 						"This command allows for mounting an existing or new password store " +
 						"at any path in an existing root store.",
@@ -596,9 +598,10 @@ Use the "git init" command if the store does not yet have a git repository.`,
 					Action: s.MountAdd,
 				},
 				{
-					Name:    "remove",
-					Aliases: []string{"rm", "unmount", "umount"},
-					Usage:   "Umount an mounted password store",
+					Name:      "remove",
+					Aliases:   []string{"rm", "unmount", "umount"},
+					Usage:     "Umount an mounted password store",
+					ArgsUsage: "<mount-point>",
 					Description: "" +
 						"This command allows to unmount an mounted password store. This will " +
 						"only updated the configuration and not delete the password store.",
@@ -621,7 +624,7 @@ Use the "git init" command if the store does not yet have a git repository.`,
 		{
 			Name:      "otp",
 			Usage:     "Generate time- or hmac-based tokens",
-			ArgsUsage: "[secret]",
+			ArgsUsage: "<secret>",
 			Aliases:   []string{"totp", "hotp"},
 			Description: "" +
 				"Tries to parse an OTP URL (otpauth://). URL can be TOTP or HOTP. " +
@@ -648,8 +651,9 @@ Use the "git init" command if the store does not yet have a git repository.`,
 			},
 		},
 		{
-			Name:  "process",
-			Usage: "Process a template file",
+			Name:      "process",
+			Usage:     "Process a template file",
+			ArgsUsage: "<template-file>",
 			Description: "" +
 				"This command processes a template file. It will read the template file " +
 				"and replace all variables with their values.",
@@ -720,7 +724,7 @@ Use the "git init" command if the store does not yet have a git repository.`,
 		{
 			Name:      "show",
 			Usage:     "Display the content of a secret",
-			ArgsUsage: "[secret]",
+			ArgsUsage: "<secret> [<key>]",
 			Description: "" +
 				"Show an existing secret and optionally put its first line on the clipboard. " +
 				"If put on the clipboard, it will be cleared after 45 seconds.",
@@ -732,7 +736,7 @@ Use the "git init" command if the store does not yet have a git repository.`,
 		{
 			Name:      "sum",
 			Usage:     "Compute the SHA256 checksum",
-			ArgsUsage: "[secret]",
+			ArgsUsage: "<secret>",
 			Description: "" +
 				"This command decodes an Base64 encoded secret and computes the SHA256 checksum " +
 				"over the decoded data. This is useful to verify the integrity of an " +

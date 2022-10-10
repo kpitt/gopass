@@ -30,7 +30,7 @@ func (s *Action) OTP(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 	name := c.Args().First()
 	if name == "" {
-		return exit.Error(exit.Usage, nil, "Usage: %s otp <NAME>", s.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s otp <secret>", s.Name)
 	}
 
 	qrf := c.String("qr")

@@ -27,7 +27,7 @@ func (s *Action) Config(c *cli.Context) error {
 	}
 
 	if c.Args().Len() > 2 {
-		return exit.Error(exit.Usage, nil, "Usage: %s config key value", s.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s config [<key> [<value>]]", s.Name)
 	}
 
 	if err := s.setConfigValue(ctx, c.Args().Get(0), c.Args().Get(1)); err != nil {

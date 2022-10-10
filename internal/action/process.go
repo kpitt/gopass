@@ -15,7 +15,7 @@ func (s *Action) Process(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 	file := c.Args().First()
 	if file == "" {
-		return exit.Error(exit.Usage, nil, "Usage: %s process <FILE>", s.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s process <template-file>", s.Name)
 	}
 
 	buf, err := ioutil.ReadFile(file)

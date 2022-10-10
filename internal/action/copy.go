@@ -16,7 +16,7 @@ func (s *Action) Copy(c *cli.Context) error {
 	force := c.Bool("force")
 
 	if c.Args().Len() != 2 {
-		return exit.Error(exit.Usage, nil, "Usage: %s cp <FROM> <TO>", s.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s cp <from> <to>", s.Name)
 	}
 
 	from := c.Args().Get(0)

@@ -17,7 +17,7 @@ func (s *Action) History(c *cli.Context) error {
 	showPassword := c.Bool("password")
 
 	if name == "" {
-		return exit.Error(exit.Usage, nil, "Usage: %s history <NAME>", s.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s history <secret>", s.Name)
 	}
 
 	if !s.Store.Exists(ctx, name) {

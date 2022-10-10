@@ -31,7 +31,7 @@ func (s *Action) Insert(c *cli.Context) error {
 	key := args.Get(1)
 
 	if name == "" {
-		return exit.Error(exit.NoName, nil, "Usage: %s insert name", s.Name)
+		return exit.Error(exit.NoName, nil, "Usage: %s insert <secret> [<key>]", s.Name)
 	}
 
 	return s.insert(ctx, c, name, key, echo, multiline, force, appending, kvps)

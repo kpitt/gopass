@@ -22,7 +22,7 @@ func (s *Action) Edit(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 	name := c.Args().First()
 	if name == "" {
-		return exit.Error(exit.Usage, nil, "Usage: %s edit secret", s.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s edit <secret>", s.Name)
 	}
 
 	return s.edit(ctx, c, name)

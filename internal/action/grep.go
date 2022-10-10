@@ -16,7 +16,7 @@ import (
 func (s *Action) Grep(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 	if !c.Args().Present() {
-		return exit.Error(exit.Usage, nil, "Usage: %s grep arg", s.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s grep <search-string>", s.Name)
 	}
 
 	// get the search term.
