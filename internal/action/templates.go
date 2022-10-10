@@ -100,7 +100,7 @@ func (s *Action) TemplateRemove(c *cli.Context) error {
 	ctx := ctxutil.WithGlobalFlags(c)
 	name := c.Args().First()
 	if name == "" {
-		return exit.Error(exit.Usage, nil, "usage: %s templates remove [name]", s.Name)
+		return exit.Error(exit.Usage, nil, "Usage: %s templates remove <directory>", s.Name)
 	}
 
 	if !s.Store.HasTemplate(ctx, name) {
