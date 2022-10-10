@@ -367,11 +367,11 @@ Use the "git init" command if the store does not yet have a git repository.`,
 						},
 						&cli.StringFlag{
 							Name:  "name",
-							Usage: "Git user name",
+							Usage: "First and last name for git commits",
 						},
 						&cli.StringFlag{
 							Name:  "email",
-							Usage: "Git user email",
+							Usage: "Email address for git commits",
 						},
 					},
 				},
