@@ -250,7 +250,7 @@ func (s *Action) GetCommands() []*cli.Command {
 		{
 			Name:      "fscopy",
 			Usage:     "Copy files from or to the password store",
-			ArgsUsage: "[from] [to]",
+			ArgsUsage: "<from> <to>",
 			Description: "" +
 				"This command either reads a file from the filesystem and writes the " +
 				"encoded and encrypted version in the store or it decrypts and decodes " +
@@ -265,7 +265,7 @@ func (s *Action) GetCommands() []*cli.Command {
 		{
 			Name:      "fsmove",
 			Usage:     "Move files from or to the password store",
-			ArgsUsage: "[from] [to]",
+			ArgsUsage: "<from> <to>",
 			Description: "" +
 				"This command either reads a file from the filesystem and writes the " +
 				"encoded and encrypted version in the store or it decrypts and decodes " +

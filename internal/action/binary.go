@@ -122,16 +122,16 @@ func (s *Action) binaryCopy(ctx context.Context, c *cli.Context, from, to string
 			op = "move"
 		}
 
-		return fmt.Errorf("usage: %s fs%s from to", c.App.Name, op)
+		return fmt.Errorf("usage: %s fs%s <from> <to>", c.App.Name, op)
 	}
 
 	switch {
 	case fsutil.IsFile(from) && fsutil.IsFile(to):
 		// copying from on file to another file is not supported.
-		return fmt.Errorf("ambiguity detected. Only from or to can be a file")
+		return fmt.Errorf("ambiguity detected. Only <from> or <to> can be a file")
 	case s.Store.Exists(ctx, from) && s.Store.Exists(ctx, to):
 		// copying from one secret to another secret is not supported.
-		return fmt.Errorf("ambiguity detected. Either from or to must be a file")
+		return fmt.Errorf("ambiguity detected. Either <from> or <to> must be a file")
 	case fsutil.IsFile(from) && !fsutil.IsFile(to):
 		return s.binaryCopyFromFileToStore(ctx, from, to, deleteSource)
 	case !fsutil.IsFile(from):
