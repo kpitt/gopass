@@ -202,8 +202,8 @@ _gopass () {
 	      local -a subcommands
 	      subcommands=(
 	      "show:Show a secret template."
-	      "edit:Edit secret templates."
-	      "remove:Remove secret templates."
+	      "edit:Edit a secret template."
+	      "remove:Remove a secret template."
 	      )
 	      _describe -t commands "gopass templates" subcommands
 	      
@@ -248,7 +248,7 @@ _gopass () {
 	  "fsmove:Move files from or to the password store"
 	  "generate:Generate a new password"
 	  "git:Run a git command inside a password store"
-	  "grep:Search for secrets files containing search-string when decrypted."
+	  "grep:Search for secrets files containing <search-string> when decrypted."
 	  "history:Show password history"
 	  "init:Initialize new password store."
 	  "insert:Insert a new secret"

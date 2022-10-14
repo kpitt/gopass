@@ -149,7 +149,7 @@ This command either reads a file from the filesystem and writes the encoded and 
 .SS generate
 Generate a new password
 
-Dialog to generate a new password and write it into a new or existing secret. By default, the new password will replace the first line of an existing secret (or create a new one).
+Dialog to generate a new password and write it into a new or existing secret. By default, the new password will replace the first line of an existing secret (or create a new one). If <key> is specified, set the generated password as the value of <key> instead.
 
 .B Flags
 .TP
@@ -201,7 +201,7 @@ Use the "git init" command if the store does not yet have a git repository.
 \fB\-\-store\fR,
 Store to operate on
 .SS grep
-Search for secrets files containing search-string when decrypted.
+Search for secrets files containing <search-string> when decrypted.
 
 This command decrypts all secrets and performs a pattern matching on the content.
 
@@ -213,7 +213,7 @@ Interpret pattern as RE2 regular expression
 .SS history
 Show password history
 
-Display the change history for a secret
+Display the change history for a secret.
 
 .B Flags
 .TP
@@ -247,7 +247,7 @@ Set the name of the sub-store
 .SS insert
 Insert a new secret
 
-Insert a new secret. Optionally, echo the secret back to the console during entry. Or, optionally, the entry may be multiline. Prompt before overwriting existing secret unless forced.
+Insert a new secret. Optionally, echo the secret back to the console during entry. Or, optionally, the entry may be multiline. Prompt before overwriting existing secret unless forced. If <key> is specified, insert a new key-value into an existing secret.
 
 .B Flags
 .TP
@@ -273,7 +273,7 @@ This command creates a symlink from one entry in a mounted store to another entr
 .SS list
 List existing secrets
 
-This command will list all existing secrets. Provide a folder prefix to list only certain subfolders of the store.
+This command will list all existing secrets. Provide a folder <prefix> to list only certain subfolders of the store.
 
 .B Flags
 .TP
@@ -295,7 +295,7 @@ Strip this prefix from filtered entries
 .SS merge
 Merge multiple secrets into one
 
-This command implements a merge workflow to help deduplicate secrets. It requires exactly one destination (may already exist) and at least one source (must exist, can be multiple). gopass will then merge all entries into one, drop into an editor, save the result and remove all merged entries.
+This command implements a merge workflow to help deduplicate secrets. It requires exactly one <destination> (may already exist) and at least one <source> (must exist, can be multiple). gopass will then merge all entries into one, drop into an editor, save the result and remove all merged entries.
 
 .B Flags
 .TP
