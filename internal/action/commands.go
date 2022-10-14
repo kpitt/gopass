@@ -54,7 +54,7 @@ func (s *Action) GetCommands() []*cli.Command {
 		{
 			Name:      "audit",
 			Usage:     "Decrypt all secrets and scan for weak or leaked passwords",
-			ArgsUsage: "[filter]",
+			ArgsUsage: "[<filter>]",
 			Description: "" +
 				"This command decrypts all secrets and checks for common flaws and (optionally) " +
 				"against a list of previously leaked passwords.",
@@ -147,7 +147,7 @@ func (s *Action) GetCommands() []*cli.Command {
 			Name:      "create",
 			Aliases:   []string{"new"},
 			Usage:     "Easy creation of new secrets",
-			ArgsUsage: "[secret]",
+			ArgsUsage: "[<secret>]",
 			Description: "" +
 				"This command starts a wizard to aid in creation of new secrets.",
 			Before: s.IsInitialized,
@@ -282,10 +282,11 @@ func (s *Action) GetCommands() []*cli.Command {
 		{
 			Name:      "generate",
 			Usage:     "Generate a new password",
-			ArgsUsage: "[secret [key [length]|length]]",
+			ArgsUsage: "[<secret> [<key>] [<length>]]",
 			Description: "" +
 				"Dialog to generate a new password and write it into a new or existing secret. " +
-				"By default, the new password will replace the first line of an existing secret (or create a new one).",
+				"By default, the new password will replace the first line of an existing secret (or create a new one). " +
+				"If <key> is specified, set the generated password as the value of <key> instead.",
 			Before:       s.IsInitialized,
 			Action:       s.Generate,
 			BashComplete: s.CompleteGenerate,
@@ -344,7 +345,7 @@ func (s *Action) GetCommands() []*cli.Command {
 			Description: `If the password store is a git repository, execute a git command in the password store directory.
 
 Use the "git init" command if the store does not yet have a git repository.`,
-			ArgsUsage: "[git-command-args...]",
+			ArgsUsage: "[<git-command-arg>...]",
 			Before:    s.IsInitialized,
 			Action:    s.Git,
 			Flags: []cli.Flag{
@@ -415,7 +416,7 @@ Use the "git init" command if the store does not yet have a git repository.`,
 		{
 			Name:      "init",
 			Usage:     "Initialize new password store.",
-			ArgsUsage: "[gpg-id]",
+			ArgsUsage: "[<gpg-id>]",
 			Description: "" +
 				"Initialize new password storage and use gpg-id for encryption.",
 			Action: s.Init,
@@ -498,9 +499,9 @@ Use the "git init" command if the store does not yet have a git repository.`,
 		{
 			Name:      "list",
 			Usage:     "List existing secrets",
-			ArgsUsage: "[prefix]",
+			ArgsUsage: "[<prefix>]",
 			Description: "" +
-				"This command will list all existing secrets. Provide a folder prefix to list " +
+				"This command will list all existing secrets. Provide a folder <prefix> to list " +
 				"only certain subfolders of the store.",
 			Aliases:      []string{"ls"},
 			Before:       s.IsInitialized,
